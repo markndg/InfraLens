@@ -6,8 +6,8 @@
     </linearGradient>
   </defs>
   <rect width="960" height="420" fill="url(#bg)"/>
-  <text x="40" y="42" font-family="ui-sans-serif,system-ui,sans-serif" font-size="22" font-weight="700" fill="#7a00e6">InfraLens  Architecture Governance</text>
-  <text x="40" y="68" font-family="ui-sans-serif,system-ui,sans-serif" font-size="14" fill="#6b5f80">Intent ’ Implementation ’ Evidence ’ Violation ’ Approval blocked</text>
+  <text x="40" y="42" font-family="ui-sans-serif,system-ui,sans-serif" font-size="22" font-weight="700" fill="#7a00e6">InfraLens â€” Architecture Governance</text>
+  <text x="40" y="68" font-family="ui-sans-serif,system-ui,sans-serif" font-size="14" fill="#6b5f80">Intent â†’ Implementation â†’ Evidence â†’ Violation â†’ Approval blocked</text>
 
   <!-- Status pill -->
   <rect x="720" y="22" width="200" height="36" rx="8" fill="#fef2f2" stroke="#dc2626"/>
@@ -38,7 +38,7 @@
 
     <rect x="664" y="100" width="256" height="70" rx="10" fill="#fef2f2" stroke="#dc2626"/>
     <text x="792" y="130" text-anchor="middle" font-size="12" font-weight="700" fill="#b91c1c">VIOLATION</text>
-    <text x="792" y="152" text-anchor="middle" font-size="11" fill="#7f1d1d">Assumption failed · ADR impact</text>
+    <text x="792" y="152" text-anchor="middle" font-size="11" fill="#7f1d1d">Assumption failed Â· ADR impact</text>
   </g>
 
   <!-- Graph segment -->
@@ -46,7 +46,7 @@
   <text x="56" y="228" font-family="ui-sans-serif,system-ui,sans-serif" font-size="12" font-weight="700" fill="#6b5f80">FOCUSED EVIDENCE GRAPH</text>
 
   <rect x="80" y="260" width="140" height="56" rx="8" fill="#faf7ff" stroke="#7a00e6" stroke-dasharray="4 3"/>
-  <text x="150" y="284" text-anchor="middle" font-family="ui-sans-serif,system-ui,sans-serif" font-size="12" font-weight="650" fill="#1a1228">catalog</text>
+  <text x="150" y="284" text-anchor="middle" font-family="ui-sans-serif,system-ui,sans-serif" font-size="12" font-weight="600" fill="#1a1228">catalog</text>
   <text x="150" y="302" text-anchor="middle" font-family="ui-sans-serif,system-ui,sans-serif" font-size="10" fill="#6b5f80">workload</text>
 
   <path d="M230 288 H300" stroke="#7a00e6" stroke-width="2"/>
@@ -55,12 +55,12 @@
 
   <rect x="320" y="250" width="200" height="76" rx="8" fill="#fff7ed" stroke="#b45309" stroke-width="2"/>
   <text x="420" y="278" text-anchor="middle" font-family="ui-sans-serif,system-ui,sans-serif" font-size="13" font-weight="700" fill="#1a1228">retail-prod-db</text>
-  <text x="420" y="298" text-anchor="middle" font-family="ui-sans-serif,system-ui,sans-serif" font-size="11" fill="#b45309">multi_az = false · finding</text>
-  <text x="420" y="314" text-anchor="middle" font-family="ui-sans-serif,system-ui,sans-serif" font-size="10" fill="#6b5f80">Terraform · observed</text>
+  <text x="420" y="298" text-anchor="middle" font-family="ui-sans-serif,system-ui,sans-serif" font-size="11" fill="#b45309">multi_az = false Â· finding</text>
+  <text x="420" y="314" text-anchor="middle" font-family="ui-sans-serif,system-ui,sans-serif" font-size="10" fill="#6b5f80">Terraform Â· observed</text>
 
   <rect x="560" y="250" width="320" height="100" rx="8" fill="#fef2f2" stroke="#dc2626"/>
   <text x="720" y="278" text-anchor="middle" font-family="ui-sans-serif,system-ui,sans-serif" font-size="12" font-weight="700" fill="#b91c1c">APPROVAL BLOCKED</text>
   <text x="720" y="300" text-anchor="middle" font-family="ui-sans-serif,system-ui,sans-serif" font-size="11" fill="#7f1d1d">Intent: production resilience</text>
   <text x="720" y="318" text-anchor="middle" font-family="ui-sans-serif,system-ui,sans-serif" font-size="11" fill="#7f1d1d">ADR-0001 / HA assumption failed</text>
-  <text x="720" y="336" text-anchor="middle" font-family="ui-sans-serif,system-ui,sans-serif" font-size="10" fill="#6b5f80">Simulate Multi-AZ ’ finding resolves</text>
+  <text x="720" y="336" text-anchor="middle" font-family="ui-sans-serif,system-ui,sans-serif" font-size="10" fill="#6b5f80">Simulate Multi-AZ â†’ finding resolves</text>
 </svg>
