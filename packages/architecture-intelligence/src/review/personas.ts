@@ -8,7 +8,6 @@ export interface PersonaLens {
   defaultPlaybookId: string;
   stageOrder: ReviewStageId[];
   metricEmphasis: string[];
-  commercialPack: boolean;
 }
 
 export const PERSONA_LENSES: PersonaLens[] = [
@@ -30,7 +29,6 @@ export const PERSONA_LENSES: PersonaLens[] = [
       'approval',
     ],
     metricEmphasis: ['capabilities', 'coupling', 'business risk'],
-    commercialPack: false,
   },
   {
     id: 'platform',
@@ -47,7 +45,6 @@ export const PERSONA_LENSES: PersonaLens[] = [
       'approval',
     ],
     metricEmphasis: ['deployment', 'scalability', 'resilience'],
-    commercialPack: true,
   },
   {
     id: 'security',
@@ -56,7 +53,6 @@ export const PERSONA_LENSES: PersonaLens[] = [
     defaultPlaybookId: 'pci',
     stageOrder: ['scope', 'security', 'data', 'compliance', 'evidence', 'recommendations', 'approval'],
     metricEmphasis: ['security', 'exposure', 'trust zones'],
-    commercialPack: true,
   },
   {
     id: 'data',
@@ -65,7 +61,6 @@ export const PERSONA_LENSES: PersonaLens[] = [
     defaultPlaybookId: 'architecture-board',
     stageOrder: ['scope', 'data', 'ownership', 'security', 'evidence', 'recommendations', 'approval'],
     metricEmphasis: ['data assets', 'classification', 'egress'],
-    commercialPack: true,
   },
   {
     id: 'operations',
@@ -82,7 +77,6 @@ export const PERSONA_LENSES: PersonaLens[] = [
       'approval',
     ],
     metricEmphasis: ['availability', 'resilience', 'operational risk'],
-    commercialPack: true,
   },
   {
     id: 'finops',
@@ -91,7 +85,6 @@ export const PERSONA_LENSES: PersonaLens[] = [
     defaultPlaybookId: 'aws',
     stageOrder: ['scope', 'architecture', 'data', 'recommendations', 'approval'],
     metricEmphasis: ['cost', 'duplicate capability', 'concentration'],
-    commercialPack: true,
   },
 ];
 
@@ -99,8 +92,8 @@ export function getPersona(id: ArchitectPersona): PersonaLens {
   return PERSONA_LENSES.find((p) => p.id === id) ?? PERSONA_LENSES[0]!;
 }
 
-export function listPersonas(opts?: { commercial?: boolean }): PersonaLens[] {
-  if (opts?.commercial === false) return PERSONA_LENSES.filter((p) => !p.commercialPack);
+/** @param _opts Kept for API compatibility; commercial filtering is removed. */
+export function listPersonas(_opts?: { commercial?: boolean }): PersonaLens[] {
   return PERSONA_LENSES;
 }
 

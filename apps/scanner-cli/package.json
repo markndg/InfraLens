@@ -1,6 +1,6 @@
 {
   "name": "@infralens/scanner-cli",
-  "version": "1.2.0",
+  "version": "0.1.0",
   "type": "module",
   "bin": {
     "infralens": "./dist/cli.js"
@@ -12,14 +12,15 @@
     "dev": "tsx src/cli.ts"
   },
   "dependencies": {
-    "@infralens/edition-capabilities": "1.2.0",
-    "@infralens/graph-model": "1.2.0",
-    "@infralens/reconciliation": "1.2.0",
-    "@infralens/reporting": "1.2.0",
-    "@infralens/scanner": "1.2.0"
+    "@infralens/edition-capabilities": "0.1.0",
+    "@infralens/graph-model": "0.1.0",
+    "@infralens/reconciliation": "0.1.0",
+    "@infralens/reporting": "0.1.0",
+    "@infralens/scanner": "0.1.0"
   },
   "devDependencies": {
     "tsx": "^4.19.2",
     "typescript": "~5.7.2"
-  }
+  },
+  "license": "Apache-2.0"
 }

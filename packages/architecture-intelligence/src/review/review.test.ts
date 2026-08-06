@@ -76,18 +76,18 @@ describe('architecture review engine v1.4', () => {
     expect(confidence.dimensions.some((d) => d.label === 'Ownership')).toBe(true);
   });
 
-  it('supports architect personas and OSS playbook boundary', async () => {
-    const ossPersonas = listPersonas({ commercial: false });
-    expect(ossPersonas.every((p) => !p.commercialPack || p.id === 'enterprise')).toBe(true);
-    expect(listPlaybooks({ commercial: false }).every((p) => !p.commercial)).toBe(true);
+  it('exposes all architect personas and playbooks', async () => {
+    expect(listPersonas().length).toBeGreaterThanOrEqual(6);
+    expect(listPersonas({ commercial: false }).length).toBe(listPersonas().length);
+    expect(listPlaybooks({ commercial: false }).length).toBe(listPlaybooks().length);
+    expect(listPlaybooks().some((p) => p.id === 'pci')).toBe(true);
     const { graph } = await scanDemo();
     const review = createArchitectureReview(graph, {
       playbookId: 'pci',
       persona: 'security',
-      commercial: false,
     });
-    // OSS falls back from commercial playbook
-    expect(review.playbookId).toBe('architecture-board');
+    expect(review.playbookId).toBe('pci');
+    expect(review.persona).toBe('security');
   });
 
   it('orders stages smartly and provides decision support', async () => {

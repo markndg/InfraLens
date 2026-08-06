@@ -42,10 +42,11 @@ export function concludeReachability(
   graph: EvidenceGraph,
   sourceId: string,
   targetId: string,
-  edition: InfraLensEdition,
+  /** @deprecated Ignored; reachability is not edition-gated. */
+  _edition: InfraLensEdition | undefined,
   question: string,
 ): QueryConclusion {
-  const result = analyzeReachability(graph, sourceId, targetId, edition);
+  const result = analyzeReachability(graph, sourceId, targetId);
   const status = statusFromReachability(result);
   const source = graph.resources.find((r) => r.id === sourceId);
   const target = graph.resources.find((r) => r.id === targetId);

@@ -1,6 +1,6 @@
 {
   "name": "@infralens/api",
-  "version": "1.2.0",
+  "version": "0.1.0",
   "type": "module",
   "scripts": {
     "build": "tsc -p tsconfig.json",
@@ -8,17 +8,18 @@
     "start": "node dist/server.js"
   },
   "dependencies": {
-    "@infralens/architecture-intelligence": "2.0.0",
-    "@infralens/edition-capabilities": "1.2.0",
-    "@infralens/graph-model": "1.2.0",
-    "@infralens/policy-engine": "1.2.0",
-    "@infralens/reachability": "1.2.0",
-    "@infralens/reconciliation": "1.2.0",
-    "@infralens/reporting": "1.2.0",
-    "@infralens/scanner": "1.2.0"
+    "@infralens/architecture-intelligence": "0.1.0",
+    "@infralens/edition-capabilities": "0.1.0",
+    "@infralens/graph-model": "0.1.0",
+    "@infralens/policy-engine": "0.1.0",
+    "@infralens/reachability": "0.1.0",
+    "@infralens/reconciliation": "0.1.0",
+    "@infralens/reporting": "0.1.0",
+    "@infralens/scanner": "0.1.0"
   },
   "devDependencies": {
     "tsx": "^4.19.2",
     "typescript": "~5.7.2"
-  }
+  },
+  "license": "Apache-2.0"
 }

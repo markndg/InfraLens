@@ -1,5 +1,5 @@
 import yaml from 'js-yaml';
-import { isCapabilityEnabled, type InfraLensEdition } from '@infralens/edition-capabilities';
+import type { InfraLensEdition } from '@infralens/edition-capabilities';
 import {
   stableId,
   type EvidenceGraph,
@@ -263,11 +263,8 @@ export function applyWaivers(graph: EvidenceGraph, now = new Date().toISOString(
 
 export function evaluateSignOffGate(
   graph: EvidenceGraph,
-  edition: InfraLensEdition,
+  _edition?: InfraLensEdition,
 ): { allowed: boolean; blockers: string[] } {
-  if (!isCapabilityEnabled('architectSignOff', edition)) {
-    return { allowed: false, blockers: ['architectSignOff capability disabled'] };
-  }
   const blockers: string[] = [];
   const openBlocking = graph.findings.filter(
     (f) => f.blocksSignOff && f.status === 'open',

@@ -7,14 +7,12 @@ import {
   simulateAssumptionFailure,
   type StartReviewOptions,
 } from '@infralens/architecture-intelligence';
-import { isCapabilityEnabled, type InfraLensEdition } from '@infralens/edition-capabilities';
 import type { ArchitectPersona, EvidenceGraph, ScanBundle } from '@infralens/graph-model';
 import { useMemo, useState } from 'react';
 import { ReviewLanding } from './ReviewConsole';
 
 export function GovernanceLanding({
   graph,
-  edition,
   baseline,
   onStartReview,
   onExplore,
@@ -22,7 +20,6 @@ export function GovernanceLanding({
   onHighlight,
 }: {
   graph: EvidenceGraph;
-  edition: InfraLensEdition;
   baseline: ScanBundle | null;
   onStartReview: (opts: StartReviewOptions) => void;
   onExplore: () => void;
@@ -35,27 +32,19 @@ export function GovernanceLanding({
   const [consequence, setConsequence] = useState('');
   const [persona, setPersona] = useState<ArchitectPersona>('enterprise');
   const [playbookId, setPlaybookId] = useState('architecture-board');
-  const personas = listPersonas({ commercial: edition === 'commercial' });
-  const playbooks = availablePlaybooks(isCapabilityEnabled('reviewPlaybooks', edition));
+  const personas = listPersonas();
+  const playbooks = availablePlaybooks();
   const selectedPersona = getPersona(persona);
   const report = useMemo(() => generateGovernanceReport(graph), [graph]);
 
   if (!dash) {
-    return (
-      <ReviewLanding
-        graph={graph}
-        edition={edition}
-        onStart={onStartReview}
-        onExplore={onExplore}
-      />
-    );
+    return <ReviewLanding graph={graph} onStart={onStartReview} onExplore={onExplore} />;
   }
 
   function startWithPersona() {
     onStartReview({
       persona,
-      playbookId: isCapabilityEnabled('reviewPlaybooks', edition) ? playbookId : selectedPersona.defaultPlaybookId,
-      commercial: edition === 'commercial',
+      playbookId,
       reviewer: 'architect@example.com',
     });
   }
@@ -139,59 +128,47 @@ export function GovernanceLanding({
         </div>
       </section>
 
-      {isCapabilityEnabled('architectPersonas', edition) && (
-        <section className="wb-panel persona-section">
-          <h3>Review as persona</h3>
-          <p className="muted">
-            Same evidence graph — different review lens, stage order and emphasis.
-          </p>
-          <div className="persona-grid" role="listbox" aria-label="Architect persona">
-            {personas.map((p) => (
-              <button
-                key={p.id}
-                type="button"
-                role="option"
-                aria-selected={persona === p.id}
-                className={persona === p.id ? 'active' : ''}
-                onClick={() => {
-                  setPersona(p.id);
-                  setPlaybookId(p.defaultPlaybookId);
-                }}
-              >
-                <b>{p.label}</b>
-                <small>{p.focus}</small>
-              </button>
-            ))}
-          </div>
-          {edition === 'oss' && (
-            <p className="muted persona-hint">
-              OSS includes Enterprise Architect. Switch edition to Commercial for Security, Platform,
-              Data, Operations and FinOps persona packs.
-            </p>
-          )}
-          <p className="persona-selected">
-            Selected: <b>{selectedPersona.label}</b> — stages emphasise{' '}
-            {selectedPersona.metricEmphasis.join(', ')}.
-          </p>
-        </section>
-      )}
+      <section className="wb-panel persona-section">
+        <h3>Review as persona</h3>
+        <p className="muted">Same evidence graph — different review lens, stage order and emphasis.</p>
+        <div className="persona-grid" role="listbox" aria-label="Architect persona">
+          {personas.map((p) => (
+            <button
+              key={p.id}
+              type="button"
+              role="option"
+              aria-selected={persona === p.id}
+              className={persona === p.id ? 'active' : ''}
+              onClick={() => {
+                setPersona(p.id);
+                setPlaybookId(p.defaultPlaybookId);
+              }}
+            >
+              <b>{p.label}</b>
+              <small>{p.focus}</small>
+            </button>
+          ))}
+        </div>
+        <p className="persona-selected">
+          Selected: <b>{selectedPersona.label}</b> — stages emphasise{' '}
+          {selectedPersona.metricEmphasis.join(', ')}.
+        </p>
+      </section>
 
-      {isCapabilityEnabled('reviewPlaybooks', edition) && (
-        <section className="wb-panel">
-          <h3>Review playbook</h3>
-          <select
-            value={playbookId}
-            onChange={(e) => setPlaybookId(e.target.value)}
-            aria-label="Review playbook"
-          >
-            {playbooks.map((p) => (
-              <option key={p.id} value={p.id}>
-                {p.name}
-              </option>
-            ))}
-          </select>
-        </section>
-      )}
+      <section className="wb-panel">
+        <h3>Review playbook</h3>
+        <select
+          value={playbookId}
+          onChange={(e) => setPlaybookId(e.target.value)}
+          aria-label="Review playbook"
+        >
+          {playbooks.map((p) => (
+            <option key={p.id} value={p.id}>
+              {p.name}
+            </option>
+          ))}
+        </select>
+      </section>
 
       <div className="review-actions">
         <button type="button" className="primary" onClick={startWithPersona}>
@@ -209,7 +186,11 @@ export function GovernanceLanding({
         <h3>Assumption consequences</h3>
         <div className="stack">
           {graph.resources
-            .filter((r) => r.kind === 'assumption' && (r.metadata.status === 'failed' || r.metadata.status === 'unsupported'))
+            .filter(
+              (r) =>
+                r.kind === 'assumption' &&
+                (r.metadata.status === 'failed' || r.metadata.status === 'unsupported'),
+            )
             .slice(0, 4)
             .map((a) => (
               <button
@@ -228,7 +209,7 @@ export function GovernanceLanding({
         {consequence && <p className="conclusion">{consequence}</p>}
       </section>
 
-      {isCapabilityEnabled('reviewReplay', edition) && baseline && (
+      {baseline && (
         <section className="wb-panel">
           <h3>Review replay</h3>
           <button
@@ -242,10 +223,6 @@ export function GovernanceLanding({
           </button>
           {replayNote && <pre className="narrative">{replayNote}</pre>}
         </section>
-      )}
-
-      {!isCapabilityEnabled('portfolioGovernance', edition) && (
-        <p className="muted">Portfolio governance requires commercial edition.</p>
       )}
 
       <section className="wb-panel">

@@ -1,0 +1,6 @@
+{
+  "minResources": 15,
+  "minEdges": 20,
+  "keyRelations": ["ingress-route", "service-to-workload", "satisfies-contract"],
+  "notes": "Same-name resources across payments/billing namespaces must remain distinct"
+}

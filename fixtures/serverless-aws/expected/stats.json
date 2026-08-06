@@ -1,0 +1,6 @@
+{
+  "minResources": 20,
+  "minEdges": 20,
+  "keyRelations": ["realizes-intent", "stores", "implements"],
+  "notes": "Serverless AWS estate — no Kubernetes; Lambda/DynamoDB/SQS/S3 path"
+}

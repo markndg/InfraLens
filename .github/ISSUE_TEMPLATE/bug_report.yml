@@ -1,0 +1,85 @@
+name: Bug report
+description: Report incorrect behaviour, a crash, or a documentation defect
+title: "[bug]: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for helping improve InfraLens. Preview software may still have sharp edges—clear
+        reproduction steps are the most useful contribution.
+
+        **Security issues:** do not use this form. Use GitHub private vulnerability reporting
+        (see `SECURITY.md`).
+
+  - type: input
+    id: version
+    attributes:
+      label: InfraLens version
+      description: Product version or git commit (for example 0.1.0).
+      placeholder: "0.1.0"
+    validations:
+      required: true
+
+  - type: input
+    id: node
+    attributes:
+      label: Node.js version
+      placeholder: "20.x"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - Scanner / adapters
+        - Evidence graph
+        - Projections / canvas
+        - Governance / review / sign-off
+        - CLI
+        - API
+        - Demo / fixtures
+        - Docs
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: summary
+    attributes:
+      label: What happened?
+      description: Expected vs actual behaviour.
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Reproduction steps
+      description: Minimal commands and fixtures. Redact secrets.
+      placeholder: |
+        1. npm install
+        2. npm run demo
+        3. …
+    validations:
+      required: true
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs or screenshots
+      description: Paste relevant terminal output (redacted) or describe UI state.
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Checks
+      options:
+        - label: I searched existing issues for duplicates
+          required: true
+        - label: I redacted credentials and secrets from this report
+          required: true

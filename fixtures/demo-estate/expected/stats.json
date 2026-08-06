@@ -1,0 +1,6 @@
+{
+  "minResources": 40,
+  "minEdges": 80,
+  "keyRelations": ["routes-to", "realizes-intent", "stores"],
+  "notes": "Retail SaaS primary demonstration estate"
+}

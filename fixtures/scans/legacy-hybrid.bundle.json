@@ -1,0 +1,3776 @@
+{
+  "format": "infralens.scan.bundle",
+  "version": "2.0",
+  "graph": {
+    "version": "2.0",
+    "scan": {
+      "id": "scan:legacy-hybrid:2026-08-06t19:03:46.619z",
+      "project": "legacy-hybrid",
+      "generatedAt": "2026-08-06T19:03:46.619Z",
+      "adapters": [
+        "terraform",
+        "kubernetes",
+        "aws-snapshot"
+      ],
+      "warnings": [],
+      "errors": [],
+      "durationMs": 8,
+      "contentHash": "hd4fc55eb"
+    },
+    "resources": [
+      {
+        "id": "aws:terraform:relational-database:orddb",
+        "logicalId": "tf:aws_db_instance:orddb",
+        "kind": "relational-database",
+        "subtype": "rds",
+        "provider": "aws",
+        "platform": "terraform",
+        "name": "orddb",
+        "displayName": "orddb",
+        "environment": "shared",
+        "region": "eu-west-2",
+        "lifecycle": "active",
+        "truthStates": [
+          "declared"
+        ],
+        "instances": [
+          {
+            "id": "aws:terraform:relational-database:orddb:declared",
+            "truthState": "declared",
+            "attributes": {
+              "terraformType": "aws_db_instance",
+              "logicalName": "ORDDB",
+              "address": "aws_db_instance.ORDDB",
+              "isData": false,
+              "unresolvedAttributes": [],
+              "identifier": "orddb",
+              "engine": "oracle-ee",
+              "instance_class": "db.m5.large",
+              "allocated_storage": 100,
+              "multi_az": false,
+              "publicly_accessible": false,
+              "skip_final_snapshot": true,
+              "multiAz": false
+            },
+            "evidenceIds": [
+              "ev:terraform:infra/main.tf:resource.aws_db_instance.orddb"
+            ]
+          }
+        ],
+        "metadata": {
+          "terraformType": "aws_db_instance",
+          "logicalName": "ORDDB",
+          "address": "aws_db_instance.ORDDB",
+          "isData": false,
+          "unresolvedAttributes": [],
+          "identifier": "orddb",
+          "engine": "oracle-ee",
+          "instance_class": "db.m5.large",
+          "allocated_storage": 100,
+          "multi_az": false,
+          "publicly_accessible": false,
+          "skip_final_snapshot": true,
+          "multiAz": false
+        },
+        "interfaces": [],
+        "evidence": [
+          "ev:terraform:infra/main.tf:resource.aws_db_instance.orddb"
+        ],
+        "findings": [],
+        "confidence": {
+          "band": "high",
+          "score": 0.9,
+          "reasons": [
+            "Terraform declared resource aws_db_instance.ORDDB"
+          ],
+          "missingEvidence": [
+            "live inventory confirmation"
+          ],
+          "conflicts": [],
+          "wouldIncreaseConfidence": [
+            "Provide live inventory confirmation"
+          ]
+        },
+        "tags": [
+          "terraform",
+          "aws",
+          "orphaned-ownership"
+        ],
+        "boundary": "AWS",
+        "layers": [
+          "infrastructure",
+          "data",
+          "evidence"
+        ]
+      },
+      {
+        "id": "aws:terraform:bucket:corp-archive-bucket",
+        "logicalId": "tf:aws_s3_bucket:archive",
+        "kind": "bucket",
+        "subtype": "s3",
+        "provider": "aws",
+        "platform": "terraform",
+        "name": "corp-archive-bucket",
+        "displayName": "corp-archive-bucket",
+        "environment": "shared",
+        "region": "eu-west-2",
+        "lifecycle": "active",
+        "truthStates": [
+          "declared"
+        ],
+        "instances": [
+          {
+            "id": "aws:terraform:bucket:corp-archive-bucket:declared",
+            "truthState": "declared",
+            "attributes": {
+              "terraformType": "aws_s3_bucket",
+              "logicalName": "archive",
+              "address": "aws_s3_bucket.archive",
+              "isData": false,
+              "unresolvedAttributes": [],
+              "bucket": "corp-archive-bucket"
+            },
+            "evidenceIds": [
+              "ev:terraform:infra/main.tf:resource.aws_s3_bucket.archive"
+            ]
+          }
+        ],
+        "metadata": {
+          "terraformType": "aws_s3_bucket",
+          "logicalName": "archive",
+          "address": "aws_s3_bucket.archive",
+          "isData": false,
+          "unresolvedAttributes": [],
+          "bucket": "corp-archive-bucket"
+        },
+        "interfaces": [],
+        "evidence": [
+          "ev:terraform:infra/main.tf:resource.aws_s3_bucket.archive"
+        ],
+        "findings": [],
+        "confidence": {
+          "band": "high",
+          "score": 0.9,
+          "reasons": [
+            "Terraform declared resource aws_s3_bucket.archive"
+          ],
+          "missingEvidence": [
+            "live inventory confirmation"
+          ],
+          "conflicts": [],
+          "wouldIncreaseConfidence": [
+            "Provide live inventory confirmation"
+          ]
+        },
+        "tags": [
+          "terraform",
+          "aws",
+          "capability:asset-delivery",
+          "orphaned-ownership"
+        ],
+        "boundary": "AWS",
+        "layers": [
+          "infrastructure",
+          "data",
+          "evidence"
+        ]
+      },
+      {
+        "id": "aws:terraform:unknown:batch",
+        "logicalId": "tf:aws_instance:batch",
+        "kind": "unknown",
+        "subtype": "instance",
+        "provider": "aws",
+        "platform": "terraform",
+        "name": "batch",
+        "displayName": "batch",
+        "environment": "shared",
+        "region": "eu-west-2",
+        "lifecycle": "active",
+        "truthStates": [
+          "declared"
+        ],
+        "instances": [
+          {
+            "id": "aws:terraform:unknown:batch:declared",
+            "truthState": "declared",
+            "attributes": {
+              "terraformType": "aws_instance",
+              "logicalName": "batch",
+              "address": "aws_instance.batch",
+              "isData": false,
+              "unresolvedAttributes": [
+                "tags"
+              ],
+              "ami": "ami-0abcdef1234567890",
+              "instance_type": "m5.xlarge",
+              "tags": "{\n    Name = \"batch01\"\n    Role = \"nightly_orders\"\n  }"
+            },
+            "evidenceIds": [
+              "ev:terraform:infra/main.tf:resource.aws_instance.batch"
+            ]
+          }
+        ],
+        "metadata": {
+          "terraformType": "aws_instance",
+          "logicalName": "batch",
+          "address": "aws_instance.batch",
+          "isData": false,
+          "unresolvedAttributes": [
+            "tags"
+          ],
+          "ami": "ami-0abcdef1234567890",
+          "instance_type": "m5.xlarge",
+          "tags": "{\n    Name = \"batch01\"\n    Role = \"nightly_orders\"\n  }"
+        },
+        "interfaces": [],
+        "evidence": [
+          "ev:terraform:infra/main.tf:resource.aws_instance.batch"
+        ],
+        "findings": [],
+        "confidence": {
+          "band": "medium",
+          "score": 0.72,
+          "reasons": [
+            "Terraform declared resource aws_instance.batch",
+            "Unresolved attributes: tags"
+          ],
+          "missingEvidence": [
+            "resolved attribute values from plan/state"
+          ],
+          "conflicts": [],
+          "wouldIncreaseConfidence": [
+            "Provide resolved attribute values from plan/state"
+          ]
+        },
+        "tags": [
+          "terraform",
+          "aws",
+          "orphaned-ownership"
+        ],
+        "boundary": "AWS",
+        "layers": [
+          "infrastructure",
+          "evidence"
+        ]
+      },
+      {
+        "id": "aws:aws:unknown:orddb",
+        "logicalId": "aws-observed:arn:aws:rds:eu-west-2:999988887777:db:orddb",
+        "kind": "unknown",
+        "subtype": "aws_db_instance",
+        "provider": "aws",
+        "platform": "aws",
+        "name": "orddb",
+        "displayName": "orddb",
+        "environment": "shared",
+        "account": "999988887777",
+        "region": "eu-west-2",
+        "lifecycle": "active",
+        "truthStates": [
+          "observed"
+        ],
+        "instances": [
+          {
+            "id": "aws:aws:unknown:orddb:observed",
+            "truthState": "observed",
+            "attributes": {
+              "arn": "arn:aws:rds:eu-west-2:999988887777:db:orddb",
+              "providerId": "orddb",
+              "tags": {},
+              "multi_az": false,
+              "engine": "oracle-ee"
+            },
+            "evidenceIds": [
+              "ev:aws-snapshot:aws-snapshot://999988887777/eu-west-2:root"
+            ]
+          }
+        ],
+        "metadata": {
+          "arn": "arn:aws:rds:eu-west-2:999988887777:db:orddb",
+          "providerId": "orddb",
+          "tags": {},
+          "multi_az": false,
+          "engine": "oracle-ee"
+        },
+        "interfaces": [],
+        "evidence": [
+          "ev:aws-snapshot:aws-snapshot://999988887777/eu-west-2:root"
+        ],
+        "findings": [],
+        "confidence": {
+          "band": "high",
+          "score": 0.97,
+          "reasons": [
+            "Observed in AWS inventory snapshot at undefined"
+          ],
+          "missingEvidence": [],
+          "conflicts": [],
+          "wouldIncreaseConfidence": []
+        },
+        "tags": [
+          "aws",
+          "observed",
+          "orphaned-ownership"
+        ],
+        "boundary": "AWS eu-west-2",
+        "layers": [
+          "infrastructure",
+          "evidence"
+        ]
+      },
+      {
+        "id": "aws:aws:unknown:batch01",
+        "logicalId": "aws-observed:i-0batch01legacy",
+        "kind": "unknown",
+        "subtype": "aws_instance",
+        "provider": "aws",
+        "platform": "aws",
+        "name": "batch01",
+        "displayName": "batch01",
+        "environment": "shared",
+        "account": "999988887777",
+        "region": "eu-west-2",
+        "lifecycle": "active",
+        "truthStates": [
+          "observed"
+        ],
+        "instances": [
+          {
+            "id": "aws:aws:unknown:batch01:observed",
+            "truthState": "observed",
+            "attributes": {
+              "providerId": "i-0batch01legacy",
+              "tags": {},
+              "role": "nightly_orders"
+            },
+            "evidenceIds": [
+              "ev:aws-snapshot:aws-snapshot://999988887777/eu-west-2:root"
+            ]
+          }
+        ],
+        "metadata": {
+          "providerId": "i-0batch01legacy",
+          "tags": {},
+          "role": "nightly_orders"
+        },
+        "interfaces": [],
+        "evidence": [
+          "ev:aws-snapshot:aws-snapshot://999988887777/eu-west-2:root"
+        ],
+        "findings": [],
+        "confidence": {
+          "band": "high",
+          "score": 0.97,
+          "reasons": [
+            "Observed in AWS inventory snapshot at undefined"
+          ],
+          "missingEvidence": [],
+          "conflicts": [],
+          "wouldIncreaseConfidence": []
+        },
+        "tags": [
+          "aws",
+          "observed",
+          "orphaned-ownership"
+        ],
+        "boundary": "AWS eu-west-2",
+        "layers": [
+          "infrastructure",
+          "evidence"
+        ]
+      },
+      {
+        "id": "aws:aws:unknown:corp-archive-bucket",
+        "logicalId": "aws-observed:corp-archive-bucket",
+        "kind": "unknown",
+        "subtype": "aws_s3_bucket",
+        "provider": "aws",
+        "platform": "aws",
+        "name": "corp-archive-bucket",
+        "displayName": "corp-archive-bucket",
+        "environment": "shared",
+        "account": "999988887777",
+        "region": "eu-west-2",
+        "lifecycle": "active",
+        "truthStates": [
+          "observed"
+        ],
+        "instances": [
+          {
+            "id": "aws:aws:unknown:corp-archive-bucket:observed",
+            "truthState": "observed",
+            "attributes": {
+              "providerId": "corp-archive-bucket",
+              "tags": {}
+            },
+            "evidenceIds": [
+              "ev:aws-snapshot:aws-snapshot://999988887777/eu-west-2:root"
+            ]
+          }
+        ],
+        "metadata": {
+          "providerId": "corp-archive-bucket",
+          "tags": {}
+        },
+        "interfaces": [],
+        "evidence": [
+          "ev:aws-snapshot:aws-snapshot://999988887777/eu-west-2:root"
+        ],
+        "findings": [],
+        "confidence": {
+          "band": "high",
+          "score": 0.97,
+          "reasons": [
+            "Observed in AWS inventory snapshot at undefined"
+          ],
+          "missingEvidence": [],
+          "conflicts": [],
+          "wouldIncreaseConfidence": []
+        },
+        "tags": [
+          "aws",
+          "observed",
+          "orphaned-ownership"
+        ],
+        "boundary": "AWS eu-west-2",
+        "layers": [
+          "infrastructure",
+          "evidence"
+        ]
+      },
+      {
+        "id": "internet",
+        "logicalId": "internet",
+        "kind": "internet",
+        "name": "internet",
+        "displayName": "Internet",
+        "environment": "external",
+        "boundary": "Internet",
+        "truthStates": [
+          "assumed"
+        ],
+        "instances": [],
+        "metadata": {},
+        "interfaces": [],
+        "evidence": [],
+        "findings": [],
+        "confidence": {
+          "band": "high",
+          "score": 1,
+          "reasons": [
+            "Synthetic internet boundary for exposure analysis"
+          ],
+          "missingEvidence": [],
+          "conflicts": [],
+          "wouldIncreaseConfidence": []
+        },
+        "tags": [
+          "synthetic"
+        ],
+        "layers": [
+          "security",
+          "evidence"
+        ]
+      },
+      {
+        "id": "capability:asset-delivery",
+        "logicalId": "capability:asset-delivery",
+        "kind": "business-capability",
+        "subtype": "asset-delivery",
+        "name": "Asset Delivery",
+        "displayName": "Asset Delivery",
+        "environment": "shared",
+        "lifecycle": "active",
+        "truthStates": [
+          "inferred"
+        ],
+        "instances": [
+          {
+            "id": "capability:asset-delivery:inferred",
+            "truthState": "inferred",
+            "attributes": {
+              "memberCount": 1
+            },
+            "evidenceIds": [
+              "ev:architecture-intelligence:capability:asset-delivery:root"
+            ]
+          }
+        ],
+        "metadata": {
+          "inferred": true,
+          "memberIds": [
+            "aws:terraform:bucket:corp-archive-bucket"
+          ],
+          "rationale": "Matched object storage / asset delivery evidence"
+        },
+        "interfaces": [],
+        "evidence": [
+          "ev:architecture-intelligence:capability:asset-delivery:root"
+        ],
+        "findings": [],
+        "confidence": {
+          "band": "medium",
+          "score": 0.78,
+          "reasons": [
+            "Matched object storage / asset delivery evidence",
+            "1 implementing components"
+          ],
+          "missingEvidence": [
+            "explicit capability catalogue annotation"
+          ],
+          "conflicts": [],
+          "inferenceMethod": "deterministic-capability-rules",
+          "wouldIncreaseConfidence": [
+            "Attach capability labels in source metadata"
+          ]
+        },
+        "tags": [
+          "capability",
+          "inferred"
+        ],
+        "layers": [
+          "business-capability",
+          "evidence"
+        ]
+      },
+      {
+        "id": "capability:retail-platform",
+        "logicalId": "capability:retail-platform",
+        "kind": "business-capability",
+        "subtype": "platform",
+        "name": "Retail Platform",
+        "displayName": "Retail Platform",
+        "environment": "production",
+        "lifecycle": "active",
+        "truthStates": [
+          "inferred"
+        ],
+        "instances": [],
+        "metadata": {
+          "memberCapabilityIds": [
+            "capability:retail-platform",
+            "capability:asset-delivery"
+          ]
+        },
+        "interfaces": [],
+        "evidence": [
+          "ev:architecture-intelligence:capability:retail-platform:root"
+        ],
+        "findings": [],
+        "confidence": {
+          "band": "medium",
+          "score": 0.7,
+          "reasons": [
+            "Aggregated from inferred domain capabilities"
+          ],
+          "missingEvidence": [],
+          "conflicts": [],
+          "inferenceMethod": "platform-rollup",
+          "wouldIncreaseConfidence": []
+        },
+        "tags": [
+          "capability",
+          "platform"
+        ],
+        "layers": [
+          "business-capability",
+          "evidence"
+        ]
+      },
+      {
+        "id": "data:orders",
+        "logicalId": "data:orders",
+        "kind": "data-asset",
+        "subtype": "orders",
+        "name": "Customer Orders",
+        "displayName": "Customer Orders",
+        "lifecycle": "active",
+        "truthStates": [
+          "inferred"
+        ],
+        "instances": [],
+        "metadata": {
+          "classification": "confidential",
+          "storeIds": [
+            "aws:terraform:relational-database:orddb"
+          ],
+          "producerIds": []
+        },
+        "interfaces": [],
+        "evidence": [
+          "ev:architecture-intelligence:data:orders:root"
+        ],
+        "findings": [],
+        "confidence": {
+          "band": "medium",
+          "score": 0.74,
+          "reasons": [
+            "Classification confidential",
+            "1 storage location(s)"
+          ],
+          "missingEvidence": [
+            "explicit data catalogue tags"
+          ],
+          "conflicts": [],
+          "inferenceMethod": "deterministic-data-rules",
+          "wouldIncreaseConfidence": []
+        },
+        "tags": [
+          "data-asset",
+          "confidential"
+        ],
+        "sensitivity": "confidential",
+        "layers": [
+          "data",
+          "evidence"
+        ]
+      },
+      {
+        "id": "data:product-catalogue",
+        "logicalId": "data:product-catalogue",
+        "kind": "data-asset",
+        "subtype": "product-catalogue",
+        "name": "Product Catalogue",
+        "displayName": "Product Catalogue",
+        "lifecycle": "active",
+        "truthStates": [
+          "inferred"
+        ],
+        "instances": [],
+        "metadata": {
+          "classification": "internal",
+          "storeIds": [
+            "aws:terraform:relational-database:orddb"
+          ],
+          "producerIds": []
+        },
+        "interfaces": [],
+        "evidence": [
+          "ev:architecture-intelligence:data:product-catalogue:root"
+        ],
+        "findings": [],
+        "confidence": {
+          "band": "medium",
+          "score": 0.74,
+          "reasons": [
+            "Classification internal",
+            "1 storage location(s)"
+          ],
+          "missingEvidence": [
+            "explicit data catalogue tags"
+          ],
+          "conflicts": [],
+          "inferenceMethod": "deterministic-data-rules",
+          "wouldIncreaseConfidence": []
+        },
+        "tags": [
+          "data-asset",
+          "internal"
+        ],
+        "sensitivity": "internal",
+        "layers": [
+          "data",
+          "evidence"
+        ]
+      },
+      {
+        "id": "data:images",
+        "logicalId": "data:images",
+        "kind": "data-asset",
+        "subtype": "images",
+        "name": "Product Images",
+        "displayName": "Product Images",
+        "lifecycle": "active",
+        "truthStates": [
+          "inferred"
+        ],
+        "instances": [],
+        "metadata": {
+          "classification": "internal",
+          "storeIds": [
+            "aws:terraform:bucket:corp-archive-bucket"
+          ],
+          "producerIds": []
+        },
+        "interfaces": [],
+        "evidence": [
+          "ev:architecture-intelligence:data:images:root"
+        ],
+        "findings": [],
+        "confidence": {
+          "band": "medium",
+          "score": 0.74,
+          "reasons": [
+            "Classification internal",
+            "1 storage location(s)"
+          ],
+          "missingEvidence": [
+            "explicit data catalogue tags"
+          ],
+          "conflicts": [],
+          "inferenceMethod": "deterministic-data-rules",
+          "wouldIncreaseConfidence": []
+        },
+        "tags": [
+          "data-asset",
+          "internal"
+        ],
+        "sensitivity": "internal",
+        "layers": [
+          "data",
+          "evidence"
+        ]
+      },
+      {
+        "id": "trust:public-edge",
+        "logicalId": "trust:public-edge",
+        "kind": "trust-zone",
+        "subtype": "public-edge",
+        "name": "Public Edge",
+        "displayName": "Public Edge",
+        "lifecycle": "active",
+        "truthStates": [
+          "inferred"
+        ],
+        "instances": [],
+        "metadata": {
+          "memberIds": [
+            "internet"
+          ]
+        },
+        "interfaces": [],
+        "evidence": [
+          "ev:architecture-intelligence:trust:public-edge:root"
+        ],
+        "findings": [],
+        "confidence": {
+          "band": "medium",
+          "score": 0.8,
+          "reasons": [
+            "1 members in Public Edge"
+          ],
+          "missingEvidence": [],
+          "conflicts": [],
+          "wouldIncreaseConfidence": []
+        },
+        "tags": [
+          "trust-zone"
+        ],
+        "layers": [
+          "security",
+          "evidence"
+        ]
+      },
+      {
+        "id": "trust:data",
+        "logicalId": "trust:data",
+        "kind": "trust-zone",
+        "subtype": "data",
+        "name": "Data Trust Zone",
+        "displayName": "Data Trust Zone",
+        "lifecycle": "active",
+        "truthStates": [
+          "inferred"
+        ],
+        "instances": [],
+        "metadata": {
+          "memberIds": [
+            "aws:terraform:relational-database:orddb",
+            "aws:terraform:bucket:corp-archive-bucket",
+            "data:orders",
+            "data:product-catalogue",
+            "data:images"
+          ]
+        },
+        "interfaces": [],
+        "evidence": [
+          "ev:architecture-intelligence:trust:data:root"
+        ],
+        "findings": [],
+        "confidence": {
+          "band": "medium",
+          "score": 0.8,
+          "reasons": [
+            "5 members in Data Trust Zone"
+          ],
+          "missingEvidence": [],
+          "conflicts": [],
+          "wouldIncreaseConfidence": []
+        },
+        "tags": [
+          "trust-zone"
+        ],
+        "layers": [
+          "security",
+          "evidence"
+        ]
+      },
+      {
+        "id": "adr:0001:nightly-batch-against-orddb",
+        "logicalId": "adr:0001:nightly-batch-against-orddb",
+        "kind": "adr",
+        "subtype": "ADR-0001",
+        "name": "ADR-0001",
+        "displayName": "ADR-0001: Nightly batch against ORDDB",
+        "lifecycle": "active",
+        "truthStates": [
+          "declared"
+        ],
+        "instances": [],
+        "metadata": {
+          "adrNumber": "0001",
+          "adrStatus": "Accepted",
+          "context": "Order settlement runs as a nightly batch against the Oracle ORDDB instance.",
+          "decisionText": "Keep the monolith batch job on a dedicated EC2 host with SFTP partner ingest.",
+          "consequences": "If Multi-AZ is disabled, settlement approval is invalid.",
+          "alternatives": [],
+          "sourceUri": "docs/adr/0001-batch-window.md",
+          "satisfaction": "satisfied",
+          "satisfactionReasons": []
+        },
+        "interfaces": [],
+        "evidence": [
+          "ev:governance-adr:docs/adr/0001-batch-window.md:root"
+        ],
+        "findings": [],
+        "confidence": {
+          "band": "high",
+          "score": 0.92,
+          "reasons": [
+            "Declared ADR in docs/adr/0001-batch-window.md"
+          ],
+          "missingEvidence": [],
+          "conflicts": [],
+          "inferenceMethod": "adr-markdown-parse",
+          "wouldIncreaseConfidence": []
+        },
+        "tags": [
+          "adr",
+          "governance"
+        ],
+        "layers": [
+          "governance",
+          "decision",
+          "evidence"
+        ],
+        "ownership": [
+          {
+            "team": "Architecture"
+          }
+        ]
+      },
+      {
+        "id": "decision:adr:0001",
+        "logicalId": "decision:adr:0001",
+        "kind": "architectural-decision",
+        "subtype": "adr-linked",
+        "name": "Nightly batch against ORDDB",
+        "displayName": "Nightly batch against ORDDB",
+        "lifecycle": "active",
+        "truthStates": [
+          "declared"
+        ],
+        "instances": [],
+        "metadata": {
+          "status": "satisfied",
+          "intent": "Keep the monolith batch job on a dedicated EC2 host with SFTP partner ingest.",
+          "rationale": "Order settlement runs as a nightly batch against the Oracle ORDDB instance.",
+          "alternatives": [],
+          "adrId": "adr:0001:nightly-batch-against-orddb",
+          "owner": "Architecture",
+          "adrSatisfaction": "satisfied",
+          "adrSatisfactionReasons": []
+        },
+        "interfaces": [],
+        "evidence": [
+          "ev:governance-adr:docs/adr/0001-batch-window.md:root"
+        ],
+        "findings": [],
+        "confidence": {
+          "band": "high",
+          "score": 0.9,
+          "reasons": [
+            "Decision recorded in ADR-0001"
+          ],
+          "missingEvidence": [],
+          "conflicts": [],
+          "wouldIncreaseConfidence": []
+        },
+        "tags": [
+          "decision",
+          "adr"
+        ],
+        "layers": [
+          "governance",
+          "decision"
+        ]
+      },
+      {
+        "id": "decision:use-postgresql",
+        "logicalId": "decision:use-postgresql",
+        "kind": "architectural-decision",
+        "subtype": "use-postgresql",
+        "name": "Use PostgreSQL",
+        "displayName": "Use PostgreSQL",
+        "lifecycle": "active",
+        "truthStates": [
+          "inferred"
+        ],
+        "instances": [],
+        "metadata": {
+          "status": "accepted",
+          "intent": "Use PostgreSQL",
+          "rationale": "Relational persistence for order/catalogue state",
+          "owner": "Architecture",
+          "relatedIntentIds": [
+            "highly-available",
+            "encrypted-storage"
+          ]
+        },
+        "interfaces": [],
+        "evidence": [
+          "ev:governance-decisions:decision:use-postgresql:root"
+        ],
+        "findings": [],
+        "confidence": {
+          "band": "medium",
+          "score": 0.8,
+          "reasons": [
+            "Relational persistence for order/catalogue state",
+            "1 implementing resource(s)"
+          ],
+          "missingEvidence": [],
+          "conflicts": [],
+          "inferenceMethod": "deterministic-decision-rules",
+          "wouldIncreaseConfidence": []
+        },
+        "tags": [
+          "decision"
+        ],
+        "layers": [
+          "governance",
+          "decision"
+        ]
+      },
+      {
+        "id": "decision:object-storage",
+        "logicalId": "decision:object-storage",
+        "kind": "architectural-decision",
+        "subtype": "object-storage",
+        "name": "Use S3 for assets",
+        "displayName": "Use S3 for assets",
+        "lifecycle": "active",
+        "truthStates": [
+          "inferred"
+        ],
+        "instances": [],
+        "metadata": {
+          "status": "accepted",
+          "intent": "Use S3 for assets",
+          "rationale": "Product images and static assets in object storage",
+          "owner": "Architecture",
+          "relatedIntentIds": [
+            "encrypted-storage",
+            "low-cost"
+          ]
+        },
+        "interfaces": [],
+        "evidence": [
+          "ev:governance-decisions:decision:object-storage:root"
+        ],
+        "findings": [],
+        "confidence": {
+          "band": "medium",
+          "score": 0.8,
+          "reasons": [
+            "Product images and static assets in object storage",
+            "1 implementing resource(s)"
+          ],
+          "missingEvidence": [],
+          "conflicts": [],
+          "inferenceMethod": "deterministic-decision-rules",
+          "wouldIncreaseConfidence": []
+        },
+        "tags": [
+          "decision"
+        ],
+        "layers": [
+          "governance",
+          "decision"
+        ]
+      },
+      {
+        "id": "intent:highly-available",
+        "logicalId": "intent:highly-available",
+        "kind": "intent",
+        "subtype": "highly-available",
+        "name": "Highly Available",
+        "displayName": "Highly Available",
+        "lifecycle": "active",
+        "truthStates": [
+          "declared"
+        ],
+        "instances": [],
+        "metadata": {
+          "description": "Survive AZ and replica failures",
+          "satisfaction": "violated",
+          "satisfactionReasons": [
+            "orddb single-AZ"
+          ]
+        },
+        "interfaces": [],
+        "evidence": [
+          "ev:governance-intent:intent:highly-available:root"
+        ],
+        "findings": [],
+        "confidence": {
+          "band": "medium",
+          "score": 0.7,
+          "reasons": [
+            "Survive AZ and replica failures"
+          ],
+          "missingEvidence": [],
+          "conflicts": [],
+          "wouldIncreaseConfidence": []
+        },
+        "tags": [
+          "intent",
+          "intent-drift"
+        ],
+        "layers": [
+          "governance",
+          "intent"
+        ]
+      },
+      {
+        "id": "intent:encrypted-storage",
+        "logicalId": "intent:encrypted-storage",
+        "kind": "intent",
+        "subtype": "encrypted-storage",
+        "name": "Encrypted Storage",
+        "displayName": "Encrypted Storage",
+        "lifecycle": "active",
+        "truthStates": [
+          "declared"
+        ],
+        "instances": [],
+        "metadata": {
+          "description": "Data encrypted at rest",
+          "satisfaction": "unknown",
+          "satisfactionReasons": [
+            "Encryption not evidenced in graph metadata"
+          ]
+        },
+        "interfaces": [],
+        "evidence": [
+          "ev:governance-intent:intent:encrypted-storage:root"
+        ],
+        "findings": [],
+        "confidence": {
+          "band": "medium",
+          "score": 0.7,
+          "reasons": [
+            "Data encrypted at rest"
+          ],
+          "missingEvidence": [],
+          "conflicts": [],
+          "wouldIncreaseConfidence": []
+        },
+        "tags": [
+          "intent"
+        ],
+        "layers": [
+          "governance",
+          "intent"
+        ]
+      },
+      {
+        "id": "intent:event-driven",
+        "logicalId": "intent:event-driven",
+        "kind": "intent",
+        "subtype": "event-driven",
+        "name": "Event Driven",
+        "displayName": "Event Driven",
+        "lifecycle": "active",
+        "truthStates": [
+          "declared"
+        ],
+        "instances": [],
+        "metadata": {
+          "description": "Async decoupling via events/queues",
+          "satisfaction": "drifted",
+          "satisfactionReasons": [
+            "No queue resources for event-driven intent"
+          ]
+        },
+        "interfaces": [],
+        "evidence": [
+          "ev:governance-intent:intent:event-driven:root"
+        ],
+        "findings": [],
+        "confidence": {
+          "band": "medium",
+          "score": 0.7,
+          "reasons": [
+            "Async decoupling via events/queues"
+          ],
+          "missingEvidence": [],
+          "conflicts": [],
+          "wouldIncreaseConfidence": []
+        },
+        "tags": [
+          "intent",
+          "intent-drift"
+        ],
+        "layers": [
+          "governance",
+          "intent"
+        ]
+      },
+      {
+        "id": "intent:portable",
+        "logicalId": "intent:portable",
+        "kind": "intent",
+        "subtype": "portable",
+        "name": "Portable",
+        "displayName": "Portable",
+        "lifecycle": "active",
+        "truthStates": [
+          "declared"
+        ],
+        "instances": [],
+        "metadata": {
+          "description": "Platform-portable workloads",
+          "satisfaction": "unknown",
+          "satisfactionReasons": [
+            "Portability evidence incomplete"
+          ]
+        },
+        "interfaces": [],
+        "evidence": [
+          "ev:governance-intent:intent:portable:root"
+        ],
+        "findings": [],
+        "confidence": {
+          "band": "medium",
+          "score": 0.7,
+          "reasons": [
+            "Platform-portable workloads"
+          ],
+          "missingEvidence": [],
+          "conflicts": [],
+          "wouldIncreaseConfidence": []
+        },
+        "tags": [
+          "intent"
+        ],
+        "layers": [
+          "governance",
+          "intent"
+        ]
+      },
+      {
+        "id": "intent:observable",
+        "logicalId": "intent:observable",
+        "kind": "intent",
+        "subtype": "observable",
+        "name": "Observable",
+        "displayName": "Observable",
+        "lifecycle": "active",
+        "truthStates": [
+          "declared"
+        ],
+        "instances": [],
+        "metadata": {
+          "description": "Monitoring and telemetry present",
+          "satisfaction": "partial",
+          "satisfactionReasons": [
+            "Limited observability evidence"
+          ]
+        },
+        "interfaces": [],
+        "evidence": [
+          "ev:governance-intent:intent:observable:root"
+        ],
+        "findings": [],
+        "confidence": {
+          "band": "medium",
+          "score": 0.7,
+          "reasons": [
+            "Monitoring and telemetry present"
+          ],
+          "missingEvidence": [],
+          "conflicts": [],
+          "wouldIncreaseConfidence": []
+        },
+        "tags": [
+          "intent"
+        ],
+        "layers": [
+          "governance",
+          "intent"
+        ]
+      },
+      {
+        "id": "intent:least-privilege",
+        "logicalId": "intent:least-privilege",
+        "kind": "intent",
+        "subtype": "least-privilege",
+        "name": "Least Privilege",
+        "displayName": "Least Privilege",
+        "lifecycle": "active",
+        "truthStates": [
+          "declared"
+        ],
+        "instances": [],
+        "metadata": {
+          "description": "Minimal identity permissions",
+          "satisfaction": "unknown",
+          "satisfactionReasons": [
+            "No IAM evidence"
+          ]
+        },
+        "interfaces": [],
+        "evidence": [
+          "ev:governance-intent:intent:least-privilege:root"
+        ],
+        "findings": [],
+        "confidence": {
+          "band": "medium",
+          "score": 0.7,
+          "reasons": [
+            "Minimal identity permissions"
+          ],
+          "missingEvidence": [],
+          "conflicts": [],
+          "wouldIncreaseConfidence": []
+        },
+        "tags": [
+          "intent"
+        ],
+        "layers": [
+          "governance",
+          "intent"
+        ]
+      },
+      {
+        "id": "assumption:db-resilient",
+        "logicalId": "assumption:db-resilient",
+        "kind": "assumption",
+        "subtype": "db-resilient",
+        "name": "Database resilient",
+        "displayName": "Database resilient",
+        "lifecycle": "active",
+        "truthStates": [
+          "assumed"
+        ],
+        "instances": [],
+        "metadata": {
+          "status": "failed",
+          "reasons": [
+            "orddb is single-AZ"
+          ],
+          "relatedResourceIds": [
+            "aws:terraform:relational-database:orddb"
+          ]
+        },
+        "interfaces": [],
+        "evidence": [
+          "ev:governance-assumptions:assumption:db-resilient:root"
+        ],
+        "findings": [],
+        "confidence": {
+          "band": "medium",
+          "score": 0.72,
+          "reasons": [
+            "orddb is single-AZ"
+          ],
+          "missingEvidence": [],
+          "conflicts": [],
+          "wouldIncreaseConfidence": []
+        },
+        "tags": [
+          "assumption",
+          "assumption-failed"
+        ],
+        "layers": [
+          "governance",
+          "assumption"
+        ]
+      },
+      {
+        "id": "assumption:public-api-protected",
+        "logicalId": "assumption:public-api-protected",
+        "kind": "assumption",
+        "subtype": "public-api-protected",
+        "name": "Public API is protected",
+        "displayName": "Public API is protected",
+        "lifecycle": "active",
+        "truthStates": [
+          "assumed"
+        ],
+        "instances": [],
+        "metadata": {
+          "status": "supported",
+          "reasons": [
+            "No public API"
+          ],
+          "relatedResourceIds": []
+        },
+        "interfaces": [],
+        "evidence": [
+          "ev:governance-assumptions:assumption:public-api-protected:root"
+        ],
+        "findings": [],
+        "confidence": {
+          "band": "medium",
+          "score": 0.72,
+          "reasons": [
+            "No public API"
+          ],
+          "missingEvidence": [],
+          "conflicts": [],
+          "wouldIncreaseConfidence": []
+        },
+        "tags": [
+          "assumption"
+        ],
+        "layers": [
+          "governance",
+          "assumption"
+        ]
+      },
+      {
+        "id": "assumption:single-provider-ok",
+        "logicalId": "assumption:single-provider-ok",
+        "kind": "assumption",
+        "subtype": "single-provider-ok",
+        "name": "Single provider acceptable",
+        "displayName": "Single provider acceptable",
+        "lifecycle": "active",
+        "truthStates": [
+          "assumed"
+        ],
+        "instances": [],
+        "metadata": {
+          "status": "supported",
+          "reasons": [
+            "Providers: aws"
+          ],
+          "relatedResourceIds": []
+        },
+        "interfaces": [],
+        "evidence": [
+          "ev:governance-assumptions:assumption:single-provider-ok:root"
+        ],
+        "findings": [],
+        "confidence": {
+          "band": "medium",
+          "score": 0.72,
+          "reasons": [
+            "Providers: aws"
+          ],
+          "missingEvidence": [],
+          "conflicts": [],
+          "wouldIncreaseConfidence": []
+        },
+        "tags": [
+          "assumption"
+        ],
+        "layers": [
+          "governance",
+          "assumption"
+        ]
+      },
+      {
+        "id": "assumption:payments-reliable",
+        "logicalId": "assumption:payments-reliable",
+        "kind": "assumption",
+        "subtype": "payments-reliable",
+        "name": "Third-party payments reliable",
+        "displayName": "Third-party payments reliable",
+        "lifecycle": "active",
+        "truthStates": [
+          "assumed"
+        ],
+        "instances": [],
+        "metadata": {
+          "status": "unknown",
+          "reasons": [
+            "No payment dependency"
+          ],
+          "relatedResourceIds": []
+        },
+        "interfaces": [],
+        "evidence": [
+          "ev:governance-assumptions:assumption:payments-reliable:root"
+        ],
+        "findings": [],
+        "confidence": {
+          "band": "medium",
+          "score": 0.72,
+          "reasons": [
+            "No payment dependency"
+          ],
+          "missingEvidence": [],
+          "conflicts": [],
+          "wouldIncreaseConfidence": []
+        },
+        "tags": [
+          "assumption"
+        ],
+        "layers": [
+          "governance",
+          "assumption"
+        ]
+      },
+      {
+        "id": "assumption:aws-region-available",
+        "logicalId": "assumption:aws-region-available",
+        "kind": "assumption",
+        "subtype": "aws-region-available",
+        "name": "AWS region available",
+        "displayName": "AWS region available",
+        "lifecycle": "active",
+        "truthStates": [
+          "assumed"
+        ],
+        "instances": [],
+        "metadata": {
+          "status": "supported",
+          "reasons": [
+            "AWS resources observed in eu-west-2"
+          ],
+          "relatedResourceIds": [
+            "aws:terraform:relational-database:orddb",
+            "aws:terraform:bucket:corp-archive-bucket",
+            "aws:terraform:unknown:batch",
+            "aws:aws:unknown:orddb",
+            "aws:aws:unknown:batch01"
+          ]
+        },
+        "interfaces": [],
+        "evidence": [
+          "ev:governance-assumptions:assumption:aws-region-available:root"
+        ],
+        "findings": [],
+        "confidence": {
+          "band": "medium",
+          "score": 0.72,
+          "reasons": [
+            "AWS resources observed in eu-west-2"
+          ],
+          "missingEvidence": [],
+          "conflicts": [],
+          "wouldIncreaseConfidence": []
+        },
+        "tags": [
+          "assumption"
+        ],
+        "layers": [
+          "governance",
+          "assumption"
+        ]
+      },
+      {
+        "id": "contract:platform",
+        "logicalId": "contract:platform",
+        "kind": "architecture-contract",
+        "subtype": "platform",
+        "name": "Retail Platform Contract",
+        "displayName": "Retail Platform Contract",
+        "lifecycle": "active",
+        "truthStates": [
+          "declared"
+        ],
+        "instances": [],
+        "metadata": {
+          "evaluation": "partial",
+          "requirements": [
+            {
+              "id": "ha-database",
+              "label": "HA database",
+              "ok": false,
+              "reason": "Non multi-AZ: orddb"
+            },
+            {
+              "id": "encrypted-data",
+              "label": "Encrypted data",
+              "ok": false,
+              "reason": "Encryption not evidenced"
+            },
+            {
+              "id": "approved-ownership",
+              "label": "Approved ownership",
+              "ok": true,
+              "reason": "6 orphaned resources"
+            },
+            {
+              "id": "monitoring",
+              "label": "Monitoring",
+              "ok": false,
+              "reason": "Monitoring missing"
+            },
+            {
+              "id": "internal-communication",
+              "label": "Internal communication",
+              "ok": true,
+              "reason": "No external systems"
+            }
+          ],
+          "capabilityId": "capability:retail-platform"
+        },
+        "interfaces": [],
+        "evidence": [
+          "ev:governance-contracts:contract:capability:retail-platform:root"
+        ],
+        "findings": [],
+        "confidence": {
+          "band": "medium",
+          "score": 0.75,
+          "reasons": [
+            "Evaluation: partial"
+          ],
+          "missingEvidence": [],
+          "conflicts": [],
+          "wouldIncreaseConfidence": []
+        },
+        "tags": [
+          "contract",
+          "contract-violated"
+        ],
+        "layers": [
+          "governance",
+          "contract"
+        ]
+      },
+      {
+        "id": "obligation:soc2:platform",
+        "logicalId": "obligation:soc2:platform",
+        "kind": "obligation",
+        "subtype": "soc2",
+        "name": "SOC2",
+        "displayName": "SOC2",
+        "lifecycle": "active",
+        "truthStates": [
+          "declared"
+        ],
+        "instances": [],
+        "metadata": {
+          "status": "outstanding",
+          "capabilityId": "capability:retail-platform",
+          "contractId": "contract:platform"
+        },
+        "interfaces": [],
+        "evidence": [
+          "ev:governance-contracts:obligation:soc2:root"
+        ],
+        "findings": [],
+        "confidence": {
+          "band": "medium",
+          "score": 0.65,
+          "reasons": [
+            "Required by Retail Platform"
+          ],
+          "missingEvidence": [],
+          "conflicts": [],
+          "wouldIncreaseConfidence": []
+        },
+        "tags": [
+          "obligation",
+          "outstanding"
+        ],
+        "layers": [
+          "governance",
+          "contract"
+        ]
+      },
+      {
+        "id": "obligation:review-annually:platform",
+        "logicalId": "obligation:review-annually:platform",
+        "kind": "obligation",
+        "subtype": "review-annually",
+        "name": "Review annually",
+        "displayName": "Review annually",
+        "lifecycle": "active",
+        "truthStates": [
+          "declared"
+        ],
+        "instances": [],
+        "metadata": {
+          "status": "outstanding",
+          "capabilityId": "capability:retail-platform",
+          "contractId": "contract:platform"
+        },
+        "interfaces": [],
+        "evidence": [
+          "ev:governance-contracts:obligation:review-annually:root"
+        ],
+        "findings": [],
+        "confidence": {
+          "band": "medium",
+          "score": 0.65,
+          "reasons": [
+            "Required by Retail Platform"
+          ],
+          "missingEvidence": [],
+          "conflicts": [],
+          "wouldIncreaseConfidence": []
+        },
+        "tags": [
+          "obligation",
+          "outstanding"
+        ],
+        "layers": [
+          "governance",
+          "contract"
+        ]
+      }
+    ],
+    "edges": [
+      {
+        "id": "capability:asset-delivery:contains:aws:terraform:bucket:corp-archive-bucket",
+        "source": "capability:asset-delivery",
+        "target": "aws:terraform:bucket:corp-archive-bucket",
+        "relation": "contains",
+        "direction": "directed",
+        "truthStates": [
+          "inferred"
+        ],
+        "evidence": [
+          "ev:architecture-intelligence:capability:asset-delivery:root"
+        ],
+        "confidence": {
+          "band": "medium",
+          "score": 0.75,
+          "reasons": [
+            "corp-archive-bucket supports Asset Delivery"
+          ],
+          "missingEvidence": [],
+          "conflicts": [],
+          "inferenceMethod": "capability-membership",
+          "wouldIncreaseConfidence": []
+        },
+        "findings": [],
+        "label": "implements"
+      },
+      {
+        "id": "aws:terraform:bucket:corp-archive-bucket:implements:capability:asset-delivery",
+        "source": "aws:terraform:bucket:corp-archive-bucket",
+        "target": "capability:asset-delivery",
+        "relation": "implements",
+        "direction": "directed",
+        "truthStates": [
+          "inferred"
+        ],
+        "evidence": [
+          "ev:architecture-intelligence:capability:asset-delivery:root"
+        ],
+        "confidence": {
+          "band": "medium",
+          "score": 0.75,
+          "reasons": [
+            "corp-archive-bucket supports Asset Delivery"
+          ],
+          "missingEvidence": [],
+          "conflicts": [],
+          "inferenceMethod": "capability-membership",
+          "wouldIncreaseConfidence": []
+        },
+        "findings": [],
+        "label": "supports capability"
+      },
+      {
+        "id": "capability:retail-platform:contains:capability:asset-delivery",
+        "source": "capability:retail-platform",
+        "target": "capability:asset-delivery",
+        "relation": "contains",
+        "direction": "directed",
+        "truthStates": [
+          "inferred"
+        ],
+        "evidence": [
+          "ev:architecture-intelligence:capability:retail-platform:root"
+        ],
+        "confidence": {
+          "band": "medium",
+          "score": 0.7,
+          "reasons": [
+            "Platform contains capability"
+          ],
+          "missingEvidence": [],
+          "conflicts": [],
+          "wouldIncreaseConfidence": []
+        },
+        "findings": [],
+        "label": "contains"
+      },
+      {
+        "id": "data:orders:stores:aws:terraform:relational-database:orddb",
+        "source": "data:orders",
+        "target": "aws:terraform:relational-database:orddb",
+        "relation": "stores",
+        "direction": "directed",
+        "truthStates": [
+          "inferred"
+        ],
+        "evidence": [
+          "ev:architecture-intelligence:data:orders:root"
+        ],
+        "confidence": {
+          "band": "medium",
+          "score": 0.8,
+          "reasons": [
+            "Customer Orders stored in orddb"
+          ],
+          "missingEvidence": [],
+          "conflicts": [],
+          "wouldIncreaseConfidence": []
+        },
+        "findings": [],
+        "label": "stored in",
+        "dataClassifications": [
+          "confidential"
+        ]
+      },
+      {
+        "id": "data:product-catalogue:stores:aws:terraform:relational-database:orddb",
+        "source": "data:product-catalogue",
+        "target": "aws:terraform:relational-database:orddb",
+        "relation": "stores",
+        "direction": "directed",
+        "truthStates": [
+          "inferred"
+        ],
+        "evidence": [
+          "ev:architecture-intelligence:data:product-catalogue:root"
+        ],
+        "confidence": {
+          "band": "medium",
+          "score": 0.8,
+          "reasons": [
+            "Product Catalogue stored in orddb"
+          ],
+          "missingEvidence": [],
+          "conflicts": [],
+          "wouldIncreaseConfidence": []
+        },
+        "findings": [],
+        "label": "stored in",
+        "dataClassifications": [
+          "internal"
+        ]
+      },
+      {
+        "id": "data:images:stores:aws:terraform:bucket:corp-archive-bucket",
+        "source": "data:images",
+        "target": "aws:terraform:bucket:corp-archive-bucket",
+        "relation": "stores",
+        "direction": "directed",
+        "truthStates": [
+          "inferred"
+        ],
+        "evidence": [
+          "ev:architecture-intelligence:data:images:root"
+        ],
+        "confidence": {
+          "band": "medium",
+          "score": 0.8,
+          "reasons": [
+            "Product Images stored in corp-archive-bucket"
+          ],
+          "missingEvidence": [],
+          "conflicts": [],
+          "wouldIncreaseConfidence": []
+        },
+        "findings": [],
+        "label": "stored in",
+        "dataClassifications": [
+          "internal"
+        ]
+      },
+      {
+        "id": "internet:protected-by:trust:public-edge",
+        "source": "internet",
+        "target": "trust:public-edge",
+        "relation": "protected-by",
+        "direction": "directed",
+        "truthStates": [
+          "inferred"
+        ],
+        "evidence": [
+          "ev:architecture-intelligence:trust:public-edge:root"
+        ],
+        "confidence": {
+          "band": "medium",
+          "score": 0.75,
+          "reasons": [
+            "Internet in Public Edge"
+          ],
+          "missingEvidence": [],
+          "conflicts": [],
+          "wouldIncreaseConfidence": []
+        },
+        "findings": [],
+        "label": "in trust zone"
+      },
+      {
+        "id": "aws:terraform:relational-database:orddb:protected-by:trust:data",
+        "source": "aws:terraform:relational-database:orddb",
+        "target": "trust:data",
+        "relation": "protected-by",
+        "direction": "directed",
+        "truthStates": [
+          "inferred"
+        ],
+        "evidence": [
+          "ev:architecture-intelligence:trust:data:root"
+        ],
+        "confidence": {
+          "band": "medium",
+          "score": 0.75,
+          "reasons": [
+            "orddb in Data Trust Zone"
+          ],
+          "missingEvidence": [],
+          "conflicts": [],
+          "wouldIncreaseConfidence": []
+        },
+        "findings": [],
+        "label": "in trust zone"
+      },
+      {
+        "id": "aws:terraform:bucket:corp-archive-bucket:protected-by:trust:data",
+        "source": "aws:terraform:bucket:corp-archive-bucket",
+        "target": "trust:data",
+        "relation": "protected-by",
+        "direction": "directed",
+        "truthStates": [
+          "inferred"
+        ],
+        "evidence": [
+          "ev:architecture-intelligence:trust:data:root"
+        ],
+        "confidence": {
+          "band": "medium",
+          "score": 0.75,
+          "reasons": [
+            "corp-archive-bucket in Data Trust Zone"
+          ],
+          "missingEvidence": [],
+          "conflicts": [],
+          "wouldIncreaseConfidence": []
+        },
+        "findings": [],
+        "label": "in trust zone"
+      },
+      {
+        "id": "data:orders:protected-by:trust:data",
+        "source": "data:orders",
+        "target": "trust:data",
+        "relation": "protected-by",
+        "direction": "directed",
+        "truthStates": [
+          "inferred"
+        ],
+        "evidence": [
+          "ev:architecture-intelligence:trust:data:root"
+        ],
+        "confidence": {
+          "band": "medium",
+          "score": 0.75,
+          "reasons": [
+            "Customer Orders in Data Trust Zone"
+          ],
+          "missingEvidence": [],
+          "conflicts": [],
+          "wouldIncreaseConfidence": []
+        },
+        "findings": [],
+        "label": "in trust zone"
+      },
+      {
+        "id": "data:product-catalogue:protected-by:trust:data",
+        "source": "data:product-catalogue",
+        "target": "trust:data",
+        "relation": "protected-by",
+        "direction": "directed",
+        "truthStates": [
+          "inferred"
+        ],
+        "evidence": [
+          "ev:architecture-intelligence:trust:data:root"
+        ],
+        "confidence": {
+          "band": "medium",
+          "score": 0.75,
+          "reasons": [
+            "Product Catalogue in Data Trust Zone"
+          ],
+          "missingEvidence": [],
+          "conflicts": [],
+          "wouldIncreaseConfidence": []
+        },
+        "findings": [],
+        "label": "in trust zone"
+      },
+      {
+        "id": "data:images:protected-by:trust:data",
+        "source": "data:images",
+        "target": "trust:data",
+        "relation": "protected-by",
+        "direction": "directed",
+        "truthStates": [
+          "inferred"
+        ],
+        "evidence": [
+          "ev:architecture-intelligence:trust:data:root"
+        ],
+        "confidence": {
+          "band": "medium",
+          "score": 0.75,
+          "reasons": [
+            "Product Images in Data Trust Zone"
+          ],
+          "missingEvidence": [],
+          "conflicts": [],
+          "wouldIncreaseConfidence": []
+        },
+        "findings": [],
+        "label": "in trust zone"
+      },
+      {
+        "id": "adr:0001:nightly-batch-against-orddb:documents-decision:decision:adr:0001",
+        "source": "adr:0001:nightly-batch-against-orddb",
+        "target": "decision:adr:0001",
+        "relation": "documents-decision",
+        "direction": "directed",
+        "truthStates": [
+          "declared"
+        ],
+        "evidence": [
+          "ev:governance-adr:docs/adr/0001-batch-window.md:root"
+        ],
+        "confidence": {
+          "band": "high",
+          "score": 0.95,
+          "reasons": [
+            "ADR documents decision"
+          ],
+          "missingEvidence": [],
+          "conflicts": [],
+          "wouldIncreaseConfidence": []
+        },
+        "findings": [],
+        "label": "documents"
+      },
+      {
+        "id": "decision:use-postgresql:implemented-by:aws:terraform:relational-database:orddb",
+        "source": "decision:use-postgresql",
+        "target": "aws:terraform:relational-database:orddb",
+        "relation": "implemented-by",
+        "direction": "directed",
+        "truthStates": [
+          "inferred"
+        ],
+        "evidence": [
+          "ev:governance-decisions:decision:use-postgresql:root"
+        ],
+        "confidence": {
+          "band": "medium",
+          "score": 0.75,
+          "reasons": [
+            "implemented by"
+          ],
+          "missingEvidence": [],
+          "conflicts": [],
+          "wouldIncreaseConfidence": []
+        },
+        "findings": [],
+        "label": "implemented by"
+      },
+      {
+        "id": "decision:object-storage:implemented-by:aws:terraform:bucket:corp-archive-bucket",
+        "source": "decision:object-storage",
+        "target": "aws:terraform:bucket:corp-archive-bucket",
+        "relation": "implemented-by",
+        "direction": "directed",
+        "truthStates": [
+          "inferred"
+        ],
+        "evidence": [
+          "ev:governance-decisions:decision:object-storage:root"
+        ],
+        "confidence": {
+          "band": "medium",
+          "score": 0.75,
+          "reasons": [
+            "implemented by"
+          ],
+          "missingEvidence": [],
+          "conflicts": [],
+          "wouldIncreaseConfidence": []
+        },
+        "findings": [],
+        "label": "implemented by"
+      },
+      {
+        "id": "capability:asset-delivery:decides:decision:object-storage",
+        "source": "capability:asset-delivery",
+        "target": "decision:object-storage",
+        "relation": "decides",
+        "direction": "directed",
+        "truthStates": [
+          "inferred"
+        ],
+        "evidence": [
+          "ev:governance-decisions:decision:object-storage:root"
+        ],
+        "confidence": {
+          "band": "medium",
+          "score": 0.75,
+          "reasons": [
+            "decides"
+          ],
+          "missingEvidence": [],
+          "conflicts": [],
+          "wouldIncreaseConfidence": []
+        },
+        "findings": [],
+        "label": "decides"
+      },
+      {
+        "id": "decision:use-postgresql:realizes-intent:intent:highly-available",
+        "source": "decision:use-postgresql",
+        "target": "intent:highly-available",
+        "relation": "realizes-intent",
+        "direction": "directed",
+        "truthStates": [
+          "inferred"
+        ],
+        "evidence": [
+          "ev:governance-decisions:decision:use-postgresql:root"
+        ],
+        "confidence": {
+          "band": "medium",
+          "score": 0.7,
+          "reasons": [
+            "Use PostgreSQL realizes highly-available"
+          ],
+          "missingEvidence": [],
+          "conflicts": [],
+          "wouldIncreaseConfidence": []
+        },
+        "findings": [],
+        "label": "realizes"
+      },
+      {
+        "id": "decision:use-postgresql:realizes-intent:intent:encrypted-storage",
+        "source": "decision:use-postgresql",
+        "target": "intent:encrypted-storage",
+        "relation": "realizes-intent",
+        "direction": "directed",
+        "truthStates": [
+          "inferred"
+        ],
+        "evidence": [
+          "ev:governance-decisions:decision:use-postgresql:root"
+        ],
+        "confidence": {
+          "band": "medium",
+          "score": 0.7,
+          "reasons": [
+            "Use PostgreSQL realizes encrypted-storage"
+          ],
+          "missingEvidence": [],
+          "conflicts": [],
+          "wouldIncreaseConfidence": []
+        },
+        "findings": [],
+        "label": "realizes"
+      },
+      {
+        "id": "decision:object-storage:realizes-intent:intent:encrypted-storage",
+        "source": "decision:object-storage",
+        "target": "intent:encrypted-storage",
+        "relation": "realizes-intent",
+        "direction": "directed",
+        "truthStates": [
+          "inferred"
+        ],
+        "evidence": [
+          "ev:governance-decisions:decision:object-storage:root"
+        ],
+        "confidence": {
+          "band": "medium",
+          "score": 0.7,
+          "reasons": [
+            "Use S3 for assets realizes encrypted-storage"
+          ],
+          "missingEvidence": [],
+          "conflicts": [],
+          "wouldIncreaseConfidence": []
+        },
+        "findings": [],
+        "label": "realizes"
+      },
+      {
+        "id": "assumption:db-resilient:depends-on-assumption:aws:terraform:relational-database:orddb",
+        "source": "aws:terraform:relational-database:orddb",
+        "target": "assumption:db-resilient",
+        "relation": "depends-on-assumption",
+        "direction": "directed",
+        "truthStates": [
+          "inferred"
+        ],
+        "evidence": [
+          "ev:governance-assumptions:assumption:db-resilient:root"
+        ],
+        "confidence": {
+          "band": "medium",
+          "score": 0.7,
+          "reasons": [
+            "orddb is single-AZ"
+          ],
+          "missingEvidence": [],
+          "conflicts": [],
+          "wouldIncreaseConfidence": []
+        },
+        "findings": [],
+        "label": "assumes"
+      },
+      {
+        "id": "intent:highly-available:depends-on-assumption:assumption:db-resilient",
+        "source": "intent:highly-available",
+        "target": "assumption:db-resilient",
+        "relation": "depends-on-assumption",
+        "direction": "directed",
+        "truthStates": [
+          "inferred"
+        ],
+        "evidence": [
+          "ev:governance-assumptions:assumption:db-resilient:root"
+        ],
+        "confidence": {
+          "band": "medium",
+          "score": 0.8,
+          "reasons": [
+            "HA intent depends on DB resilience"
+          ],
+          "missingEvidence": [],
+          "conflicts": [],
+          "wouldIncreaseConfidence": []
+        },
+        "findings": [],
+        "label": "depends on"
+      },
+      {
+        "id": "assumption:aws-region-available:depends-on-assumption:aws:terraform:relational-database:orddb",
+        "source": "aws:terraform:relational-database:orddb",
+        "target": "assumption:aws-region-available",
+        "relation": "depends-on-assumption",
+        "direction": "directed",
+        "truthStates": [
+          "inferred"
+        ],
+        "evidence": [
+          "ev:governance-assumptions:assumption:aws-region-available:root"
+        ],
+        "confidence": {
+          "band": "medium",
+          "score": 0.7,
+          "reasons": [
+            "AWS resources observed in eu-west-2"
+          ],
+          "missingEvidence": [],
+          "conflicts": [],
+          "wouldIncreaseConfidence": []
+        },
+        "findings": [],
+        "label": "assumes"
+      },
+      {
+        "id": "assumption:aws-region-available:depends-on-assumption:aws:terraform:bucket:corp-archive-bucket",
+        "source": "aws:terraform:bucket:corp-archive-bucket",
+        "target": "assumption:aws-region-available",
+        "relation": "depends-on-assumption",
+        "direction": "directed",
+        "truthStates": [
+          "inferred"
+        ],
+        "evidence": [
+          "ev:governance-assumptions:assumption:aws-region-available:root"
+        ],
+        "confidence": {
+          "band": "medium",
+          "score": 0.7,
+          "reasons": [
+            "AWS resources observed in eu-west-2"
+          ],
+          "missingEvidence": [],
+          "conflicts": [],
+          "wouldIncreaseConfidence": []
+        },
+        "findings": [],
+        "label": "assumes"
+      },
+      {
+        "id": "assumption:aws-region-available:depends-on-assumption:aws:terraform:unknown:batch",
+        "source": "aws:terraform:unknown:batch",
+        "target": "assumption:aws-region-available",
+        "relation": "depends-on-assumption",
+        "direction": "directed",
+        "truthStates": [
+          "inferred"
+        ],
+        "evidence": [
+          "ev:governance-assumptions:assumption:aws-region-available:root"
+        ],
+        "confidence": {
+          "band": "medium",
+          "score": 0.7,
+          "reasons": [
+            "AWS resources observed in eu-west-2"
+          ],
+          "missingEvidence": [],
+          "conflicts": [],
+          "wouldIncreaseConfidence": []
+        },
+        "findings": [],
+        "label": "assumes"
+      },
+      {
+        "id": "assumption:aws-region-available:depends-on-assumption:aws:aws:unknown:orddb",
+        "source": "aws:aws:unknown:orddb",
+        "target": "assumption:aws-region-available",
+        "relation": "depends-on-assumption",
+        "direction": "directed",
+        "truthStates": [
+          "inferred"
+        ],
+        "evidence": [
+          "ev:governance-assumptions:assumption:aws-region-available:root"
+        ],
+        "confidence": {
+          "band": "medium",
+          "score": 0.7,
+          "reasons": [
+            "AWS resources observed in eu-west-2"
+          ],
+          "missingEvidence": [],
+          "conflicts": [],
+          "wouldIncreaseConfidence": []
+        },
+        "findings": [],
+        "label": "assumes"
+      },
+      {
+        "id": "assumption:aws-region-available:depends-on-assumption:aws:aws:unknown:batch01",
+        "source": "aws:aws:unknown:batch01",
+        "target": "assumption:aws-region-available",
+        "relation": "depends-on-assumption",
+        "direction": "directed",
+        "truthStates": [
+          "inferred"
+        ],
+        "evidence": [
+          "ev:governance-assumptions:assumption:aws-region-available:root"
+        ],
+        "confidence": {
+          "band": "medium",
+          "score": 0.7,
+          "reasons": [
+            "AWS resources observed in eu-west-2"
+          ],
+          "missingEvidence": [],
+          "conflicts": [],
+          "wouldIncreaseConfidence": []
+        },
+        "findings": [],
+        "label": "assumes"
+      },
+      {
+        "id": "capability:retail-platform:satisfies-contract:contract:platform",
+        "source": "capability:retail-platform",
+        "target": "contract:platform",
+        "relation": "satisfies-contract",
+        "direction": "directed",
+        "truthStates": [
+          "inferred"
+        ],
+        "evidence": [
+          "ev:governance-contracts:contract:capability:retail-platform:root"
+        ],
+        "confidence": {
+          "band": "medium",
+          "score": 0.75,
+          "reasons": [
+            "partial"
+          ],
+          "missingEvidence": [],
+          "conflicts": [],
+          "wouldIncreaseConfidence": []
+        },
+        "findings": [],
+        "label": "bound by"
+      },
+      {
+        "id": "contract:platform:produces-obligation:obligation:soc2:platform",
+        "source": "contract:platform",
+        "target": "obligation:soc2:platform",
+        "relation": "produces-obligation",
+        "direction": "directed",
+        "truthStates": [
+          "inferred"
+        ],
+        "evidence": [
+          "ev:governance-contracts:obligation:soc2:root"
+        ],
+        "confidence": {
+          "band": "medium",
+          "score": 0.7,
+          "reasons": [
+            "Contract produces obligation"
+          ],
+          "missingEvidence": [],
+          "conflicts": [],
+          "wouldIncreaseConfidence": []
+        },
+        "findings": [],
+        "label": "requires"
+      },
+      {
+        "id": "contract:platform:produces-obligation:obligation:review-annually:platform",
+        "source": "contract:platform",
+        "target": "obligation:review-annually:platform",
+        "relation": "produces-obligation",
+        "direction": "directed",
+        "truthStates": [
+          "inferred"
+        ],
+        "evidence": [
+          "ev:governance-contracts:obligation:review-annually:root"
+        ],
+        "confidence": {
+          "band": "medium",
+          "score": 0.7,
+          "reasons": [
+            "Contract produces obligation"
+          ],
+          "missingEvidence": [],
+          "conflicts": [],
+          "wouldIncreaseConfidence": []
+        },
+        "findings": [],
+        "label": "requires"
+      }
+    ],
+    "evidence": [
+      {
+        "id": "ev:terraform:infra/main.tf:resource.aws_db_instance.orddb",
+        "adapter": "terraform",
+        "sourceType": "source-file",
+        "sourceUri": "infra/main.tf",
+        "location": {
+          "lineStart": 6,
+          "jsonPath": "resource.aws_db_instance.ORDDB"
+        },
+        "extractedValue": {
+          "type": "aws_db_instance",
+          "name": "ORDDB",
+          "displayName": "orddb"
+        },
+        "redacted": false,
+        "confidence": 0.9,
+        "rationale": "Terraform declared resource aws_db_instance.ORDDB",
+        "truthState": "declared"
+      },
+      {
+        "id": "ev:terraform:infra/main.tf:resource.aws_s3_bucket.archive",
+        "adapter": "terraform",
+        "sourceType": "source-file",
+        "sourceUri": "infra/main.tf",
+        "location": {
+          "lineStart": 16,
+          "jsonPath": "resource.aws_s3_bucket.archive"
+        },
+        "extractedValue": {
+          "type": "aws_s3_bucket",
+          "name": "archive",
+          "displayName": "corp-archive-bucket"
+        },
+        "redacted": false,
+        "confidence": 0.9,
+        "rationale": "Terraform declared resource aws_s3_bucket.archive",
+        "truthState": "declared"
+      },
+      {
+        "id": "ev:terraform:infra/main.tf:resource.aws_instance.batch",
+        "adapter": "terraform",
+        "sourceType": "source-file",
+        "sourceUri": "infra/main.tf",
+        "location": {
+          "lineStart": 20,
+          "jsonPath": "resource.aws_instance.batch"
+        },
+        "extractedValue": {
+          "type": "aws_instance",
+          "name": "batch",
+          "displayName": "batch"
+        },
+        "redacted": false,
+        "confidence": 0.72,
+        "rationale": "Terraform declared resource aws_instance.batch",
+        "truthState": "declared"
+      },
+      {
+        "id": "ev:aws-snapshot:aws-snapshot://999988887777/eu-west-2:root",
+        "adapter": "aws-snapshot",
+        "sourceType": "cloud-snapshot",
+        "sourceUri": "aws-snapshot://999988887777/eu-west-2",
+        "extractedValue": {
+          "type": "aws_db_instance",
+          "id": "orddb",
+          "arn": "arn:aws:rds:eu-west-2:999988887777:db:orddb"
+        },
+        "redacted": false,
+        "confidence": 0.97,
+        "rationale": "Read-only inventory snapshot",
+        "truthState": "observed"
+      },
+      {
+        "id": "ev:architecture-intelligence:capability:asset-delivery:root",
+        "adapter": "architecture-intelligence",
+        "sourceType": "inference",
+        "sourceUri": "capability:asset-delivery",
+        "extractedValue": {
+          "capability": "Asset Delivery",
+          "members": [
+            "aws:terraform:bucket:corp-archive-bucket"
+          ]
+        },
+        "redacted": false,
+        "confidence": 0.78,
+        "rationale": "Matched object storage / asset delivery evidence",
+        "truthState": "inferred"
+      },
+      {
+        "id": "ev:architecture-intelligence:capability:retail-platform:root",
+        "adapter": "architecture-intelligence",
+        "sourceType": "inference",
+        "sourceUri": "capability:retail-platform",
+        "redacted": false,
+        "confidence": 0.7,
+        "rationale": "Umbrella platform capability containing inferred domain capabilities",
+        "truthState": "inferred"
+      },
+      {
+        "id": "ev:architecture-intelligence:data:orders:root",
+        "adapter": "architecture-intelligence",
+        "sourceType": "inference",
+        "sourceUri": "data:orders",
+        "extractedValue": {
+          "stores": [
+            "aws:terraform:relational-database:orddb"
+          ],
+          "producers": []
+        },
+        "redacted": false,
+        "confidence": 0.74,
+        "rationale": "Inferred data asset Customer Orders from stores and producers",
+        "truthState": "inferred"
+      },
+      {
+        "id": "ev:architecture-intelligence:data:product-catalogue:root",
+        "adapter": "architecture-intelligence",
+        "sourceType": "inference",
+        "sourceUri": "data:product-catalogue",
+        "extractedValue": {
+          "stores": [
+            "aws:terraform:relational-database:orddb"
+          ],
+          "producers": []
+        },
+        "redacted": false,
+        "confidence": 0.74,
+        "rationale": "Inferred data asset Product Catalogue from stores and producers",
+        "truthState": "inferred"
+      },
+      {
+        "id": "ev:architecture-intelligence:data:images:root",
+        "adapter": "architecture-intelligence",
+        "sourceType": "inference",
+        "sourceUri": "data:images",
+        "extractedValue": {
+          "stores": [
+            "aws:terraform:bucket:corp-archive-bucket"
+          ],
+          "producers": []
+        },
+        "redacted": false,
+        "confidence": 0.74,
+        "rationale": "Inferred data asset Product Images from stores and producers",
+        "truthState": "inferred"
+      },
+      {
+        "id": "ev:architecture-intelligence:trust:public-edge:root",
+        "adapter": "architecture-intelligence",
+        "sourceType": "inference",
+        "sourceUri": "trust:public-edge",
+        "redacted": false,
+        "confidence": 0.8,
+        "rationale": "Trust zone Public Edge",
+        "truthState": "inferred"
+      },
+      {
+        "id": "ev:architecture-intelligence:trust:data:root",
+        "adapter": "architecture-intelligence",
+        "sourceType": "inference",
+        "sourceUri": "trust:data",
+        "redacted": false,
+        "confidence": 0.8,
+        "rationale": "Trust zone Data Trust Zone",
+        "truthState": "inferred"
+      },
+      {
+        "id": "ev:governance-adr:docs/adr/0001-batch-window.md:root",
+        "adapter": "governance-adr",
+        "sourceType": "source-file",
+        "sourceUri": "docs/adr/0001-batch-window.md",
+        "extractedValue": {
+          "status": "Accepted",
+          "decision": "Keep the monolith batch job on a dedicated EC2 host with SFTP partner ingest."
+        },
+        "redacted": false,
+        "confidence": 0.92,
+        "rationale": "Parsed ADR-0001: Nightly batch against ORDDB",
+        "truthState": "declared"
+      },
+      {
+        "id": "ev:governance-decisions:decision:use-postgresql:root",
+        "adapter": "governance-decisions",
+        "sourceType": "inference",
+        "sourceUri": "decision:use-postgresql",
+        "redacted": false,
+        "confidence": 0.8,
+        "rationale": "Relational persistence for order/catalogue state",
+        "truthState": "inferred"
+      },
+      {
+        "id": "ev:governance-decisions:decision:object-storage:root",
+        "adapter": "governance-decisions",
+        "sourceType": "inference",
+        "sourceUri": "decision:object-storage",
+        "redacted": false,
+        "confidence": 0.8,
+        "rationale": "Product images and static assets in object storage",
+        "truthState": "inferred"
+      },
+      {
+        "id": "ev:governance-intent:intent:highly-available:root",
+        "adapter": "governance-intent",
+        "sourceType": "inference",
+        "sourceUri": "intent:highly-available",
+        "redacted": false,
+        "confidence": 0.7,
+        "rationale": "Declared architectural intent: Highly Available",
+        "truthState": "declared"
+      },
+      {
+        "id": "ev:governance-intent:intent:encrypted-storage:root",
+        "adapter": "governance-intent",
+        "sourceType": "inference",
+        "sourceUri": "intent:encrypted-storage",
+        "redacted": false,
+        "confidence": 0.7,
+        "rationale": "Declared architectural intent: Encrypted Storage",
+        "truthState": "declared"
+      },
+      {
+        "id": "ev:governance-intent:intent:event-driven:root",
+        "adapter": "governance-intent",
+        "sourceType": "inference",
+        "sourceUri": "intent:event-driven",
+        "redacted": false,
+        "confidence": 0.7,
+        "rationale": "Declared architectural intent: Event Driven",
+        "truthState": "declared"
+      },
+      {
+        "id": "ev:governance-intent:intent:portable:root",
+        "adapter": "governance-intent",
+        "sourceType": "inference",
+        "sourceUri": "intent:portable",
+        "redacted": false,
+        "confidence": 0.7,
+        "rationale": "Declared architectural intent: Portable",
+        "truthState": "declared"
+      },
+      {
+        "id": "ev:governance-intent:intent:observable:root",
+        "adapter": "governance-intent",
+        "sourceType": "inference",
+        "sourceUri": "intent:observable",
+        "redacted": false,
+        "confidence": 0.7,
+        "rationale": "Declared architectural intent: Observable",
+        "truthState": "declared"
+      },
+      {
+        "id": "ev:governance-intent:intent:least-privilege:root",
+        "adapter": "governance-intent",
+        "sourceType": "inference",
+        "sourceUri": "intent:least-privilege",
+        "redacted": false,
+        "confidence": 0.7,
+        "rationale": "Declared architectural intent: Least Privilege",
+        "truthState": "declared"
+      },
+      {
+        "id": "ev:governance-assumptions:assumption:db-resilient:root",
+        "adapter": "governance-assumptions",
+        "sourceType": "inference",
+        "sourceUri": "assumption:db-resilient",
+        "redacted": false,
+        "confidence": 0.72,
+        "rationale": "Architectural assumption: Database resilient",
+        "truthState": "assumed"
+      },
+      {
+        "id": "ev:governance-assumptions:assumption:public-api-protected:root",
+        "adapter": "governance-assumptions",
+        "sourceType": "inference",
+        "sourceUri": "assumption:public-api-protected",
+        "redacted": false,
+        "confidence": 0.72,
+        "rationale": "Architectural assumption: Public API is protected",
+        "truthState": "assumed"
+      },
+      {
+        "id": "ev:governance-assumptions:assumption:single-provider-ok:root",
+        "adapter": "governance-assumptions",
+        "sourceType": "inference",
+        "sourceUri": "assumption:single-provider-ok",
+        "redacted": false,
+        "confidence": 0.72,
+        "rationale": "Architectural assumption: Single provider acceptable",
+        "truthState": "assumed"
+      },
+      {
+        "id": "ev:governance-assumptions:assumption:payments-reliable:root",
+        "adapter": "governance-assumptions",
+        "sourceType": "inference",
+        "sourceUri": "assumption:payments-reliable",
+        "redacted": false,
+        "confidence": 0.72,
+        "rationale": "Architectural assumption: Third-party payments reliable",
+        "truthState": "assumed"
+      },
+      {
+        "id": "ev:governance-assumptions:assumption:aws-region-available:root",
+        "adapter": "governance-assumptions",
+        "sourceType": "inference",
+        "sourceUri": "assumption:aws-region-available",
+        "redacted": false,
+        "confidence": 0.72,
+        "rationale": "Architectural assumption: AWS region available",
+        "truthState": "assumed"
+      },
+      {
+        "id": "ev:governance-contracts:contract:capability:retail-platform:root",
+        "adapter": "governance-contracts",
+        "sourceType": "inference",
+        "sourceUri": "contract:capability:retail-platform",
+        "redacted": false,
+        "confidence": 0.75,
+        "rationale": "Architecture contract for Retail Platform",
+        "truthState": "declared"
+      },
+      {
+        "id": "ev:governance-contracts:obligation:soc2:root",
+        "adapter": "governance-contracts",
+        "sourceType": "inference",
+        "sourceUri": "obligation:soc2",
+        "redacted": false,
+        "confidence": 0.65,
+        "rationale": "Obligation SOC2 from Retail Platform contract",
+        "truthState": "declared"
+      },
+      {
+        "id": "ev:governance-contracts:obligation:review-annually:root",
+        "adapter": "governance-contracts",
+        "sourceType": "inference",
+        "sourceUri": "obligation:review-annually",
+        "redacted": false,
+        "confidence": 0.65,
+        "rationale": "Obligation Review annually from Retail Platform contract",
+        "truthState": "declared"
+      }
+    ],
+    "findings": [],
+    "drifts": [
+      {
+        "id": "drift:observed-not-declared:aws:aws:unknown:orddb:undefined:undefined",
+        "category": "observed-not-declared",
+        "severity": "medium",
+        "resourceId": "aws:aws:unknown:orddb",
+        "logicalId": "aws-observed:arn:aws:rds:eu-west-2:999988887777:db:orddb",
+        "explanation": "orddb was observed live but is not declared in IaC.",
+        "impact": "Shadow infrastructure may exist outside change control.",
+        "evidence": [
+          "ev:aws-snapshot:aws-snapshot://999988887777/eu-west-2:root"
+        ]
+      },
+      {
+        "id": "drift:observed-not-declared:aws:aws:unknown:batch01:undefined:undefined",
+        "category": "observed-not-declared",
+        "severity": "medium",
+        "resourceId": "aws:aws:unknown:batch01",
+        "logicalId": "aws-observed:i-0batch01legacy",
+        "explanation": "batch01 was observed live but is not declared in IaC.",
+        "impact": "Shadow infrastructure may exist outside change control.",
+        "evidence": [
+          "ev:aws-snapshot:aws-snapshot://999988887777/eu-west-2:root"
+        ]
+      },
+      {
+        "id": "drift:observed-not-declared:aws:aws:unknown:corp-archive-bucket:undefined:undefined",
+        "category": "observed-not-declared",
+        "severity": "medium",
+        "resourceId": "aws:aws:unknown:corp-archive-bucket",
+        "logicalId": "aws-observed:corp-archive-bucket",
+        "explanation": "corp-archive-bucket was observed live but is not declared in IaC.",
+        "impact": "Shadow infrastructure may exist outside change control.",
+        "evidence": [
+          "ev:aws-snapshot:aws-snapshot://999988887777/eu-west-2:root"
+        ]
+      }
+    ],
+    "unsupported": [
+      {
+        "id": "unresolved-expr:aws:terraform:unknown:batch:tags",
+        "adapter": "terraform",
+        "sourceUri": "infra/main.tf",
+        "construct": "tags",
+        "reason": "Dynamic or unevaluated Terraform expression",
+        "evidence": [
+          "ev:terraform:infra/main.tf:resource.aws_instance.batch"
+        ]
+      }
+    ],
+    "waivers": [],
+    "signOffs": [],
+    "reviews": [],
+    "completeness": {
+      "overall": 0.3476190476190476,
+      "dimensions": [
+        {
+          "id": "source-discovery",
+          "label": "Source discovery",
+          "score": 0.42857142857142855,
+          "missing": [
+            "tags"
+          ]
+        },
+        {
+          "id": "configuration-resolution",
+          "label": "Configuration resolution",
+          "score": 0.9,
+          "missing": [
+            "tags"
+          ]
+        },
+        {
+          "id": "rendered-deployment",
+          "label": "Rendered deployment coverage",
+          "score": 0,
+          "missing": []
+        },
+        {
+          "id": "planned-state",
+          "label": "Planned-state coverage",
+          "score": 0.2,
+          "missing": [
+            "terraform plan/state snapshot"
+          ]
+        },
+        {
+          "id": "live-inventory",
+          "label": "Live inventory coverage",
+          "score": 0.75,
+          "missing": []
+        },
+        {
+          "id": "network-evidence",
+          "label": "Network evidence",
+          "score": 0.1,
+          "missing": [
+            "security group inventory",
+            "network policy"
+          ]
+        },
+        {
+          "id": "identity-evidence",
+          "label": "Identity evidence",
+          "score": 0.25,
+          "missing": [
+            "IAM role inventory"
+          ]
+        },
+        {
+          "id": "ownership-evidence",
+          "label": "Ownership evidence",
+          "score": 0,
+          "missing": [
+            "ownership annotations for unowned resources"
+          ]
+        },
+        {
+          "id": "policy-evidence",
+          "label": "Policy evidence",
+          "score": 0.5,
+          "missing": []
+        }
+      ],
+      "summary": "Evidence completeness 35%. Missing: tags; tags; terraform plan/state snapshot; security group inventory; network policy; IAM role inventory; ownership annotations for unowned resources."
+    },
+    "narrative": "Retail Platform exposes 0 public service paths and organises 1 business capability. Product Images are written to corp-archive-bucket. One resilience concern remains: orddb is not multi-AZ.",
+    "intelligence": {
+      "version": "2.0",
+      "story": "Retail Platform exposes 0 public service paths and organises 1 business capability. Product Images are written to corp-archive-bucket. One resilience concern remains: orddb is not multi-AZ.",
+      "storyClauses": [
+        {
+          "text": "Retail Platform exposes 0 public service paths and organises 1 business capability.",
+          "evidenceIds": [
+            "ev:architecture-intelligence:capability:retail-platform:root"
+          ],
+          "edgeIds": [
+            "capability:retail-platform:contains:capability:asset-delivery"
+          ],
+          "resourceIds": [
+            "capability:retail-platform",
+            "capability:asset-delivery"
+          ]
+        },
+        {
+          "text": "Product Images are written to corp-archive-bucket.",
+          "evidenceIds": [
+            "ev:architecture-intelligence:data:images:root",
+            "ev:terraform:infra/main.tf:resource.aws_s3_bucket.archive"
+          ],
+          "edgeIds": [
+            "data:images:stores:aws:terraform:bucket:corp-archive-bucket"
+          ],
+          "resourceIds": [
+            "data:images",
+            "aws:terraform:bucket:corp-archive-bucket"
+          ]
+        },
+        {
+          "text": "One resilience concern remains: orddb is not multi-AZ.",
+          "evidenceIds": [
+            "ev:terraform:infra/main.tf:resource.aws_db_instance.orddb"
+          ],
+          "edgeIds": [],
+          "resourceIds": [
+            "aws:terraform:relational-database:orddb"
+          ]
+        }
+      ],
+      "dna": {
+        "capabilities": {
+          "id": "dna-capabilities",
+          "label": "Capabilities",
+          "score": 0.125,
+          "band": "critical",
+          "reasons": [
+            "1 logical capabilities inferred",
+            "Asset Delivery"
+          ],
+          "evidenceIds": [],
+          "missing": []
+        },
+        "coupling": {
+          "id": "dna-coupling",
+          "label": "Coupling",
+          "score": 0.11428571428571428,
+          "band": "critical",
+          "reasons": [
+            "4 non-ownership edges across 14 nodes",
+            "Higher bars mean denser dependency coupling"
+          ],
+          "evidenceIds": [],
+          "missing": []
+        },
+        "resilience": {
+          "id": "dna-resilience",
+          "label": "Resilience",
+          "score": 0,
+          "band": "unknown",
+          "reasons": [
+            "0/1 databases meet multi-AZ expectations"
+          ],
+          "evidenceIds": [],
+          "missing": []
+        },
+        "evidence": {
+          "id": "dna-evidence",
+          "label": "Evidence",
+          "score": 0.3476190476190476,
+          "band": "critical",
+          "reasons": [
+            "Source discovery: 43%",
+            "Configuration resolution: 90%",
+            "Rendered deployment coverage: 0%",
+            "Planned-state coverage: 20%",
+            "Live inventory coverage: 75%",
+            "Network evidence: 10%",
+            "Identity evidence: 25%",
+            "Ownership evidence: 0%",
+            "Policy evidence: 50%"
+          ],
+          "evidenceIds": [],
+          "missing": []
+        },
+        "ownership": {
+          "id": "dna-ownership",
+          "label": "Ownership",
+          "score": 0,
+          "band": "unknown",
+          "reasons": [
+            "0/14 resources have ownership"
+          ],
+          "evidenceIds": [],
+          "missing": []
+        },
+        "security": {
+          "id": "dna-security",
+          "label": "Security",
+          "score": 1,
+          "band": "low",
+          "reasons": [
+            "Security risk 0%",
+            "0 public ingress point(s)",
+            "0 external dependencies",
+            "Security-sensitive drift weighted higher"
+          ],
+          "evidenceIds": [],
+          "missing": []
+        },
+        "operationalComplexity": {
+          "id": "dna-complexity",
+          "label": "Operational Complexity",
+          "score": 0.015000000000000003,
+          "band": "critical",
+          "reasons": [
+            "0 workloads",
+            "0 queues",
+            "0 external systems"
+          ],
+          "evidenceIds": [],
+          "missing": []
+        },
+        "fingerprint": "Capabilities:█░░░░░░░░░|Coupling:█░░░░░░░░░|Resilience:░░░░░░░░░░|Evidence:███░░░░░░░|Ownership:░░░░░░░░░░|Security:██████████|Operational Complexity:░░░░░░░░░░"
+      },
+      "health": {
+        "architectureCompleteness": {
+          "id": "health-architecture",
+          "label": "Architecture completeness",
+          "score": 0.6838095238095239,
+          "band": "medium",
+          "reasons": [
+            "2 inferred capabilities",
+            "Evidence completeness 35%. Missing: tags; tags; terraform plan/state snapshot; security group inventory; network policy; IAM role inventory; ownership annotations for unowned resources."
+          ],
+          "evidenceIds": [],
+          "missing": [
+            "tags"
+          ]
+        },
+        "ownershipMaturity": {
+          "id": "health-ownership",
+          "label": "Ownership maturity",
+          "score": 0,
+          "band": "critical",
+          "reasons": [
+            "0/14 resources have ownership"
+          ],
+          "evidenceIds": [],
+          "missing": [
+            "orddb",
+            "corp-archive-bucket",
+            "batch",
+            "orddb",
+            "batch01"
+          ]
+        },
+        "evidenceMaturity": {
+          "id": "health-evidence",
+          "label": "Evidence maturity",
+          "score": 0.3476190476190476,
+          "band": "critical",
+          "reasons": [
+            "Source discovery: 43%",
+            "Configuration resolution: 90%",
+            "Rendered deployment coverage: 0%",
+            "Planned-state coverage: 20%",
+            "Live inventory coverage: 75%",
+            "Network evidence: 10%",
+            "Identity evidence: 25%",
+            "Ownership evidence: 0%",
+            "Policy evidence: 50%"
+          ],
+          "evidenceIds": [],
+          "missing": [
+            "tags",
+            "tags",
+            "terraform plan/state snapshot",
+            "security group inventory",
+            "network policy",
+            "IAM role inventory"
+          ]
+        },
+        "resilienceMaturity": {
+          "id": "health-resilience",
+          "label": "Resilience maturity",
+          "score": 0,
+          "band": "critical",
+          "reasons": [
+            "0/1 databases meet multi-AZ expectations"
+          ],
+          "evidenceIds": [],
+          "missing": [
+            "orddb"
+          ]
+        },
+        "deploymentMaturity": {
+          "id": "health-deployment",
+          "label": "Deployment maturity",
+          "score": 0.5,
+          "band": "high",
+          "reasons": [
+            "0/0 workloads declare resource metadata"
+          ],
+          "evidenceIds": [],
+          "missing": []
+        },
+        "securityMaturity": {
+          "id": "health-security",
+          "label": "Security maturity",
+          "score": 1,
+          "band": "low",
+          "reasons": [
+            "0 public ingress points",
+            "0 network policies"
+          ],
+          "evidenceIds": [],
+          "missing": []
+        },
+        "approvalReadiness": {
+          "id": "health-approval",
+          "label": "Approval readiness",
+          "score": 0.85,
+          "band": "low",
+          "reasons": [
+            "No open blocking findings"
+          ],
+          "evidenceIds": [],
+          "missing": []
+        }
+      },
+      "risk": {
+        "operational": {
+          "id": "risk-operational",
+          "label": "Operational Risk",
+          "score": 0,
+          "band": "unknown",
+          "reasons": [
+            "0 single-replica workload(s)",
+            "0 high/critical drift record(s)",
+            "0 high/critical finding(s)"
+          ],
+          "evidenceIds": [],
+          "missing": []
+        },
+        "security": {
+          "id": "risk-security",
+          "label": "Security Risk",
+          "score": 0,
+          "band": "unknown",
+          "reasons": [
+            "0 public ingress point(s)",
+            "0 external dependencies",
+            "Security-sensitive drift weighted higher"
+          ],
+          "evidenceIds": [],
+          "missing": []
+        },
+        "availability": {
+          "id": "risk-availability",
+          "label": "Availability Risk",
+          "score": 0.45,
+          "band": "medium",
+          "reasons": [
+            "1 non multi-AZ database(s)",
+            "0 single-replica workload(s)"
+          ],
+          "evidenceIds": [
+            "ev:terraform:infra/main.tf:resource.aws_db_instance.orddb"
+          ],
+          "missing": []
+        },
+        "business": {
+          "id": "risk-business",
+          "label": "Business Risk",
+          "score": 0,
+          "band": "unknown",
+          "reasons": [
+            "0 sign-off blocking finding(s)",
+            "0 payment dependency path(s) leave trust boundaries"
+          ],
+          "evidenceIds": [],
+          "missing": []
+        },
+        "evidence": {
+          "id": "risk-evidence",
+          "label": "Evidence Risk",
+          "score": 0.6523809523809524,
+          "band": "high",
+          "reasons": [
+            "Evidence completeness 35%",
+            "Evidence completeness 35%. Missing: tags; tags; terraform plan/state snapshot; security group inventory; network policy; IAM role inventory; ownership annotations for unowned resources."
+          ],
+          "evidenceIds": [],
+          "missing": [
+            "tags",
+            "tags",
+            "terraform plan/state snapshot",
+            "security group inventory",
+            "network policy",
+            "IAM role inventory",
+            "ownership annotations for unowned resources"
+          ]
+        },
+        "ownership": {
+          "id": "risk-ownership",
+          "label": "Ownership Risk",
+          "score": 0.42857142857142855,
+          "band": "medium",
+          "reasons": [
+            "6 resource(s) without ownership"
+          ],
+          "evidenceIds": [
+            "ev:terraform:infra/main.tf:resource.aws_db_instance.orddb",
+            "ev:terraform:infra/main.tf:resource.aws_s3_bucket.archive",
+            "ev:terraform:infra/main.tf:resource.aws_instance.batch",
+            "ev:aws-snapshot:aws-snapshot://999988887777/eu-west-2:root",
+            "ev:aws-snapshot:aws-snapshot://999988887777/eu-west-2:root",
+            "ev:aws-snapshot:aws-snapshot://999988887777/eu-west-2:root"
+          ],
+          "missing": [
+            "explicit ownership annotations"
+          ]
+        }
+      },
+      "capabilityIds": [
+        "capability:retail-platform",
+        "capability:asset-delivery"
+      ],
+      "dataAssetIds": [
+        "data:orders",
+        "data:product-catalogue",
+        "data:images"
+      ],
+      "teamIds": [],
+      "trustZoneIds": [
+        "trust:public-edge",
+        "trust:data"
+      ],
+      "reviewDashboard": {
+        "architectureReady": 0.20214285714285715,
+        "criticalBlockers": 0,
+        "architecturalConcerns": 0,
+        "evidenceGaps": 7,
+        "unknowns": 8,
+        "waivers": 0,
+        "reviewTimeMinutes": 9,
+        "trend": "unknown",
+        "status": "NOT READY",
+        "reasons": [
+          "7 evidence gaps"
+        ]
+      },
+      "governance": {
+        "version": "2.0",
+        "dashboard": {
+          "architectureHealth": 0.2758730158730159,
+          "currentReviews": 1,
+          "expiringApprovals": 0,
+          "invalidAdrs": 0,
+          "brokenAssumptions": 1,
+          "intentDrift": 2,
+          "outstandingObligations": 2,
+          "unknownOwnership": 6,
+          "status": "AT RISK",
+          "reasons": [
+            "1 broken assumption(s)",
+            "2 intent drift signal(s)",
+            "2 outstanding obligation(s)"
+          ],
+          "coachNotes": [
+            "1 unresolved assumption(s) now invalidate HA / resilience objectives: Database resilient.",
+            "Architecture intent has drifted for 2 declared objective(s).",
+            "This review should revisit Security and Availability before Approval."
+          ]
+        },
+        "metrics": [
+          {
+            "id": "intent-satisfaction",
+            "label": "Intent Satisfaction",
+            "score": 0,
+            "band": "unknown",
+            "reasons": [
+              "0/6 intents satisfied"
+            ],
+            "evidenceIds": [],
+            "missing": [
+              "Highly Available",
+              "Encrypted Storage",
+              "Event Driven",
+              "Portable",
+              "Observable",
+              "Least Privilege"
+            ]
+          },
+          {
+            "id": "decision-stability",
+            "label": "Decision Stability",
+            "score": 1,
+            "band": "low",
+            "reasons": [
+              "3/3 decisions accepted/satisfied"
+            ],
+            "evidenceIds": [],
+            "missing": []
+          },
+          {
+            "id": "evidence-freshness",
+            "label": "Evidence Freshness",
+            "score": 0.3476190476190476,
+            "band": "critical",
+            "reasons": [
+              "Evidence completeness 35%. Missing: tags; tags; terraform plan/state snapshot; security group inventory; network policy; IAM role inventory; ownership annotations for unowned resources."
+            ],
+            "evidenceIds": [],
+            "missing": [
+              "tags",
+              "tags",
+              "terraform plan/state snapshot",
+              "security group inventory",
+              "network policy",
+              "IAM role inventory"
+            ]
+          },
+          {
+            "id": "review-coverage",
+            "label": "Review Coverage",
+            "score": 0,
+            "band": "unknown",
+            "reasons": [
+              "0 persisted review(s)"
+            ],
+            "evidenceIds": [],
+            "missing": []
+          },
+          {
+            "id": "ownership-maturity",
+            "label": "Ownership Maturity",
+            "score": 0.03125,
+            "band": "critical",
+            "reasons": [
+              "1/32 resources owned"
+            ],
+            "evidenceIds": [],
+            "missing": []
+          },
+          {
+            "id": "assumption-stability",
+            "label": "Assumption Stability",
+            "score": 0.6,
+            "band": "medium",
+            "reasons": [
+              "3/5 assumptions supported"
+            ],
+            "evidenceIds": [],
+            "missing": [
+              "Database resilient"
+            ]
+          },
+          {
+            "id": "architecture-debt",
+            "label": "Architecture Debt",
+            "score": 1,
+            "band": "low",
+            "reasons": [
+              "0 invalid ADR(s)",
+              "0 blockers"
+            ],
+            "evidenceIds": [],
+            "missing": []
+          },
+          {
+            "id": "decision-debt",
+            "label": "Decision Debt",
+            "score": 1,
+            "band": "low",
+            "reasons": [
+              "Invalid or possibly-invalid decisions reduce stability"
+            ],
+            "evidenceIds": [],
+            "missing": []
+          },
+          {
+            "id": "review-debt",
+            "label": "Review Debt",
+            "score": 0.35,
+            "band": "high",
+            "reasons": [
+              "NOT READY"
+            ],
+            "evidenceIds": [],
+            "missing": []
+          }
+        ],
+        "decisionIds": [
+          "decision:use-postgresql",
+          "decision:object-storage"
+        ],
+        "intentIds": [
+          "intent:highly-available",
+          "intent:encrypted-storage",
+          "intent:event-driven",
+          "intent:portable",
+          "intent:observable",
+          "intent:least-privilege"
+        ],
+        "assumptionIds": [
+          "assumption:db-resilient",
+          "assumption:public-api-protected",
+          "assumption:single-provider-ok",
+          "assumption:payments-reliable",
+          "assumption:aws-region-available"
+        ],
+        "contractIds": [
+          "contract:platform"
+        ],
+        "obligationIds": [
+          "obligation:soc2:platform",
+          "obligation:review-annually:platform"
+        ],
+        "adrIds": [
+          "adr:0001:nightly-batch-against-orddb"
+        ],
+        "reviewRecordIds": []
+      }
+    },
+    "declaredIntents": [
+      "highly-available",
+      "encrypted-storage",
+      "event-driven",
+      "observable",
+      "least-privilege",
+      "portable"
+    ],
+    "indices": {
+      "byLogicalId": {
+        "tf:aws_db_instance:orddb": [
+          "aws:terraform:relational-database:orddb"
+        ],
+        "tf:aws_s3_bucket:archive": [
+          "aws:terraform:bucket:corp-archive-bucket"
+        ],
+        "tf:aws_instance:batch": [
+          "aws:terraform:unknown:batch"
+        ],
+        "aws-observed:arn:aws:rds:eu-west-2:999988887777:db:orddb": [
+          "aws:aws:unknown:orddb"
+        ],
+        "aws-observed:i-0batch01legacy": [
+          "aws:aws:unknown:batch01"
+        ],
+        "aws-observed:corp-archive-bucket": [
+          "aws:aws:unknown:corp-archive-bucket"
+        ],
+        "internet": [
+          "internet"
+        ],
+        "capability:asset-delivery": [
+          "capability:asset-delivery"
+        ],
+        "capability:retail-platform": [
+          "capability:retail-platform"
+        ],
+        "data:orders": [
+          "data:orders"
+        ],
+        "data:product-catalogue": [
+          "data:product-catalogue"
+        ],
+        "data:images": [
+          "data:images"
+        ],
+        "trust:public-edge": [
+          "trust:public-edge"
+        ],
+        "trust:data": [
+          "trust:data"
+        ],
+        "adr:0001:nightly-batch-against-orddb": [
+          "adr:0001:nightly-batch-against-orddb"
+        ],
+        "decision:adr:0001": [
+          "decision:adr:0001"
+        ],
+        "decision:use-postgresql": [
+          "decision:use-postgresql"
+        ],
+        "decision:object-storage": [
+          "decision:object-storage"
+        ],
+        "intent:highly-available": [
+          "intent:highly-available"
+        ],
+        "intent:encrypted-storage": [
+          "intent:encrypted-storage"
+        ],
+        "intent:event-driven": [
+          "intent:event-driven"
+        ],
+        "intent:portable": [
+          "intent:portable"
+        ],
+        "intent:observable": [
+          "intent:observable"
+        ],
+        "intent:least-privilege": [
+          "intent:least-privilege"
+        ],
+        "assumption:db-resilient": [
+          "assumption:db-resilient"
+        ],
+        "assumption:public-api-protected": [
+          "assumption:public-api-protected"
+        ],
+        "assumption:single-provider-ok": [
+          "assumption:single-provider-ok"
+        ],
+        "assumption:payments-reliable": [
+          "assumption:payments-reliable"
+        ],
+        "assumption:aws-region-available": [
+          "assumption:aws-region-available"
+        ],
+        "contract:platform": [
+          "contract:platform"
+        ],
+        "obligation:soc2:platform": [
+          "obligation:soc2:platform"
+        ],
+        "obligation:review-annually:platform": [
+          "obligation:review-annually:platform"
+        ]
+      },
+      "byKind": {
+        "relational-database": [
+          "aws:terraform:relational-database:orddb"
+        ],
+        "bucket": [
+          "aws:terraform:bucket:corp-archive-bucket"
+        ],
+        "unknown": [
+          "aws:terraform:unknown:batch",
+          "aws:aws:unknown:orddb",
+          "aws:aws:unknown:batch01",
+          "aws:aws:unknown:corp-archive-bucket"
+        ],
+        "internet": [
+          "internet"
+        ],
+        "business-capability": [
+          "capability:asset-delivery",
+          "capability:retail-platform"
+        ],
+        "data-asset": [
+          "data:orders",
+          "data:product-catalogue",
+          "data:images"
+        ],
+        "trust-zone": [
+          "trust:public-edge",
+          "trust:data"
+        ],
+        "adr": [
+          "adr:0001:nightly-batch-against-orddb"
+        ],
+        "architectural-decision": [
+          "decision:adr:0001",
+          "decision:use-postgresql",
+          "decision:object-storage"
+        ],
+        "intent": [
+          "intent:highly-available",
+          "intent:encrypted-storage",
+          "intent:event-driven",
+          "intent:portable",
+          "intent:observable",
+          "intent:least-privilege"
+        ],
+        "assumption": [
+          "assumption:db-resilient",
+          "assumption:public-api-protected",
+          "assumption:single-provider-ok",
+          "assumption:payments-reliable",
+          "assumption:aws-region-available"
+        ],
+        "architecture-contract": [
+          "contract:platform"
+        ],
+        "obligation": [
+          "obligation:soc2:platform",
+          "obligation:review-annually:platform"
+        ]
+      },
+      "byEnvironment": {
+        "shared": [
+          "aws:terraform:relational-database:orddb",
+          "aws:terraform:bucket:corp-archive-bucket",
+          "aws:terraform:unknown:batch",
+          "aws:aws:unknown:orddb",
+          "aws:aws:unknown:batch01",
+          "aws:aws:unknown:corp-archive-bucket",
+          "capability:asset-delivery"
+        ],
+        "external": [
+          "internet"
+        ],
+        "production": [
+          "capability:retail-platform"
+        ],
+        "unknown": [
+          "data:orders",
+          "data:product-catalogue",
+          "data:images",
+          "trust:public-edge",
+          "trust:data",
+          "adr:0001:nightly-batch-against-orddb",
+          "decision:adr:0001",
+          "decision:use-postgresql",
+          "decision:object-storage",
+          "intent:highly-available",
+          "intent:encrypted-storage",
+          "intent:event-driven",
+          "intent:portable",
+          "intent:observable",
+          "intent:least-privilege",
+          "assumption:db-resilient",
+          "assumption:public-api-protected",
+          "assumption:single-provider-ok",
+          "assumption:payments-reliable",
+          "assumption:aws-region-available",
+          "contract:platform",
+          "obligation:soc2:platform",
+          "obligation:review-annually:platform"
+        ]
+      },
+      "adjacencyOut": {
+        "aws:terraform:relational-database:orddb": [
+          "trust:data",
+          "assumption:db-resilient",
+          "assumption:aws-region-available"
+        ],
+        "aws:terraform:bucket:corp-archive-bucket": [
+          "capability:asset-delivery",
+          "trust:data",
+          "assumption:aws-region-available"
+        ],
+        "aws:terraform:unknown:batch": [
+          "assumption:aws-region-available"
+        ],
+        "aws:aws:unknown:orddb": [
+          "assumption:aws-region-available"
+        ],
+        "aws:aws:unknown:batch01": [
+          "assumption:aws-region-available"
+        ],
+        "aws:aws:unknown:corp-archive-bucket": [],
+        "internet": [
+          "trust:public-edge"
+        ],
+        "capability:asset-delivery": [
+          "aws:terraform:bucket:corp-archive-bucket",
+          "decision:object-storage"
+        ],
+        "capability:retail-platform": [
+          "capability:asset-delivery",
+          "contract:platform"
+        ],
+        "data:orders": [
+          "aws:terraform:relational-database:orddb",
+          "trust:data"
+        ],
+        "data:product-catalogue": [
+          "aws:terraform:relational-database:orddb",
+          "trust:data"
+        ],
+        "data:images": [
+          "aws:terraform:bucket:corp-archive-bucket",
+          "trust:data"
+        ],
+        "trust:public-edge": [],
+        "trust:data": [],
+        "adr:0001:nightly-batch-against-orddb": [
+          "decision:adr:0001"
+        ],
+        "decision:adr:0001": [],
+        "decision:use-postgresql": [
+          "aws:terraform:relational-database:orddb",
+          "intent:highly-available",
+          "intent:encrypted-storage"
+        ],
+        "decision:object-storage": [
+          "aws:terraform:bucket:corp-archive-bucket",
+          "intent:encrypted-storage"
+        ],
+        "intent:highly-available": [
+          "assumption:db-resilient"
+        ],
+        "intent:encrypted-storage": [],
+        "intent:event-driven": [],
+        "intent:portable": [],
+        "intent:observable": [],
+        "intent:least-privilege": [],
+        "assumption:db-resilient": [],
+        "assumption:public-api-protected": [],
+        "assumption:single-provider-ok": [],
+        "assumption:payments-reliable": [],
+        "assumption:aws-region-available": [],
+        "contract:platform": [
+          "obligation:soc2:platform",
+          "obligation:review-annually:platform"
+        ],
+        "obligation:soc2:platform": [],
+        "obligation:review-annually:platform": []
+      },
+      "adjacencyIn": {
+        "aws:terraform:relational-database:orddb": [
+          "data:orders",
+          "data:product-catalogue",
+          "decision:use-postgresql"
+        ],
+        "aws:terraform:bucket:corp-archive-bucket": [
+          "capability:asset-delivery",
+          "data:images",
+          "decision:object-storage"
+        ],
+        "aws:terraform:unknown:batch": [],
+        "aws:aws:unknown:orddb": [],
+        "aws:aws:unknown:batch01": [],
+        "aws:aws:unknown:corp-archive-bucket": [],
+        "internet": [],
+        "capability:asset-delivery": [
+          "aws:terraform:bucket:corp-archive-bucket",
+          "capability:retail-platform"
+        ],
+        "capability:retail-platform": [],
+        "data:orders": [],
+        "data:product-catalogue": [],
+        "data:images": [],
+        "trust:public-edge": [
+          "internet"
+        ],
+        "trust:data": [
+          "aws:terraform:relational-database:orddb",
+          "aws:terraform:bucket:corp-archive-bucket",
+          "data:orders",
+          "data:product-catalogue",
+          "data:images"
+        ],
+        "adr:0001:nightly-batch-against-orddb": [],
+        "decision:adr:0001": [
+          "adr:0001:nightly-batch-against-orddb"
+        ],
+        "decision:use-postgresql": [],
+        "decision:object-storage": [
+          "capability:asset-delivery"
+        ],
+        "intent:highly-available": [
+          "decision:use-postgresql"
+        ],
+        "intent:encrypted-storage": [
+          "decision:use-postgresql",
+          "decision:object-storage"
+        ],
+        "intent:event-driven": [],
+        "intent:portable": [],
+        "intent:observable": [],
+        "intent:least-privilege": [],
+        "assumption:db-resilient": [
+          "aws:terraform:relational-database:orddb",
+          "intent:highly-available"
+        ],
+        "assumption:public-api-protected": [],
+        "assumption:single-provider-ok": [],
+        "assumption:payments-reliable": [],
+        "assumption:aws-region-available": [
+          "aws:terraform:relational-database:orddb",
+          "aws:terraform:bucket:corp-archive-bucket",
+          "aws:terraform:unknown:batch",
+          "aws:aws:unknown:orddb",
+          "aws:aws:unknown:batch01"
+        ],
+        "contract:platform": [
+          "capability:retail-platform"
+        ],
+        "obligation:soc2:platform": [
+          "contract:platform"
+        ],
+        "obligation:review-annually:platform": [
+          "contract:platform"
+        ]
+      }
+    }
+  },
+  "rawSnapshots": {
+    "awsInventory": {
+      "account": "999988887777",
+      "region": "eu-west-2",
+      "resources": [
+        {
+          "type": "aws_db_instance",
+          "id": "orddb",
+          "arn": "arn:aws:rds:eu-west-2:999988887777:db:orddb",
+          "name": "orddb",
+          "attributes": {
+            "multi_az": false,
+            "engine": "oracle-ee"
+          }
+        },
+        {
+          "type": "aws_instance",
+          "id": "i-0batch01legacy",
+          "name": "batch01",
+          "attributes": {
+            "role": "nightly_orders"
+          },
+          "observed_only": true
+        },
+        {
+          "type": "aws_s3_bucket",
+          "id": "corp-archive-bucket",
+          "name": "corp-archive-bucket"
+        }
+      ]
+    }
+  }
+}

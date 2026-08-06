@@ -1,17 +1,20 @@
 {
   "name": "@infralens/test-fixtures",
-  "version": "1.2.0",
+  "version": "0.1.0",
   "type": "module",
   "main": "./src/index.ts",
   "dependencies": {
-    "@infralens/scanner": "1.2.0",
-    "@infralens/graph-model": "1.2.0",
-    "@infralens/policy-engine": "1.2.0",
-    "@infralens/reconciliation": "1.2.0",
-    "@infralens/reachability": "1.2.0",
-    "@infralens/edition-capabilities": "1.2.0",
-    "@infralens/evidence-model": "1.2.0",
-    "@infralens/discovery-terraform": "1.2.0",
-    "@infralens/discovery-kubernetes": "1.2.0"
-  }
+    "@infralens/scanner": "0.1.0",
+    "@infralens/graph-model": "0.1.0",
+    "@infralens/policy-engine": "0.1.0",
+    "@infralens/reconciliation": "0.1.0",
+    "@infralens/reachability": "0.1.0",
+    "@infralens/edition-capabilities": "0.1.0",
+    "@infralens/evidence-model": "0.1.0",
+    "@infralens/discovery-terraform": "0.1.0",
+    "@infralens/discovery-kubernetes": "0.1.0",
+    "@infralens/architecture-intelligence": "0.1.0",
+    "@infralens/reporting": "0.1.0"
+  },
+  "license": "Apache-2.0"
 }

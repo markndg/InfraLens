@@ -1,0 +1,6 @@
+{
+  "minResources": 10,
+  "minEdges": 5,
+  "keyRelations": ["realizes-intent", "stores"],
+  "notes": "Sparse naming; unmanaged/observed EC2 batch host; Multi-AZ assumption failure"
+}

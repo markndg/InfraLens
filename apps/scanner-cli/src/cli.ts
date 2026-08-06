@@ -1,17 +1,19 @@
 #!/usr/bin/env node
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
-import { capabilityMatrix, resolveEdition } from '@infralens/edition-capabilities';
+import { capabilityMatrix } from '@infralens/edition-capabilities';
 import { validateBundle, type ScanBundle } from '@infralens/graph-model';
 import { compareBundles } from '@infralens/reconciliation';
 import { renderDiffMarkdown, renderHtmlReport } from '@infralens/reporting';
 import { scanPath } from '@infralens/scanner';
 
+const PRODUCT_VERSION = '0.1.0';
+
 function usage() {
-  console.log(`InfraLens scanner CLI v1.2
+  console.log(`InfraLens scanner CLI v${PRODUCT_VERSION}
 
 Usage:
-  infralens scan <path> [--output scan.bundle.json] [--edition oss|commercial]
+  infralens scan <path> [--output scan.bundle.json]
   infralens inspect <bundle.json>
   infralens compare <baseline.bundle.json> <candidate.bundle.json>
   infralens report <bundle.json> [--format html|json] [--output report.html]
@@ -27,7 +29,9 @@ async function main() {
   }
 
   if (cmd === 'capabilities') {
-    console.log(JSON.stringify({ edition: resolveEdition(), capabilities: capabilityMatrix() }, null, 2));
+    console.log(
+      JSON.stringify({ productVersion: PRODUCT_VERSION, capabilities: capabilityMatrix() }, null, 2),
+    );
     return;
   }
 
@@ -38,10 +42,7 @@ async function main() {
       process.exit(1);
     }
     const output = flag(rest, '--output') ?? 'scan.bundle.json';
-    const edition = (flag(rest, '--edition') as 'oss' | 'commercial' | undefined) ?? resolveEdition();
-    process.env.INFRALENS_EDITION = edition;
     const bundle = await scanPath(path.resolve(target), {
-      edition,
       policyDir: path.resolve('policies/default'),
       project: path.basename(path.resolve(target)),
     });

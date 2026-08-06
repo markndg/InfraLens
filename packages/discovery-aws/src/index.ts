@@ -2,7 +2,6 @@ import {
   emptyResult,
   type DiscoveryAdapter,
 } from '@infralens/discovery-core';
-import { assertCapability, isCapabilityEnabled } from '@infralens/edition-capabilities';
 import { createEvidence } from '@infralens/evidence-model';
 import { stableId, type ResourceKind } from '@infralens/graph-model';
 import { inferEnvironment, makeResource } from '@infralens/shared';
@@ -52,21 +51,16 @@ export const awsSnapshotAdapter: DiscoveryAdapter = {
       matchedFiles: [],
     };
   },
-  async discover(input, context) {
+  async discover(input, _context) {
     const started = Date.now();
     const result = emptyResult(this.id, started);
-    if (!isCapabilityEnabled('liveCloudReconciliation', context.edition)) {
-      // Snapshot import for reconciliation still allowed as observed evidence when present,
-      // but live connector invocation is gated.
-      if (input.options?.includeLive) {
-        try {
-          assertCapability('liveCloudReconciliation', context.edition, 'scanner');
-        } catch (err) {
-          result.errors.push(err instanceof Error ? err.message : String(err));
-          result.durationMs = Date.now() - started;
-          return result;
-        }
-      }
+
+    // Live mode is gated on includeLive + credentials only (no edition gate).
+    // This adapter remains snapshot-backed; snapshot import is always allowed.
+    if (input.options?.includeLive && !input.options.credentialRef) {
+      result.errors.push(
+        'Live AWS discovery requires credentials (credentialRef). Snapshot import continues without live mode.',
+      );
     }
 
     const snap = input.snapshots?.awsInventory as AwsInventorySnapshot | undefined;

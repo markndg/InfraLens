@@ -9,3 +9,5 @@ Truth states: declared, evaluated, rendered, planned, observed, inferred, assume
 Confidence includes band, reasons, missing evidence, conflicts, inference method, and what would increase confidence.
 
 Select any node to answer: **Why does InfraLens believe this exists?**
+
+For how evidence attaches to the canonical graph, completeness, and bundles, see [evidence-graph.md](evidence-graph.md) and [graph-schema.md](graph-schema.md).

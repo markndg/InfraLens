@@ -12,6 +12,7 @@ export interface StartReviewOptions {
   persona?: ArchitectPersona;
   reviewer?: string;
   repository?: string;
+  /** @deprecated Ignored; all playbooks are available. */
   commercial?: boolean;
 }
 
@@ -98,19 +99,9 @@ export function createArchitectureReview(
   graph: EvidenceGraph,
   options: StartReviewOptions = {},
 ): ArchitectureReview {
-  const commercial = options.commercial ?? graph.scan.edition === 'commercial';
   const persona = options.persona ?? 'enterprise';
   const lens = getPersona(persona);
   const playbook = getPlaybook(options.playbookId ?? lens.defaultPlaybookId);
-  if (playbook.commercial && !commercial) {
-    // Fall back to OSS architecture-board
-    return createArchitectureReview(graph, {
-      ...options,
-      playbookId: 'architecture-board',
-      persona: 'enterprise',
-      commercial: false,
-    });
-  }
 
   const personaOrder = lens.stageOrder.filter((s) => playbook.stages.includes(s));
   const stagesOrder = smartStageOrder(graph, personaOrder.length ? personaOrder : playbook.stages);
@@ -232,6 +223,7 @@ function deriveOutcome(
   return 'Changes Required';
 }
 
-export function availablePlaybooks(commercial: boolean) {
-  return listPlaybooks({ commercial });
+/** @param _commercial Kept for API compatibility; always returns all playbooks. */
+export function availablePlaybooks(_commercial?: boolean) {
+  return listPlaybooks();
 }

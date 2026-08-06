@@ -22,7 +22,6 @@ export function replayHistoricalReview(
   // Strip any reviews that post-date this evidence; keep contemporaneous graph only
   const review = createArchitectureReview(graph, {
     playbookId: options?.playbookId ?? 'architecture-board',
-    commercial: graph.scan.edition === 'commercial',
     reviewer: options?.reviewer ?? 'auditor@local',
   });
   let completed = review;

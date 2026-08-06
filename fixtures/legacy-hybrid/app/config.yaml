@@ -1,0 +1,18 @@
+# Monolithic order batch — sparse naming on purpose
+application: orderbatch
+database:
+  host: db01.corp.internal
+  name: ORDDB
+  engine: oracle
+batch:
+  job: nightly_orders
+  schedule: "0 2 * * *"
+file_transfer:
+  protocol: sftp
+  remote: partners.example.com
+  path: /inbound/orders
+object_store:
+  bucket: corp-archive-bucket
+external:
+  saas: legacy-erp.vendor.example
+  purpose: master-data sync

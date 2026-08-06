@@ -158,7 +158,7 @@ export function renderHtmlReport(bundle: ScanBundle): string {
   <pre style="white-space:pre-wrap;font-family:inherit">${escape(g.narrative ?? '')}</pre>
 
   <h2>Environment scope</h2>
-  <p>Edition: ${escape(g.scan.edition)}. Adapters: ${escape(g.scan.adapters.join(', '))}. Revision: ${escape(g.scan.repositoryRevision ?? 'n/a')}</p>
+  <p>Adapters: ${escape(g.scan.adapters.join(', '))}. Revision: ${escape(g.scan.repositoryRevision ?? 'n/a')}</p>
 
   <h2>Evidence sources</h2>
   <ul>${g.evidence.slice(0, 40).map((e) => `<li><code>${escape(e.sourceUri)}</code> · ${escape(e.sourceType)} · ${escape(e.truthState)} · conf ${(e.confidence * 100).toFixed(0)}%</li>`).join('')}</ul>

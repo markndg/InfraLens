@@ -12,7 +12,6 @@ describe('demo estate scan', () => {
   it('discovers mixed terraform/openshift/app estate with evidence', async () => {
     const bundle = await scanPath(demoRoot, {
       project: 'demo',
-      edition: 'commercial',
       policyDir: path.resolve('policies/default'),
     });
     const g = bundle.graph;
@@ -27,17 +26,17 @@ describe('demo estate scan', () => {
   });
 
   it('computes reachability for internet to database', async () => {
-    const bundle = await scanPath(demoRoot, { project: 'demo', edition: 'commercial' });
+    const bundle = await scanPath(demoRoot, { project: 'demo' });
     ensureInternetNode(bundle.graph);
     const internet = bundle.graph.resources.find((r) => r.kind === 'internet')!;
     const db = bundle.graph.resources.find((r) => r.kind === 'relational-database')!;
-    const result = analyzeReachability(bundle.graph, internet.id, db.id, 'commercial');
+    const result = analyzeReachability(bundle.graph, internet.id, db.id);
     expect(result.explanation.length).toBeGreaterThan(20);
   });
 
-  it('blocks sign-off on high findings in commercial mode', async () => {
-    const bundle = await scanPath(demoRoot, { project: 'demo', edition: 'commercial' });
-    const gate = evaluateSignOffGate(bundle.graph, 'commercial');
+  it('blocks sign-off on high findings when policy requires it', async () => {
+    const bundle = await scanPath(demoRoot, { project: 'demo' });
+    const gate = evaluateSignOffGate(bundle.graph);
     expect(gate.allowed).toBe(false);
     const signOff = createSignOff(bundle.graph, {
       reviewer: 'a@example.com',
@@ -52,7 +51,6 @@ describe('demo estate scan', () => {
     const { scanFiles } = await import('./scanFiles.js');
     const bundle = await scanFiles([{ path: 'bad.yaml', content: 'kind: [nope' }], {
       project: 'bad',
-      edition: 'oss',
     });
     expect(bundle.graph.scan.warnings.length).toBeGreaterThan(0);
   });
@@ -60,7 +58,7 @@ describe('demo estate scan', () => {
 
 describe('bundle compare', () => {
   it('detects material public ingress change', async () => {
-    const current = await scanPath(demoRoot, { project: 'demo', edition: 'oss' });
+    const current = await scanPath(demoRoot, { project: 'demo' });
     const baselineRaw = JSON.parse(JSON.stringify(current)) as typeof current;
     baselineRaw.graph.resources = baselineRaw.graph.resources.filter((r) => r.name !== 'admin');
     const comparison = compareBundles(baselineRaw, current);

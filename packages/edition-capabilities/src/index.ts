@@ -1,3 +1,13 @@
+/**
+ * InfraLens capability registry.
+ *
+ * Product edition (OSS vs commercial) is obsolete. All capabilities that exist
+ * in the codebase are available in the full product; availability describes
+ * runtime readiness (credentials, external tools, experimental status), not
+ * licensing. Use INFRALENS_FEATURE_* env vars as operational kill switches.
+ */
+
+/** @deprecated Product editions are obsolete. Kept only for parsing legacy labels. */
 export type InfraLensEdition = 'oss' | 'commercial';
 
 export type InfraLensCapability =
@@ -43,559 +53,423 @@ export type InfraLensCapability =
   | 'governanceAnalytics'
   | 'organisationalGraph';
 
-export type CapabilityAvailability = 'enabled' | 'disabled' | 'edition-gated';
+/**
+ * Runtime readiness of a capability in this build.
+ * - available: ready to use
+ * - experimental: present but not yet stable
+ * - unavailable-in-build: compiled out / not shipped
+ * - requires-external-tool: needs a tool outside InfraLens
+ * - requires-credentials: needs credentials or an inventory snapshot
+ */
+export type CapabilityAvailability =
+  | 'available'
+  | 'experimental'
+  | 'unavailable-in-build'
+  | 'requires-external-tool'
+  | 'requires-credentials';
 
 export interface CapabilityDefinition {
   id: InfraLensCapability;
-  edition: InfraLensEdition | 'both';
   availability: CapabilityAvailability;
   label: string;
   description: string;
   dependencies: InfraLensCapability[];
   uiExposure: boolean;
-  serverEnforcement: boolean;
-  scannerEnforcement: boolean;
-  apiEnforcement: boolean;
-  auditBehaviour: 'none' | 'log' | 'require';
+  notes?: string;
+  /** @deprecated Optional audit hint; prefer product-level audit config. */
+  auditBehaviour?: 'none' | 'log';
 }
+
+const AVAILABLE = 'available' as const;
 
 export const CAPABILITY_REGISTRY: readonly CapabilityDefinition[] = [
   {
     id: 'repositoryScan',
-    edition: 'both',
-    availability: 'enabled',
+    availability: AVAILABLE,
     label: 'Repository scan',
     description: 'Scan local repositories and imported file trees.',
     dependencies: [],
     uiExposure: true,
-    serverEnforcement: true,
-    scannerEnforcement: true,
-    apiEnforcement: true,
     auditBehaviour: 'log',
   },
   {
     id: 'terraformEvaluation',
-    edition: 'both',
-    availability: 'enabled',
+    availability: AVAILABLE,
     label: 'Terraform evaluation',
     description: 'Parse Terraform HCL/JSON and optional plan/state snapshots.',
     dependencies: ['repositoryScan'],
     uiExposure: true,
-    serverEnforcement: true,
-    scannerEnforcement: true,
-    apiEnforcement: false,
     auditBehaviour: 'log',
   },
   {
     id: 'renderedManifestAnalysis',
-    edition: 'both',
-    availability: 'enabled',
+    availability: AVAILABLE,
     label: 'Rendered manifest analysis',
     description: 'Analyse Kubernetes/OpenShift YAML and rendered Helm/Kustomize output.',
     dependencies: ['repositoryScan'],
     uiExposure: true,
-    serverEnforcement: true,
-    scannerEnforcement: true,
-    apiEnforcement: false,
     auditBehaviour: 'log',
   },
   {
     id: 'localEvidenceGraph',
-    edition: 'both',
-    availability: 'enabled',
+    availability: AVAILABLE,
     label: 'Local evidence graph',
     description: 'Build a normalized evidence-backed infrastructure graph.',
     dependencies: ['repositoryScan'],
     uiExposure: true,
-    serverEnforcement: true,
-    scannerEnforcement: true,
-    apiEnforcement: true,
     auditBehaviour: 'log',
   },
   {
     id: 'basicPolicyEngine',
-    edition: 'both',
-    availability: 'enabled',
+    availability: AVAILABLE,
     label: 'Basic policy engine',
     description: 'Evaluate declarative architecture policies against the graph.',
     dependencies: ['localEvidenceGraph'],
     uiExposure: true,
-    serverEnforcement: true,
-    scannerEnforcement: true,
-    apiEnforcement: true,
     auditBehaviour: 'log',
   },
   {
     id: 'staticReportExport',
-    edition: 'both',
-    availability: 'enabled',
+    availability: AVAILABLE,
     label: 'Static report export',
     description: 'Generate HTML/JSON architecture reports from scan bundles.',
     dependencies: ['localEvidenceGraph'],
     uiExposure: true,
-    serverEnforcement: true,
-    scannerEnforcement: true,
-    apiEnforcement: true,
     auditBehaviour: 'log',
   },
   {
     id: 'architectureNarrative',
-    edition: 'both',
-    availability: 'enabled',
+    availability: AVAILABLE,
     label: 'Architecture narrative',
     description: 'Deterministic evidence-backed estate explanation.',
     dependencies: ['localEvidenceGraph'],
     uiExposure: true,
-    serverEnforcement: false,
-    scannerEnforcement: false,
-    apiEnforcement: true,
     auditBehaviour: 'none',
   },
   {
     id: 'blastRadiusAnalysis',
-    edition: 'both',
-    availability: 'enabled',
+    availability: AVAILABLE,
     label: 'Blast radius analysis',
     description: 'Calculate direct and transitive impact of component failure.',
     dependencies: ['localEvidenceGraph'],
     uiExposure: true,
-    serverEnforcement: false,
-    scannerEnforcement: false,
-    apiEnforcement: true,
     auditBehaviour: 'none',
   },
   {
     id: 'liveCloudReconciliation',
-    edition: 'commercial',
-    availability: 'edition-gated',
+    availability: 'requires-credentials',
     label: 'Live cloud reconciliation',
     description: 'Reconcile declared resources with read-only AWS/Azure/GCP inventory.',
     dependencies: ['localEvidenceGraph'],
     uiExposure: true,
-    serverEnforcement: true,
-    scannerEnforcement: true,
-    apiEnforcement: true,
-    auditBehaviour: 'require',
+    notes: 'AWS credentials or inventory snapshot',
+    auditBehaviour: 'log',
   },
   {
     id: 'liveClusterReconciliation',
-    edition: 'commercial',
-    availability: 'edition-gated',
+    availability: 'requires-credentials',
     label: 'Live cluster reconciliation',
     description: 'Reconcile with read-only Kubernetes/OpenShift inventory.',
     dependencies: ['localEvidenceGraph'],
     uiExposure: true,
-    serverEnforcement: true,
-    scannerEnforcement: true,
-    apiEnforcement: true,
-    auditBehaviour: 'require',
+    notes: 'Cluster credentials or inventory snapshot',
+    auditBehaviour: 'log',
   },
   {
     id: 'effectiveNetworkAnalysis',
-    edition: 'commercial',
-    availability: 'edition-gated',
+    availability: AVAILABLE,
     label: 'Effective network analysis',
     description: 'Compute effective reachability across security groups and NetworkPolicy.',
     dependencies: ['localEvidenceGraph'],
     uiExposure: true,
-    serverEnforcement: true,
-    scannerEnforcement: true,
-    apiEnforcement: true,
     auditBehaviour: 'log',
   },
   {
     id: 'iamAnalysis',
-    edition: 'commercial',
-    availability: 'edition-gated',
+    availability: AVAILABLE,
     label: 'IAM analysis',
     description: 'Analyse IAM authorisation relationships between identities and resources.',
     dependencies: ['localEvidenceGraph'],
     uiExposure: true,
-    serverEnforcement: true,
-    scannerEnforcement: true,
-    apiEnforcement: true,
     auditBehaviour: 'log',
   },
   {
     id: 'historicalDrift',
-    edition: 'commercial',
-    availability: 'edition-gated',
+    availability: AVAILABLE,
     label: 'Historical drift',
     description: 'Compare scan bundles over time and detect material change.',
     dependencies: ['localEvidenceGraph'],
     uiExposure: true,
-    serverEnforcement: true,
-    scannerEnforcement: false,
-    apiEnforcement: true,
     auditBehaviour: 'log',
   },
   {
     id: 'organisationPolicyPacks',
-    edition: 'commercial',
-    availability: 'edition-gated',
+    availability: AVAILABLE,
     label: 'Organisation policy packs',
     description: 'Load organisation-specific declarative policy packs.',
     dependencies: ['basicPolicyEngine'],
     uiExposure: true,
-    serverEnforcement: true,
-    scannerEnforcement: true,
-    apiEnforcement: true,
-    auditBehaviour: 'require',
+    auditBehaviour: 'log',
   },
   {
     id: 'waiverWorkflow',
-    edition: 'commercial',
-    availability: 'edition-gated',
+    availability: AVAILABLE,
     label: 'Waiver workflow',
     description: 'Create time-bounded waivers with approver and compensating control.',
     dependencies: ['basicPolicyEngine'],
     uiExposure: true,
-    serverEnforcement: true,
-    scannerEnforcement: false,
-    apiEnforcement: true,
-    auditBehaviour: 'require',
+    auditBehaviour: 'log',
   },
   {
     id: 'architectSignOff',
-    edition: 'commercial',
-    availability: 'edition-gated',
+    availability: AVAILABLE,
     label: 'Architect sign-off',
     description: 'Evidence-bound architecture approval workflow with invalidation.',
     dependencies: ['basicPolicyEngine', 'localEvidenceGraph'],
     uiExposure: true,
-    serverEnforcement: true,
-    scannerEnforcement: false,
-    apiEnforcement: true,
-    auditBehaviour: 'require',
+    auditBehaviour: 'log',
   },
   {
     id: 'multiProjectEstate',
-    edition: 'commercial',
-    availability: 'edition-gated',
+    availability: AVAILABLE,
     label: 'Multi-project estate',
     description: 'Aggregate multiple projects into estate-level views.',
     dependencies: ['localEvidenceGraph'],
     uiExposure: true,
-    serverEnforcement: true,
-    scannerEnforcement: false,
-    apiEnforcement: true,
     auditBehaviour: 'log',
   },
   {
     id: 'ciEnforcement',
-    edition: 'commercial',
-    availability: 'edition-gated',
+    availability: 'experimental',
     label: 'CI enforcement',
     description: 'Fail CI pipelines on blocking policy findings.',
     dependencies: ['basicPolicyEngine'],
     uiExposure: false,
-    serverEnforcement: true,
-    scannerEnforcement: true,
-    apiEnforcement: true,
-    auditBehaviour: 'require',
+    notes: 'Experimental — API surface may change',
+    auditBehaviour: 'log',
   },
   {
     id: 'teamCollaboration',
-    edition: 'commercial',
-    availability: 'edition-gated',
+    availability: AVAILABLE,
     label: 'Team collaboration',
     description: 'Comments, review assignment and shared sign-off state.',
     dependencies: ['architectSignOff'],
     uiExposure: true,
-    serverEnforcement: true,
-    scannerEnforcement: false,
-    apiEnforcement: true,
-    auditBehaviour: 'require',
+    auditBehaviour: 'log',
   },
   {
     id: 'counterfactualSimulation',
-    edition: 'commercial',
-    availability: 'edition-gated',
+    availability: AVAILABLE,
     label: 'Counterfactual simulation',
     description: 'Safe graph-only simulation of architecture changes.',
     dependencies: ['localEvidenceGraph', 'basicPolicyEngine'],
     uiExposure: true,
-    serverEnforcement: true,
-    scannerEnforcement: false,
-    apiEnforcement: true,
     auditBehaviour: 'log',
   },
   {
     id: 'capabilityInference',
-    edition: 'both',
-    availability: 'enabled',
+    availability: AVAILABLE,
     label: 'Capability inference',
     description: 'Deterministic inference of business capabilities from evidence.',
     dependencies: ['localEvidenceGraph'],
     uiExposure: true,
-    serverEnforcement: false,
-    scannerEnforcement: true,
-    apiEnforcement: true,
     auditBehaviour: 'log',
   },
   {
     id: 'architectureProjections',
-    edition: 'both',
-    availability: 'enabled',
+    availability: AVAILABLE,
     label: 'Architecture projections',
     description: 'Derive physical, application, capability, data and ownership projections from one graph.',
     dependencies: ['localEvidenceGraph', 'capabilityInference'],
     uiExposure: true,
-    serverEnforcement: false,
-    scannerEnforcement: false,
-    apiEnforcement: true,
     auditBehaviour: 'none',
   },
   {
     id: 'missionMode',
-    edition: 'commercial',
-    availability: 'edition-gated',
+    availability: AVAILABLE,
     label: 'Mission mode',
     description: 'Guided architectural investigations over the evidence graph.',
     dependencies: ['architectureProjections', 'blastRadiusAnalysis'],
     uiExposure: true,
-    serverEnforcement: true,
-    scannerEnforcement: false,
-    apiEnforcement: true,
     auditBehaviour: 'log',
   },
   {
     id: 'architectureDNA',
-    edition: 'commercial',
-    availability: 'edition-gated',
+    availability: AVAILABLE,
     label: 'Architecture DNA',
     description: 'Semantic architectural fingerprint for estate comparison.',
     dependencies: ['capabilityInference'],
     uiExposure: true,
-    serverEnforcement: true,
-    scannerEnforcement: false,
-    apiEnforcement: true,
     auditBehaviour: 'log',
   },
   {
     id: 'temporalTimeline',
-    edition: 'commercial',
-    availability: 'edition-gated',
+    availability: AVAILABLE,
     label: 'Temporal timeline',
     description: 'Slide through historical scan bundles as one evolving architecture.',
     dependencies: ['historicalDrift', 'architectureProjections'],
     uiExposure: true,
-    serverEnforcement: true,
-    scannerEnforcement: false,
-    apiEnforcement: true,
     auditBehaviour: 'log',
   },
   {
     id: 'architectureReview',
-    edition: 'both',
-    availability: 'enabled',
+    availability: AVAILABLE,
     label: 'Architecture review engine',
     description: 'Deterministic step-by-step architecture review with notebook and recommendations.',
     dependencies: ['localEvidenceGraph', 'capabilityInference', 'basicPolicyEngine'],
     uiExposure: true,
-    serverEnforcement: true,
-    scannerEnforcement: true,
-    apiEnforcement: true,
     auditBehaviour: 'log',
   },
   {
     id: 'architectPersonas',
-    edition: 'both',
-    availability: 'enabled',
+    availability: AVAILABLE,
     label: 'Architect personas',
-    description: 'Deterministic review lenses (enterprise core in OSS; full packs in commercial).',
+    description: 'Deterministic review lenses across enterprise and specialised packs.',
     dependencies: ['architectureReview'],
     uiExposure: true,
-    serverEnforcement: false,
-    scannerEnforcement: false,
-    apiEnforcement: true,
     auditBehaviour: 'none',
   },
   {
     id: 'reviewPlaybooks',
-    edition: 'commercial',
-    availability: 'edition-gated',
+    availability: AVAILABLE,
     label: 'Review playbooks',
     description: 'Saved review templates (PCI, SOC2, production readiness, DR, release).',
     dependencies: ['architectureReview'],
     uiExposure: true,
-    serverEnforcement: true,
-    scannerEnforcement: false,
-    apiEnforcement: true,
-    auditBehaviour: 'require',
+    auditBehaviour: 'log',
   },
   {
     id: 'collaborativeReviews',
-    edition: 'commercial',
-    availability: 'edition-gated',
+    availability: AVAILABLE,
     label: 'Collaborative reviews',
     description: 'Multi-reviewer comments, assignments and decision audit.',
     dependencies: ['architectureReview', 'teamCollaboration'],
     uiExposure: true,
-    serverEnforcement: true,
-    scannerEnforcement: false,
-    apiEnforcement: true,
-    auditBehaviour: 'require',
+    auditBehaviour: 'log',
   },
   {
     id: 'historicalReviews',
-    edition: 'commercial',
-    availability: 'edition-gated',
+    availability: AVAILABLE,
     label: 'Historical reviews',
     description: 'Persist and compare architecture reviews over time.',
     dependencies: ['architectureReview', 'historicalDrift'],
     uiExposure: true,
-    serverEnforcement: true,
-    scannerEnforcement: false,
-    apiEnforcement: true,
     auditBehaviour: 'log',
   },
   {
     id: 'reviewAnalytics',
-    edition: 'commercial',
-    availability: 'edition-gated',
+    availability: AVAILABLE,
     label: 'Review analytics',
     description: 'Pass rates, risk evolution and reviewer metrics.',
     dependencies: ['historicalReviews'],
     uiExposure: true,
-    serverEnforcement: true,
-    scannerEnforcement: false,
-    apiEnforcement: true,
     auditBehaviour: 'log',
   },
   {
     id: 'architectureGovernance',
-    edition: 'both',
-    availability: 'enabled',
+    availability: AVAILABLE,
     label: 'Architecture governance',
     description: 'Intent, decisions, assumptions, contracts and governance dashboard for a single project.',
     dependencies: ['architectureReview', 'capabilityInference'],
     uiExposure: true,
-    serverEnforcement: true,
-    scannerEnforcement: true,
-    apiEnforcement: true,
     auditBehaviour: 'log',
   },
   {
     id: 'adrIntegration',
-    edition: 'both',
-    availability: 'enabled',
+    availability: AVAILABLE,
     label: 'ADR integration',
     description: 'Parse ADRs and evaluate whether decisions remain satisfied.',
     dependencies: ['architectureGovernance'],
     uiExposure: true,
-    serverEnforcement: false,
-    scannerEnforcement: true,
-    apiEnforcement: true,
     auditBehaviour: 'log',
   },
   {
     id: 'intentValidation',
-    edition: 'both',
-    availability: 'enabled',
+    availability: AVAILABLE,
     label: 'Intent validation',
     description: 'Continuously measure declared architecture intent against observed reality.',
     dependencies: ['architectureGovernance'],
     uiExposure: true,
-    serverEnforcement: false,
-    scannerEnforcement: true,
-    apiEnforcement: true,
     auditBehaviour: 'none',
   },
   {
     id: 'assumptionEngine',
-    edition: 'both',
-    availability: 'enabled',
+    availability: AVAILABLE,
     label: 'Assumption engine',
     description: 'Infer, represent and evaluate architectural assumptions.',
     dependencies: ['architectureGovernance'],
     uiExposure: true,
-    serverEnforcement: false,
-    scannerEnforcement: true,
-    apiEnforcement: true,
     auditBehaviour: 'none',
   },
   {
     id: 'contractEngine',
-    edition: 'both',
-    availability: 'enabled',
+    availability: AVAILABLE,
     label: 'Contract engine',
     description: 'Evaluate architecture contracts and obligations against the evidence graph.',
     dependencies: ['architectureGovernance'],
     uiExposure: true,
-    serverEnforcement: false,
-    scannerEnforcement: true,
-    apiEnforcement: true,
     auditBehaviour: 'log',
   },
   {
     id: 'decisionGraph',
-    edition: 'both',
-    availability: 'enabled',
+    availability: AVAILABLE,
     label: 'Decision graph',
     description: 'Project decisions, intents, implementations, evidence and reviews.',
     dependencies: ['architectureGovernance', 'architectureProjections'],
     uiExposure: true,
-    serverEnforcement: false,
-    scannerEnforcement: false,
-    apiEnforcement: true,
     auditBehaviour: 'none',
   },
   {
     id: 'reviewReplay',
-    edition: 'commercial',
-    availability: 'edition-gated',
+    availability: AVAILABLE,
     label: 'Review replay',
     description: 'Replay historical reviews using only contemporaneous evidence.',
     dependencies: ['historicalReviews', 'architectureGovernance'],
     uiExposure: true,
-    serverEnforcement: true,
-    scannerEnforcement: false,
-    apiEnforcement: true,
-    auditBehaviour: 'require',
+    auditBehaviour: 'log',
   },
   {
     id: 'portfolioGovernance',
-    edition: 'commercial',
-    availability: 'edition-gated',
+    availability: AVAILABLE,
     label: 'Portfolio governance',
     description: 'Govern multiple repositories, environments and shared capabilities.',
     dependencies: ['architectureGovernance', 'multiProjectEstate'],
     uiExposure: true,
-    serverEnforcement: true,
-    scannerEnforcement: false,
-    apiEnforcement: true,
-    auditBehaviour: 'require',
+    auditBehaviour: 'log',
   },
   {
     id: 'governanceAnalytics',
-    edition: 'commercial',
-    availability: 'edition-gated',
+    availability: AVAILABLE,
     label: 'Governance analytics',
     description: 'Executive governance metrics across the organisation.',
     dependencies: ['portfolioGovernance'],
     uiExposure: true,
-    serverEnforcement: true,
-    scannerEnforcement: false,
-    apiEnforcement: true,
     auditBehaviour: 'log',
   },
   {
     id: 'organisationalGraph',
-    edition: 'commercial',
-    availability: 'edition-gated',
+    availability: AVAILABLE,
     label: 'Organisational graph',
     description: 'Teams, products, systems, business units and cross-system dependencies.',
     dependencies: ['portfolioGovernance'],
     uiExposure: true,
-    serverEnforcement: true,
-    scannerEnforcement: false,
-    apiEnforcement: true,
     auditBehaviour: 'log',
   },
 ] as const;
 
 const FEATURE_ENV_PREFIX = 'INFRALENS_FEATURE_';
+
+const ENABLED_AVAILABILITIES: ReadonlySet<CapabilityAvailability> = new Set([
+  'available',
+  'experimental',
+  'requires-credentials',
+  'requires-external-tool',
+]);
+
+const OPERATIONAL_REQUIREMENTS: ReadonlySet<CapabilityAvailability> = new Set([
+  'requires-credentials',
+  'requires-external-tool',
+]);
 
 function readEnv(name: string): string | undefined {
   const proc = (globalThis as { process?: { env?: Record<string, string | undefined> } }).process;
@@ -617,65 +491,102 @@ function envFlag(name: string): boolean | undefined {
   return ['1', 'true', 'yes', 'on'].includes(raw.toLowerCase());
 }
 
-export function resolveEdition(override?: InfraLensEdition): InfraLensEdition {
-  const fromEnv = (readEnv('INFRALENS_EDITION') || '').toLowerCase();
-  if (override) return override;
-  if (fromEnv === 'commercial') return 'commercial';
-  return 'oss';
+function featureEnvKey(capability: InfraLensCapability): string {
+  return `${FEATURE_ENV_PREFIX}${capability.replace(/([a-z])([A-Z])/g, '$1_$2').toUpperCase()}`;
 }
 
+function getDefinition(capability: InfraLensCapability): CapabilityDefinition | undefined {
+  return CAPABILITY_REGISTRY.find((c) => c.id === capability);
+}
+
+/**
+ * @deprecated Prefer not calling this. Product editions are removed; capabilities
+ * are not gated by edition. Returns `'commercial'` only so legacy callers that
+ * still compare against that label continue to work. Ignores `INFRALENS_EDITION`
+ * and any override.
+ */
+export function resolveEdition(_override?: InfraLensEdition): InfraLensEdition {
+  return 'commercial';
+}
+
+/**
+ * Ignore legacy edition values during migration. Edition no longer gates features.
+ */
+export function deprecateEdition(_value: unknown): void {
+  /* no-op — edition is obsolete */
+}
+
+/**
+ * True when the capability needs credentials or an external tool at runtime
+ * (not a build/licensing gate).
+ */
+export function isOperationalRequirement(capability: InfraLensCapability): boolean {
+  const def = getDefinition(capability);
+  if (!def) return false;
+  return OPERATIONAL_REQUIREMENTS.has(def.availability);
+}
+
+/**
+ * Whether a capability is enabled for use.
+ * True for available / experimental / requires-credentials / requires-external-tool.
+ * False only for unavailable-in-build (or an INFRALENS_FEATURE_* kill switch).
+ *
+ * @param _edition Deprecated; ignored. Kept for API compatibility.
+ */
 export function isCapabilityEnabled(
   capability: InfraLensCapability,
-  edition: InfraLensEdition = resolveEdition(),
+  _edition?: InfraLensEdition,
 ): boolean {
-  const def = CAPABILITY_REGISTRY.find((c) => c.id === capability);
+  const def = getDefinition(capability);
   if (!def) return false;
 
-  const envKey = `${FEATURE_ENV_PREFIX}${capability
-    .replace(/([a-z])([A-Z])/g, '$1_$2')
-    .toUpperCase()}`;
-  const override = envFlag(envKey);
+  const override = envFlag(featureEnvKey(capability));
   if (override !== undefined) return override;
 
-  if (def.availability === 'disabled') return false;
-  if (def.edition === 'both') return true;
-  if (def.edition === edition) return true;
-  return false;
+  return ENABLED_AVAILABILITIES.has(def.availability);
 }
 
-export function listCapabilities(edition: InfraLensEdition = resolveEdition()) {
+export function listCapabilities(_edition?: InfraLensEdition) {
   return CAPABILITY_REGISTRY.map((def) => ({
     ...def,
-    enabled: isCapabilityEnabled(def.id, edition),
+    enabled: isCapabilityEnabled(def.id),
   }));
 }
 
 export class CapabilityDeniedError extends Error {
   readonly capability: InfraLensCapability;
-  readonly edition: InfraLensEdition;
+  readonly availability: CapabilityAvailability | 'unknown';
+  /** @deprecated Unused; edition no longer gates capabilities and is not set. */
+  readonly edition?: InfraLensEdition;
 
-  constructor(capability: InfraLensCapability, edition: InfraLensEdition) {
-    super(`Capability "${capability}" is not enabled for edition "${edition}".`);
+  constructor(capability: InfraLensCapability, availability: CapabilityAvailability | 'unknown' = 'unknown') {
+    super(
+      availability === 'unavailable-in-build'
+        ? `Capability "${capability}" is unavailable in this build.`
+        : `Capability "${capability}" is not available (${availability}).`,
+    );
     this.name = 'CapabilityDeniedError';
     this.capability = capability;
-    this.edition = edition;
+    this.availability = availability;
   }
 }
 
+/**
+ * Assert a capability may be used. Throws only when availability is
+ * `unavailable-in-build` (or the capability is unknown). Never throws for edition.
+ *
+ * @param _edition Deprecated; ignored.
+ * @param _layer Deprecated; ignored — enforcement layers were edition-era.
+ */
 export function assertCapability(
   capability: InfraLensCapability,
-  edition: InfraLensEdition = resolveEdition(),
-  layer: 'server' | 'scanner' | 'api' | 'ui' = 'api',
+  _edition?: InfraLensEdition,
+  _layer?: 'server' | 'scanner' | 'api' | 'ui',
 ): void {
-  const def = CAPABILITY_REGISTRY.find((c) => c.id === capability);
-  if (!def) throw new CapabilityDeniedError(capability, edition);
-  const enforce =
-    (layer === 'server' && def.serverEnforcement) ||
-    (layer === 'scanner' && def.scannerEnforcement) ||
-    (layer === 'api' && def.apiEnforcement) ||
-    layer === 'ui';
-  if (enforce && !isCapabilityEnabled(capability, edition)) {
-    throw new CapabilityDeniedError(capability, edition);
+  const def = getDefinition(capability);
+  if (!def) throw new CapabilityDeniedError(capability, 'unknown');
+  if (def.availability === 'unavailable-in-build') {
+    throw new CapabilityDeniedError(capability, 'unavailable-in-build');
   }
 }
 
@@ -683,8 +594,7 @@ export function capabilityMatrix() {
   return CAPABILITY_REGISTRY.map((c) => ({
     id: c.id,
     label: c.label,
-    oss: isCapabilityEnabled(c.id, 'oss'),
-    commercial: isCapabilityEnabled(c.id, 'commercial'),
-    description: c.description,
+    availability: c.availability,
+    enabled: isCapabilityEnabled(c.id),
   }));
 }

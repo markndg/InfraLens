@@ -22,7 +22,14 @@ const packages = [
   'scanner',
 ];
 
+const demoBase = process.env.INFRALENS_DEMO_BASE;
+const isDemo = process.env.VITE_INFRALENS_DEMO === '1' || process.env.VITE_INFRALENS_DEMO === 'true';
+
 export default defineConfig({
+  base: demoBase ?? '/',
+  define: {
+    'import.meta.env.VITE_INFRALENS_DEMO': JSON.stringify(isDemo ? '1' : ''),
+  },
   plugins: [react()],
   resolve: {
     alias: {

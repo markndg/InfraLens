@@ -1,4 +1,4 @@
-import { resolveEdition, type InfraLensEdition } from '@infralens/edition-capabilities';
+import type { InfraLensEdition } from '@infralens/edition-capabilities';
 import { appConfigAdapter, linkConfigReferences } from '@infralens/discovery-app-config';
 import { awsSnapshotAdapter } from '@infralens/discovery-aws';
 import { runDiscovery, type DiscoveryInput, type ProjectFile } from '@infralens/discovery-core';
@@ -24,6 +24,7 @@ export async function scanFiles(
   files: ProjectFile[],
   options?: {
     project?: string;
+    /** @deprecated Ignored; not used for gating or stamping. */
     edition?: InfraLensEdition;
     snapshots?: DiscoveryInput['snapshots'];
     includeLive?: boolean;
@@ -32,17 +33,15 @@ export async function scanFiles(
     policiesYaml?: string[];
   },
 ): Promise<ScanBundle> {
-  const edition = options?.edition ?? resolveEdition();
   const input: DiscoveryInput = {
     project: options?.project ?? 'project',
     files,
     repositoryRevision: options?.repositoryRevision,
     snapshots: options?.snapshots,
-    options: { edition, includeLive: options?.includeLive },
+    options: { includeLive: options?.includeLive },
   };
 
   const { bundle } = await runDiscovery(input, {
-    edition,
     adapters: [
       terraformAdapter,
       kubernetesAdapter,

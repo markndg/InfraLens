@@ -1,0 +1,60 @@
+name: Feature request
+description: Propose an improvement that fits Architecture Governance
+title: "[feature]: "
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        InfraLens is fully open source. Feature requests should strengthen evidence-backed
+        architecture governance—not reintroduce edition gates or LLM-only analysis paths.
+
+        Please read `docs/product/roadmap.md` and `docs/product/limitations.md` first.
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+      description: What architectural question can you not answer today?
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposal
+      description: Desired behaviour, inputs, and evidence requirements.
+    validations:
+      required: true
+
+  - type: dropdown
+    id: availability
+    attributes:
+      label: Suggested availability class
+      description: How should this land in the capability matrix?
+      options:
+        - Available (ready once implemented)
+        - Experimental
+        - Requires credentials / external tool
+        - Snapshot import
+        - Planned (roadmap only)
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+      description: Workarounds, other tools, or why existing projections are insufficient.
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Checks
+      options:
+        - label: This request does not depend on a paid / commercial edition split
+          required: true
+        - label: I am willing to help with fixtures or tests if maintainers agree on scope
+          required: false

@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import {
   Background,
   Controls,
@@ -19,12 +19,6 @@ import {
   type MissionId,
   type StartReviewOptions,
 } from '@infralens/architecture-intelligence';
-import {
-  capabilityMatrix,
-  isCapabilityEnabled,
-  resolveEdition,
-  type InfraLensEdition,
-} from '@infralens/edition-capabilities';
 import type {
   ArchitectureReview,
   ArchitectureView,
@@ -47,6 +41,7 @@ import {
   Map as MapIcon,
   Route,
   Search,
+  X,
 } from 'lucide-react';
 import { BoundaryNode, LaneLabelNode } from './components/BoundaryNode';
 import { CorridorEdge } from './components/CorridorEdge';
@@ -57,7 +52,7 @@ import { Legend } from './components/Legend';
 import { ListView } from './components/ListView';
 import { ProjectionIntegrityPanel } from './components/ProjectionIntegrityPanel';
 import { QueryResultPanel } from './components/QueryResultPanel';
-import { demoFiles, demoSnapshots } from './demoEstate';
+import { getReferenceEstate, REFERENCE_ESTATES, type ReferenceEstateId } from './estates';
 import {
   clearLayoutCache,
   getLastLayoutGraph,
@@ -118,8 +113,42 @@ const PROJECTIONS: ArchitectureView[] = [
 
 type AppMode = 'review' | 'explore';
 
+const WELCOME_STORAGE_KEY = 'infralens.welcomeDismissed';
+const HOSTED_DEMO =
+  import.meta.env.VITE_INFRALENS_DEMO === '1' || import.meta.env.VITE_INFRALENS_DEMO === 'true';
+
+function readWelcomeDismissed(): boolean {
+  try {
+    return localStorage.getItem(WELCOME_STORAGE_KEY) === '1';
+  } catch {
+    return false;
+  }
+}
+
+function persistWelcomeDismissed() {
+  try {
+    localStorage.setItem(WELCOME_STORAGE_KEY, '1');
+  } catch {
+    /* ignore quota / private mode */
+  }
+}
+
+function formatScanTimestamp(iso?: string): string {
+  if (!iso) return '—';
+  const d = new Date(iso);
+  if (Number.isNaN(d.getTime())) return iso;
+  return d.toLocaleString(undefined, {
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+  });
+}
+
 export default function App() {
-  const [edition, setEdition] = useState<InfraLensEdition>(resolveEdition());
+  const [estateId, setEstateId] = useState<ReferenceEstateId>('retail-saas');
+  const [estateEpoch, setEstateEpoch] = useState(0);
   const [bundle, setBundle] = useState<ScanBundle | null>(null);
   const [baseline, setBaseline] = useState<ScanBundle | null>(null);
   const [loading, setLoading] = useState(true);
@@ -143,23 +172,31 @@ export default function App() {
   const [timelineIndex, setTimelineIndex] = useState(1);
   const [layoutDebug, setLayoutDebugState] = useState(false);
   const [projectionIntegrityOpen, setProjectionIntegrityOpen] = useState(false);
+  const [welcomeOpen, setWelcomeOpen] = useState(() => !readWelcomeDismissed());
+  const [bundleError, setBundleError] = useState('');
+  const [userBundleLoaded, setUserBundleLoaded] = useState(false);
+  const bundleInputRef = useRef<HTMLInputElement>(null);
+
+  const estate = getReferenceEstate(estateId);
 
   useEffect(() => {
     setLayoutDebug(layoutDebug);
   }, [layoutDebug]);
 
   useEffect(() => {
+    if (userBundleLoaded) return;
     let cancelled = false;
     (async () => {
       setLoading(true);
       clearLayoutCache();
-      const scanned = await scanFiles(demoFiles, {
-        project: 'Retail SaaS reference estate',
-        edition,
-        snapshots: demoSnapshots,
+      const scanned = await scanFiles(estate.files, {
+        project: estate.project,
+        snapshots: estate.snapshots,
       });
-      if (!cancelled) {
-        const approvedFiles = demoFiles.map((f) =>
+      if (cancelled) return;
+
+      if (estate.retailBaseline) {
+        const approvedFiles = estate.files.map((f) =>
           f.path === 'deploy/openshift.yaml'
             ? {
                 ...f,
@@ -170,16 +207,19 @@ export default function App() {
               }
             : f,
         );
+        const awsInv = estate.snapshots.awsInventory as { resources: unknown[] } | undefined;
         const approved = await scanFiles(approvedFiles, {
-          project: 'Retail SaaS reference estate',
-          edition,
+          project: estate.project,
           snapshots: {
-            awsInventory: {
-              ...(demoSnapshots.awsInventory as object),
-              resources: (demoSnapshots.awsInventory as { resources: unknown[] }).resources.filter(
-                (r) => (r as { name?: string }).name !== 'retail-prod-assets-logs',
-              ),
-            },
+            ...estate.snapshots,
+            awsInventory: awsInv
+              ? {
+                  ...awsInv,
+                  resources: awsInv.resources.filter(
+                    (r) => (r as { name?: string }).name !== 'retail-prod-assets-logs',
+                  ),
+                }
+              : undefined,
           },
         });
         approved.graph.signOffs.push({
@@ -208,20 +248,21 @@ export default function App() {
           evidenceHashes: [approved.graph.scan.contentHash],
         });
         setBaseline(approved);
-        setBundle(scanned);
-        setLoading(false);
+      } else {
+        setBaseline(null);
       }
+      setBundle(scanned);
+      setLoading(false);
     })();
     return () => {
       cancelled = true;
     };
-  }, [edition]);
+  }, [estate, estateEpoch, userBundleLoaded]);
 
   const timeline = useMemo(() => {
     if (!bundle || !baseline) return null;
-    if (!isCapabilityEnabled('temporalTimeline', edition)) return null;
     return buildTimeline([baseline, bundle]);
-  }, [bundle, baseline, edition]);
+  }, [bundle, baseline]);
 
   const graph = useMemo(() => {
     if (!bundle) return undefined;
@@ -279,7 +320,7 @@ export default function App() {
         graph,
         internet.id,
         db.id,
-        edition,
+        undefined,
         'Can the internet reach catalog-db?',
       );
       setQueryResult(conclusion);
@@ -295,7 +336,7 @@ export default function App() {
           graph,
           worker.id,
           payment.id,
-          edition,
+          undefined,
           'Can order-worker reach the payment provider?',
         ),
       );
@@ -350,11 +391,54 @@ export default function App() {
     }
   }
 
+  function dismissWelcome() {
+    persistWelcomeDismissed();
+    setWelcomeOpen(false);
+  }
+
+  function exploreReferenceEstate() {
+    setUserBundleLoaded(false);
+    setEstateId('retail-saas');
+    setEstateEpoch((n) => n + 1);
+    setMode('review');
+    dismissWelcome();
+  }
+
+  function resetReferenceEstate() {
+    setUserBundleLoaded(false);
+    setReview(null);
+    setSimNote('');
+    setSignOffMsg('');
+    setSelected(undefined);
+    setEstateEpoch((n) => n + 1);
+    setMode('review');
+  }
+
+  function openEvidenceBundle(file: File) {
+    setBundleError('');
+    const reader = new FileReader();
+    reader.onload = () => {
+      try {
+        const parsed = JSON.parse(String(reader.result)) as ScanBundle;
+        if (!parsed?.graph?.scan || parsed.format !== 'infralens.scan.bundle') {
+          setBundleError('File is not a valid InfraLens evidence bundle.');
+          return;
+        }
+        clearLayoutCache();
+        setUserBundleLoaded(true);
+        setBaseline(null);
+        setBundle(parsed);
+        setMode('explore');
+        dismissWelcome();
+      } catch {
+        setBundleError('Could not parse evidence bundle JSON.');
+      }
+    };
+    reader.readAsText(file);
+  }
+
   function simulateRemoveAdmin() {
-    if (!bundle || !isCapabilityEnabled('counterfactualSimulation', edition)) {
-      setSimNote('Counterfactual simulation requires commercial edition (or feature override).');
-      return;
-    }
+    if (!bundle) return;
     const admin = bundle.graph.resources.find((r) => r.name === 'admin' && r.kind === 'route');
     if (!admin) {
       setSimNote('Admin route not present.');
@@ -384,10 +468,7 @@ export default function App() {
   }
 
   function simulateEnableMultiAz() {
-    if (!bundle || !isCapabilityEnabled('counterfactualSimulation', edition)) {
-      setSimNote('Counterfactual simulation requires commercial edition.');
-      return;
-    }
+    if (!bundle) return;
     const db = bundle.graph.resources.find((r) => r.kind === 'relational-database');
     if (!db) return;
     const result = simulateArchitectureChange(bundle.graph, { type: 'enable-multi-az', resourceId: db.id });
@@ -399,10 +480,7 @@ export default function App() {
   }
 
   function attemptSignOff() {
-    if (!bundle || !isCapabilityEnabled('architectSignOff', edition)) {
-      setSignOffMsg('Architect sign-off requires commercial edition.');
-      return;
-    }
+    if (!bundle) return;
     const blocking = bundle.graph.findings.filter((f) => f.blocksSignOff && f.status === 'open');
     if (blocking.length) {
       setSignOffMsg(`Sign-off blocked:\n${blocking.map((f) => `- ${f.severity}: ${f.title}`).join('\n')}`);
@@ -464,7 +542,7 @@ export default function App() {
     return (
       <div className="boot">
         <h1>InfraLens</h1>
-        <p>Preparing architecture governance for the Retail SaaS estate…</p>
+        <p>Preparing architecture governance for {estate.label}…</p>
       </div>
     );
   }
@@ -475,15 +553,94 @@ export default function App() {
   const timelineFrame = timeline?.frames[Math.min(timelineIndex, (timeline?.frames.length ?? 1) - 1)];
   const inActiveReview = mode === 'review' && review != null;
   const showGraph = mode === 'explore' || showEvidence;
+  const evidenceCompleteness = Math.round((graph.completeness?.overall ?? 0) * 100);
+  const governanceStatus = dash?.status ?? reviewDash?.status ?? '—';
+
+  const revision =
+    graph.scan.repositoryRevision?.slice(0, 7) ||
+    graph.scan.contentHash?.slice(0, 7) ||
+    '—';
 
   return (
     <div className="app-shell workbench review-console">
+      {HOSTED_DEMO && (
+        <div className="demo-banner" role="status">
+          Demo estate — this hosted version uses bundled synthetic evidence. Local InfraLens scans remain on your
+          machine unless you explicitly configure a connector.
+        </div>
+      )}
+      {welcomeOpen && (
+        <div className="welcome-overlay" role="dialog" aria-modal="true" aria-labelledby="welcome-title">
+          <div className="welcome-modal">
+            <button type="button" className="welcome-dismiss" onClick={dismissWelcome} aria-label="Dismiss welcome">
+              <X size={16} />
+            </button>
+            <span className="provider-chip">welcome</span>
+            <h2 id="welcome-title">Welcome to InfraLens</h2>
+            <p className="muted">
+              InfraLens reconstructs architecture from evidence and determines whether implementation still satisfies
+              intent.
+            </p>
+            <div className="welcome-choices">
+              <button type="button" className="primary welcome-choice" onClick={exploreReferenceEstate}>
+                <b>Explore a reference estate</b>
+                <span>Start with Retail SaaS — approval blocked, failed HA intent, evidence-linked Multi-AZ.</span>
+              </button>
+              <button
+                type="button"
+                className="welcome-choice"
+                onClick={() => {
+                  dismissWelcome();
+                  window.open(
+                    'https://github.com/markndg/InfraLens/blob/main/docs/guides/scanning-a-project.md',
+                    '_blank',
+                    'noopener,noreferrer',
+                  );
+                }}
+              >
+                <b>Scan a local project</b>
+                <span>Use <code>npm run scan -- &lt;path&gt;</code> then open the evidence bundle here.</span>
+              </button>
+              <button
+                type="button"
+                className="welcome-choice"
+                onClick={() => bundleInputRef.current?.click()}
+              >
+                <b>Open an evidence bundle</b>
+                <span>Load an InfraLens scan bundle JSON file from your machine.</span>
+              </button>
+            </div>
+            {bundleError && <p className="warning">{bundleError}</p>}
+            <input
+              ref={bundleInputRef}
+              type="file"
+              accept="application/json,.json"
+              hidden
+              onChange={(e) => {
+                const file = e.target.files?.[0];
+                if (file) openEvidenceBundle(file);
+                e.target.value = '';
+              }}
+            />
+          </div>
+        </div>
+      )}
+
       <header>
         <div>
           <h1>InfraLens</h1>
-          <p>
-            Architecture Governance · {graph.scan.project} · {edition} edition
-          </p>
+          <div className="project-meta" aria-label="Project context">
+            <span title="Project">Project: {graph.scan.project}</span>
+            <span title="Evidence completeness">Evidence: {evidenceCompleteness}% complete</span>
+            <span title="Scan time">Scan: {formatScanTimestamp(graph.scan.generatedAt)}</span>
+            <span title="Revision">Revision: {revision}</span>
+            <span title="Governance status">Governance: {governanceStatus}</span>
+            {!userBundleLoaded && estate.bundled && (
+              <span className="demo-estate-chip" title="Bundled demonstration data">
+                Demo estate
+              </span>
+            )}
+          </div>
         </div>
         <div className="mode-toggle">
           <button
@@ -504,17 +661,27 @@ export default function App() {
             Evidence
           </button>
         </div>
-        <label className="edition">
-          Edition
+        <label className="estate-select">
+          Reference estate
           <select
-            value={edition}
-            onChange={(e) => setEdition(e.target.value as InfraLensEdition)}
-            aria-label="Edition"
+            value={estateId}
+            onChange={(e) => {
+              setUserBundleLoaded(false);
+              setEstateId(e.target.value as ReferenceEstateId);
+            }}
+            aria-label="Reference estate"
+            disabled={userBundleLoaded}
           >
-            <option value="oss">OSS</option>
-            <option value="commercial">Commercial</option>
+            {REFERENCE_ESTATES.map((e) => (
+              <option key={e.id} value={e.id}>
+                {e.label}
+              </option>
+            ))}
           </select>
         </label>
+        <button type="button" className="ghost" onClick={resetReferenceEstate} title="Restore bundled demo state">
+          Reset demo
+        </button>
       </header>
 
       <div className="metrics">
@@ -622,7 +789,6 @@ export default function App() {
         <main className="review-main">
           <GovernanceLanding
             graph={graph}
-            edition={edition}
             baseline={baseline}
             onStartReview={startReview}
             onExplore={() => setMode('explore')}
@@ -649,7 +815,6 @@ export default function App() {
                 <ScorecardPanel review={review} />
                 <MissionPanel
                   graph={graph}
-                  edition={edition}
                   missionId={missionId}
                   onMission={(id) => {
                     setMissionId(id);
@@ -660,20 +825,16 @@ export default function App() {
                     setShowEvidence(true);
                   }}
                 />
-                {isCapabilityEnabled('counterfactualSimulation', edition) && (
-                  <>
-                    <h3>Counterfactual review</h3>
-                    <div className="stack">
-                      <button type="button" onClick={simulateRemoveAdmin}>
-                        Simulate remove admin route
-                      </button>
-                      <button type="button" onClick={simulateEnableMultiAz}>
-                        Simulate enable Multi-AZ
-                      </button>
-                    </div>
-                    {simNote && <pre className="narrative">{simNote}</pre>}
-                  </>
-                )}
+                <h3>Counterfactual review</h3>
+                <div className="stack">
+                  <button type="button" onClick={simulateRemoveAdmin}>
+                    Simulate remove admin route
+                  </button>
+                  <button type="button" onClick={simulateEnableMultiAz}>
+                    Simulate enable Multi-AZ
+                  </button>
+                </div>
+                {simNote && <pre className="narrative">{simNote}</pre>}
               </>
             ) : (
               <>
@@ -705,16 +866,14 @@ export default function App() {
                 </label>
                 <MissionPanel
                   graph={graph}
-                  edition={edition}
                   missionId={missionId}
                   onMission={setMissionId}
                   onHighlight={setMissionHighlight}
                 />
                 <TimelinePanel
-                  edition={edition}
                   frameIndex={timelineIndex}
                   frameCount={timeline?.frames.length ?? 2}
-                  riskSummary={timelineFrame?.riskSummary ?? 'Load commercial edition for timeline'}
+                  riskSummary={timelineFrame?.riskSummary ?? 'Compare baseline and current scan'}
                   onChange={(i) => {
                     setTimelineIndex(i);
                     setView('time');
@@ -752,19 +911,15 @@ export default function App() {
                     Review operational impact
                   </button>
                 </div>
-                {isCapabilityEnabled('counterfactualSimulation', edition) && (
-                  <>
-                    <h3>Future state</h3>
-                    <div className="stack">
-                      <button type="button" onClick={simulateRemoveAdmin}>
-                        Remove admin route
-                      </button>
-                      <button type="button" onClick={simulateEnableMultiAz}>
-                        Enable Multi-AZ database
-                      </button>
-                    </div>
-                  </>
-                )}
+                <h3>Future state</h3>
+                <div className="stack">
+                  <button type="button" onClick={simulateRemoveAdmin}>
+                    Remove admin route
+                  </button>
+                  <button type="button" onClick={simulateEnableMultiAz}>
+                    Enable Multi-AZ database
+                  </button>
+                </div>
                 <h3>Canvas</h3>
                 <div className="stack">
                   <button type="button" onClick={() => setShowMinimap((v) => !v)}>
@@ -843,7 +998,6 @@ export default function App() {
                 <ActiveReviewPanel
                   graph={graph}
                   review={review}
-                  edition={edition}
                   stageIndex={stageIndex}
                   onReviewChange={setReview}
                   onStageIndex={setStageIndex}
@@ -862,7 +1016,6 @@ export default function App() {
               <ActiveReviewPanel
                 graph={graph}
                 review={review}
-                edition={edition}
                 stageIndex={stageIndex}
                 onReviewChange={setReview}
                 onStageIndex={setStageIndex}
@@ -876,14 +1029,13 @@ export default function App() {
               <ReviewPanel
                 graph={graph}
                 comparison={comparison}
-                edition={edition}
                 onSignOff={attemptSignOff}
                 signOffMsg={signOffMsg}
                 simNote={simNote}
               />
             ) : view === 'dna' ? (
               <>
-                <ArchitectureDNAPanel graph={graph} edition={edition} />
+                <ArchitectureDNAPanel graph={graph} />
                 <RiskHealthPanel graph={graph} />
               </>
             ) : selectedResource ? (
@@ -899,7 +1051,7 @@ export default function App() {
             ) : inActiveReview && review ? (
               <ScorecardPanel review={review} />
             ) : (
-              <NarrativePanel graph={graph} edition={edition} />
+              <NarrativePanel graph={graph} />
             )}
           </aside>
         </main>
@@ -1005,7 +1157,7 @@ function FitOnce() {
   return null;
 }
 
-function NarrativePanel({ graph, edition }: { graph: EvidenceGraph; edition: InfraLensEdition }) {
+function NarrativePanel({ graph }: { graph: EvidenceGraph }) {
   return (
     <>
       <div className="panel-title">
@@ -1014,7 +1166,7 @@ function NarrativePanel({ graph, edition }: { graph: EvidenceGraph; edition: Inf
         <p>One evidence graph · many projections</p>
       </div>
       <ArchitectureStoryPanel graph={graph} />
-      <ArchitectureDNAPanel graph={graph} edition={edition} />
+      <ArchitectureDNAPanel graph={graph} />
       <RiskHealthPanel graph={graph} />
       <section>
         <h3>Evidence completeness</h3>
@@ -1032,14 +1184,12 @@ function NarrativePanel({ graph, edition }: { graph: EvidenceGraph; edition: Inf
 function ReviewPanel({
   graph,
   comparison,
-  edition,
   onSignOff,
   signOffMsg,
   simNote,
 }: {
   graph: EvidenceGraph;
   comparison: ReturnType<typeof compareBundles> | null;
-  edition: InfraLensEdition;
   onSignOff: () => void;
   signOffMsg: string;
   simNote: string;
@@ -1049,7 +1199,7 @@ function ReviewPanel({
       <div className="panel-title">
         <span className="provider-chip">sign-off</span>
         <h2>Assurance & drift</h2>
-        <p>{edition} capability-enforced workflow</p>
+        <p>Approval workflow against the current evidence graph</p>
       </div>
       <section>
         <h3>Reviewed scope</h3>
@@ -1091,13 +1241,9 @@ function ReviewPanel({
       </section>
       <section>
         <h3>Sign-off</h3>
-        {isCapabilityEnabled('architectSignOff', edition) ? (
-          <button type="button" className="primary" onClick={onSignOff}>
-            Attempt approval
-          </button>
-        ) : (
-          <p className="muted">Enable commercial edition for sign-off workflow.</p>
-        )}
+        <button type="button" className="primary" onClick={onSignOff}>
+          Attempt approval
+        </button>
         {signOffMsg && <pre className="narrative">{signOffMsg}</pre>}
         {simNote && <pre className="narrative">{simNote}</pre>}
         {graph.signOffs.map((s) => (
@@ -1105,18 +1251,6 @@ function ReviewPanel({
             {s.decision} · {s.reviewer} · {s.timestamp}
           </p>
         ))}
-      </section>
-      <section>
-        <h3>Capabilities</h3>
-        <ul className="cap-list">
-          {capabilityMatrix()
-            .slice(0, 8)
-            .map((c) => (
-              <li key={c.id}>
-                <code>{c.id}</code>
-              </li>
-            ))}
-        </ul>
       </section>
     </>
   );

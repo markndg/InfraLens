@@ -90,7 +90,7 @@ export function generateGovernanceReport(graph: EvidenceGraph): GovernanceReport
     },
     {
       heading: 'Portfolio Impact',
-      body: 'Single-project governance scope (OSS). Commercial portfolio mode aggregates multiple systems.',
+      body: 'Single-project governance scope. Portfolio mode aggregates multiple systems when additional projects are loaded.',
     },
     {
       heading: 'Future Review Dates',

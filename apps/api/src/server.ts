@@ -1,13 +1,7 @@
 import { createServer, type IncomingMessage, type ServerResponse } from 'node:http';
 import { readFile } from 'node:fs/promises';
 import path from 'node:path';
-import {
-  assertCapability,
-  CapabilityDeniedError,
-  listCapabilities,
-  resolveEdition,
-  type InfraLensEdition,
-} from '@infralens/edition-capabilities';
+import { listCapabilities } from '@infralens/edition-capabilities';
 import { validateBundle } from '@infralens/graph-model';
 import {
   applyWaivers,
@@ -32,10 +26,7 @@ import { scanPath } from '@infralens/scanner';
 import { store } from './store.js';
 
 const PORT = Number(process.env.PORT ?? 8787);
-
-function edition(): InfraLensEdition {
-  return resolveEdition();
-}
+const PRODUCT_VERSION = '0.1.0';
 
 async function readJson(req: IncomingMessage): Promise<unknown> {
   const chunks: Buffer[] = [];
@@ -77,12 +68,11 @@ async function handler(req: IncomingMessage, res: ServerResponse) {
     const parts = url.pathname.split('/').filter(Boolean);
 
     if (req.method === 'GET' && url.pathname === '/api/capabilities') {
-      send(res, 200, { edition: edition(), capabilities: listCapabilities(edition()) });
+      send(res, 200, { productVersion: PRODUCT_VERSION, capabilities: listCapabilities() });
       return;
     }
 
     if (req.method === 'POST' && url.pathname === '/api/scans') {
-      assertCapability('repositoryScan', edition(), 'api');
       const body = (await readJson(req)) as {
         path?: string;
         bundle?: unknown;
@@ -102,7 +92,6 @@ async function handler(req: IncomingMessage, res: ServerResponse) {
         return;
       }
       const bundle = await scanPath(path.resolve(body.path), {
-        edition: edition(),
         project: body.project,
         policyDir: path.resolve('policies/default'),
       });
@@ -153,7 +142,6 @@ async function handler(req: IncomingMessage, res: ServerResponse) {
     }
 
     if (req.method === 'POST' && url.pathname === '/api/compare') {
-      assertCapability('historicalDrift', edition(), 'api');
       const body = (await readJson(req)) as { baselineId?: string; candidateId?: string };
       const a = body.baselineId ? store.getScan(body.baselineId) : undefined;
       const b = body.candidateId ? store.getScan(body.candidateId) : undefined;
@@ -181,12 +169,11 @@ async function handler(req: IncomingMessage, res: ServerResponse) {
       const row = store.getScan(body.scanId);
       if (!row) return notFound(res);
       ensureInternetNode(row.bundle.graph);
-      send(res, 200, analyzeReachability(row.bundle.graph, body.sourceId, body.targetId, edition()));
+      send(res, 200, analyzeReachability(row.bundle.graph, body.sourceId, body.targetId));
       return;
     }
 
     if (req.method === 'POST' && url.pathname === '/api/simulate') {
-      assertCapability('counterfactualSimulation', edition(), 'api');
       const body = (await readJson(req)) as {
         scanId: string;
         action: 'remove' | 'enable-multi-az' | 'restrict-egress' | 'remove-route';
@@ -222,7 +209,6 @@ async function handler(req: IncomingMessage, res: ServerResponse) {
     }
 
     if (req.method === 'POST' && url.pathname === '/api/signoffs') {
-      assertCapability('architectSignOff', edition(), 'api');
       const body = (await readJson(req)) as {
         scanId: string;
         reviewer: string;
@@ -233,7 +219,7 @@ async function handler(req: IncomingMessage, res: ServerResponse) {
       };
       const row = store.getScan(body.scanId);
       if (!row) return notFound(res);
-      const gate = evaluateSignOffGate(row.bundle.graph, edition());
+      const gate = evaluateSignOffGate(row.bundle.graph);
       const signOff = createSignOff(row.bundle.graph, body);
       row.bundle.graph.signOffs.push(signOff);
       store.saveSignOff(signOff);
@@ -245,7 +231,6 @@ async function handler(req: IncomingMessage, res: ServerResponse) {
     }
 
     if (req.method === 'POST' && url.pathname === '/api/waivers') {
-      assertCapability('waiverWorkflow', edition(), 'api');
       const body = (await readJson(req)) as Parameters<typeof createWaiver>[0] & { scanId: string };
       const row = store.getScan(body.scanId);
       if (!row) return notFound(res);
@@ -272,12 +257,11 @@ async function handler(req: IncomingMessage, res: ServerResponse) {
     }
 
     if (req.method === 'GET' && url.pathname === '/api/health') {
-      send(res, 200, { ok: true, edition: edition() });
+      send(res, 200, { ok: true, productVersion: PRODUCT_VERSION });
       return;
     }
 
     if (req.method === 'GET' && parts[0] === 'api' && parts[1] === 'governance') {
-      assertCapability('architectureGovernance', edition(), 'api');
       const scanId = url.searchParams.get('scanId') ?? store.listScans()[0]?.id;
       const row = scanId ? store.getScan(scanId) : undefined;
       if (!row) return notFound(res);
@@ -308,9 +292,8 @@ async function handler(req: IncomingMessage, res: ServerResponse) {
         return;
       }
       if (parts[2] === 'portfolio') {
-        assertCapability('portfolioGovernance', edition(), 'api');
         send(res, 200, {
-          note: 'Portfolio aggregation requires multi-project commercial mode',
+          note: 'Portfolio aggregation across loaded scan projects',
           projects: store.listScans().map((s) => ({ id: s.id, project: s.bundle.graph.scan.project })),
         });
         return;
@@ -324,7 +307,6 @@ async function handler(req: IncomingMessage, res: ServerResponse) {
     }
 
     if (req.method === 'POST' && url.pathname === '/api/replay') {
-      assertCapability('reviewReplay', edition(), 'api');
       const body = (await readJson(req)) as { scanId: string };
       const row = store.getScan(body.scanId);
       if (!row) return notFound(res);
@@ -333,7 +315,6 @@ async function handler(req: IncomingMessage, res: ServerResponse) {
     }
 
     if (req.method === 'POST' && url.pathname === '/api/simulate-assumption') {
-      assertCapability('assumptionEngine', edition(), 'api');
       const body = (await readJson(req)) as { scanId: string; assumptionId: string };
       const row = store.getScan(body.scanId);
       if (!row) return notFound(res);
@@ -342,7 +323,6 @@ async function handler(req: IncomingMessage, res: ServerResponse) {
     }
 
     if (req.method === 'POST' && url.pathname === '/api/validate-intent') {
-      assertCapability('intentValidation', edition(), 'api');
       const body = (await readJson(req)) as { scanId: string };
       const row = store.getScan(body.scanId);
       if (!row) return notFound(res);
@@ -360,7 +340,6 @@ async function handler(req: IncomingMessage, res: ServerResponse) {
         send(res, 201, { id: row.id });
       } catch {
         const scanned = await scanPath(path.resolve('fixtures/demo-estate'), {
-          edition: edition(),
           policyDir: path.resolve('policies/default'),
           project: 'Retail SaaS reference estate',
         });
@@ -372,14 +351,10 @@ async function handler(req: IncomingMessage, res: ServerResponse) {
 
     notFound(res);
   } catch (err) {
-    if (err instanceof CapabilityDeniedError) {
-      send(res, 403, { error: 'capability_denied', capability: err.capability, edition: err.edition });
-      return;
-    }
     send(res, 500, { error: err instanceof Error ? err.message : String(err) });
   }
 }
 
 createServer(handler).listen(PORT, () => {
-  console.log(`InfraLens API listening on http://localhost:${PORT} (edition=${edition()})`);
+  console.log(`InfraLens API listening on http://localhost:${PORT}`);
 });

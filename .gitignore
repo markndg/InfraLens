@@ -10,6 +10,7 @@ out/
 
 # Vite
 apps/web/dist/
+apps/web/dist-demo/
 **/.vite/
 
 # Test & coverage

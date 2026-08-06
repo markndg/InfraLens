@@ -1,8 +1,4 @@
-import {
-  assertCapability,
-  resolveEdition,
-  type InfraLensEdition,
-} from '@infralens/edition-capabilities';
+import { assertCapability, type InfraLensEdition } from '@infralens/edition-capabilities';
 import {
   emptyGraph,
   finalizeGraph,
@@ -17,6 +13,7 @@ import type { DiscoveryAdapter, DiscoveryInput, DiscoveryResult } from './types.
 
 export interface OrchestratorOptions {
   adapters: DiscoveryAdapter[];
+  /** @deprecated Ignored; edition is no longer stamped or used for gating. */
   edition?: InfraLensEdition;
   postProcessors?: Array<(graph: EvidenceGraph, input: DiscoveryInput) => Promise<void> | void>;
 }
@@ -26,21 +23,18 @@ export async function runDiscovery(
   options: OrchestratorOptions,
 ): Promise<{ bundle: ScanBundle; adapterResults: DiscoveryResult[] }> {
   const started = Date.now();
-  const edition = options.edition ?? input.options?.edition ?? resolveEdition();
-  assertCapability('repositoryScan', edition, 'scanner');
-  assertCapability('localEvidenceGraph', edition, 'scanner');
+  assertCapability('repositoryScan');
+  assertCapability('localEvidenceGraph');
 
   const graph = emptyGraph({
     project: input.project,
     repositoryRevision: input.repositoryRevision,
-    edition,
     adapters: [],
   });
   const adapterResults: DiscoveryResult[] = [];
   const context = {
     now: new Date().toISOString(),
     repositoryRevision: input.repositoryRevision,
-    edition,
   };
 
   for (const adapter of options.adapters) {

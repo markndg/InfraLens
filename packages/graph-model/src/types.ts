@@ -207,7 +207,11 @@ export interface ScanMeta {
   generatedAt: string;
   repositoryRevision?: string;
   adapters: string[];
-  edition: 'oss' | 'commercial';
+  /**
+   * @deprecated Legacy OSS/commercial product label from pre-0.1.0 bundles.
+   * Accepted when present for backward-compatible parsing; not used for gating.
+   */
+  edition?: 'oss' | 'commercial';
   warnings: string[];
   errors: string[];
   durationMs: number;

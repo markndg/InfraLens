@@ -1,7 +1,7 @@
 {
   "name": "infralens",
   "private": true,
-  "version": "2.0.0",
+  "version": "0.1.0",
   "type": "module",
   "workspaces": [
     "apps/*",
@@ -21,8 +21,16 @@
     "test:watch": "vitest",
     "test:e2e": "playwright test",
     "test:perf": "vitest run packages/test-fixtures/src/perf.test.ts",
-    "demo:scan": "tsx apps/scanner-cli/src/cli.ts scan fixtures/demo-estate --output fixtures/scans/demo.bundle.json --edition commercial",
-    "lint:types": "tsc -b tsconfig.packages.json --pretty false"
+    "demo:scan": "tsx apps/scanner-cli/src/cli.ts scan fixtures/demo-estate --output fixtures/scans/demo.bundle.json",
+    "lint:types": "tsc -b tsconfig.packages.json --pretty false",
+    "demo": "node scripts/demo.mjs",
+    "verify": "node scripts/verify.mjs",
+    "demo:verify": "node scripts/demo-verify.mjs",
+    "demo:scan:all": "node scripts/demo-scan-all.mjs",
+    "demo:capture": "node scripts/demo-capture.mjs",
+    "demo:record": "node scripts/demo-capture.mjs --storyboard",
+    "build:demo": "node scripts/build-demo.mjs",
+    "test:generality": "vitest run packages/test-fixtures/src/generality.test.ts"
   },
   "devDependencies": {
     "@playwright/test": "^1.55.0",
@@ -33,5 +41,30 @@
   },
   "engines": {
     "node": ">=20"
-  }
+  },
+  "description": "Evidence-backed architecture governance for Terraform, Kubernetes, OpenShift, AWS and application configuration.",
+  "license": "Apache-2.0",
+  "keywords": [
+    "architecture-governance",
+    "architecture-review",
+    "infrastructure-as-code",
+    "terraform",
+    "kubernetes",
+    "openshift",
+    "aws",
+    "cloud-architecture",
+    "platform-engineering",
+    "devsecops",
+    "adr",
+    "infrastructure-visualization"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/markndg/InfraLens.git"
+  },
+  "bugs": {
+    "url": "https://github.com/markndg/InfraLens/issues"
+  },
+  "homepage": "https://github.com/markndg/InfraLens#readme",
+  "author": "InfraLens contributors"
 }

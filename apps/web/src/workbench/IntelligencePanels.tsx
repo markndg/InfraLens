@@ -7,7 +7,6 @@ import {
   type MissionPlan,
 } from '@infralens/architecture-intelligence';
 import type { EvidenceGraph } from '@infralens/graph-model';
-import { isCapabilityEnabled, type InfraLensEdition } from '@infralens/edition-capabilities';
 
 export function ArchitectureStoryPanel({ graph }: { graph: EvidenceGraph }) {
   const intel = graph.intelligence;
@@ -28,21 +27,7 @@ export function ArchitectureStoryPanel({ graph }: { graph: EvidenceGraph }) {
   );
 }
 
-export function ArchitectureDNAPanel({
-  graph,
-  edition,
-}: {
-  graph: EvidenceGraph;
-  edition: InfraLensEdition;
-}) {
-  if (!isCapabilityEnabled('architectureDNA', edition)) {
-    return (
-      <section className="wb-panel">
-        <h3>Architecture DNA</h3>
-        <p className="muted">Commercial edition required for Architecture DNA fingerprint.</p>
-      </section>
-    );
-  }
+export function ArchitectureDNAPanel({ graph }: { graph: EvidenceGraph }) {
   const dna = graph.intelligence?.dna;
   if (!dna) return null;
   const bars = dnaBars(dna);
@@ -96,25 +81,15 @@ export function RiskHealthPanel({ graph }: { graph: EvidenceGraph }) {
 
 export function MissionPanel({
   graph,
-  edition,
   missionId,
   onMission,
   onHighlight,
 }: {
   graph: EvidenceGraph;
-  edition: InfraLensEdition;
   missionId?: MissionId;
   onMission: (id: MissionId) => void;
   onHighlight: (ids: string[]) => void;
 }) {
-  if (!isCapabilityEnabled('missionMode', edition)) {
-    return (
-      <section className="wb-panel">
-        <h3>Mission mode</h3>
-        <p className="muted">Guided investigations require commercial edition.</p>
-      </section>
-    );
-  }
   const missions = listMissions();
   const plan: MissionPlan | null = missionId ? buildMission(graph, missionId) : null;
   return (
@@ -191,28 +166,18 @@ export function ComponentIntelligence({
 }
 
 export function TimelinePanel({
-  edition,
   frameIndex,
   frameCount,
   riskSummary,
   onChange,
   deltas,
 }: {
-  edition: InfraLensEdition;
   frameIndex: number;
   frameCount: number;
   riskSummary: string;
   onChange: (index: number) => void;
   deltas: { added: number; removed: number; changed: number };
 }) {
-  if (!isCapabilityEnabled('temporalTimeline', edition)) {
-    return (
-      <section className="wb-panel">
-        <h3>Timeline</h3>
-        <p className="muted">Temporal architecture requires commercial edition.</p>
-      </section>
-    );
-  }
   return (
     <section className="wb-panel">
       <h3>Timeline</h3>

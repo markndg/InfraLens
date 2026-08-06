@@ -1,0 +1,25 @@
+{
+  "account": "999988887777",
+  "region": "eu-west-2",
+  "resources": [
+    {
+      "type": "aws_db_instance",
+      "id": "orddb",
+      "arn": "arn:aws:rds:eu-west-2:999988887777:db:orddb",
+      "name": "orddb",
+      "attributes": { "multi_az": false, "engine": "oracle-ee" }
+    },
+    {
+      "type": "aws_instance",
+      "id": "i-0batch01legacy",
+      "name": "batch01",
+      "attributes": { "role": "nightly_orders" },
+      "observed_only": true
+    },
+    {
+      "type": "aws_s3_bucket",
+      "id": "corp-archive-bucket",
+      "name": "corp-archive-bucket"
+    }
+  ]
+}

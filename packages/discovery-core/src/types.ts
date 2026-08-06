@@ -25,6 +25,9 @@ export interface DiscoveryInput {
   };
   options?: {
     includeLive?: boolean;
+    /** Credential reference name for live cloud connectors (never raw secrets). */
+    credentialRef?: string;
+    /** @deprecated Ignored by orchestrator; not stamped or used for gating. */
     edition?: 'oss' | 'commercial';
   };
 }
@@ -32,7 +35,8 @@ export interface DiscoveryInput {
 export interface DiscoveryContext {
   now: string;
   repositoryRevision?: string;
-  edition: 'oss' | 'commercial';
+  /** @deprecated Optional legacy field; not set by orchestrator and unused for gating. */
+  edition?: 'oss' | 'commercial';
   signal?: AbortSignal;
 }
 

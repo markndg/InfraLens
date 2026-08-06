@@ -2,17 +2,12 @@ import {
   availablePlaybooks,
   compareReviews,
   completeStage,
-  createArchitectureReview,
   decisionSupport,
   finalizeReview,
   listPersonas,
   persistReview,
   type StartReviewOptions,
 } from '@infralens/architecture-intelligence';
-import {
-  isCapabilityEnabled,
-  type InfraLensEdition,
-} from '@infralens/edition-capabilities';
 import type {
   ArchitectPersona,
   ArchitectureReview,
@@ -23,18 +18,16 @@ import { useMemo, useState } from 'react';
 
 export function ReviewLanding({
   graph,
-  edition,
   onStart,
   onExplore,
 }: {
   graph: EvidenceGraph;
-  edition: InfraLensEdition;
   onStart: (opts: StartReviewOptions) => void;
   onExplore: () => void;
 }) {
   const dash = graph.intelligence?.reviewDashboard;
-  const personas = listPersonas({ commercial: edition === 'commercial' });
-  const playbooks = availablePlaybooks(isCapabilityEnabled('reviewPlaybooks', edition));
+  const personas = listPersonas();
+  const playbooks = availablePlaybooks();
   const [persona, setPersona] = useState<ArchitectPersona>('enterprise');
   const [playbookId, setPlaybookId] = useState('architecture-board');
 
@@ -100,40 +93,36 @@ export function ReviewLanding({
         </div>
       </div>
 
-      {isCapabilityEnabled('architectPersonas', edition) && (
-        <section>
-          <h3>Architect persona</h3>
-          <div className="persona-grid">
-            {personas.map((p) => (
-              <button
-                key={p.id}
-                type="button"
-                className={persona === p.id ? 'active' : ''}
-                onClick={() => {
-                  setPersona(p.id);
-                  setPlaybookId(p.defaultPlaybookId);
-                }}
-              >
-                <b>{p.label}</b>
-                <small>{p.focus}</small>
-              </button>
-            ))}
-          </div>
-        </section>
-      )}
+      <section>
+        <h3>Architect persona</h3>
+        <div className="persona-grid">
+          {personas.map((p) => (
+            <button
+              key={p.id}
+              type="button"
+              className={persona === p.id ? 'active' : ''}
+              onClick={() => {
+                setPersona(p.id);
+                setPlaybookId(p.defaultPlaybookId);
+              }}
+            >
+              <b>{p.label}</b>
+              <small>{p.focus}</small>
+            </button>
+          ))}
+        </div>
+      </section>
 
-      {isCapabilityEnabled('reviewPlaybooks', edition) && (
-        <section>
-          <h3>Review playbook</h3>
-          <select value={playbookId} onChange={(e) => setPlaybookId(e.target.value)} aria-label="Playbook">
-            {playbooks.map((p) => (
-              <option key={p.id} value={p.id}>
-                {p.name}
-              </option>
-            ))}
-          </select>
-        </section>
-      )}
+      <section>
+        <h3>Review playbook</h3>
+        <select value={playbookId} onChange={(e) => setPlaybookId(e.target.value)} aria-label="Playbook">
+          {playbooks.map((p) => (
+            <option key={p.id} value={p.id}>
+              {p.name}
+            </option>
+          ))}
+        </select>
+      </section>
 
       <div className="review-actions">
         <button
@@ -142,8 +131,7 @@ export function ReviewLanding({
           onClick={() =>
             onStart({
               persona,
-              playbookId: isCapabilityEnabled('reviewPlaybooks', edition) ? playbookId : 'architecture-board',
-              commercial: edition === 'commercial',
+              playbookId,
               reviewer: 'architect@example.com',
             })
           }
@@ -155,7 +143,7 @@ export function ReviewLanding({
         </button>
       </div>
 
-      {(graph.reviews?.length ?? 0) > 0 && isCapabilityEnabled('historicalReviews', edition) && (
+      {(graph.reviews?.length ?? 0) > 0 && (
         <section>
           <h3>Architectural memory</h3>
           <p className="muted">{graph.reviews!.length} persisted review(s) on this estate</p>
@@ -175,7 +163,6 @@ export function ReviewLanding({
 export function ActiveReviewPanel({
   graph,
   review,
-  edition,
   stageIndex,
   onReviewChange,
   onStageIndex,
@@ -184,7 +171,6 @@ export function ActiveReviewPanel({
 }: {
   graph: EvidenceGraph;
   review: ArchitectureReview;
-  edition: InfraLensEdition;
   stageIndex: number;
   onReviewChange: (r: ArchitectureReview) => void;
   onStageIndex: (i: number) => void;
@@ -194,8 +180,7 @@ export function ActiveReviewPanel({
   const stage = review.stages[stageIndex];
   const support = useMemo(() => decisionSupport(review), [review]);
   const prior = graph.reviews?.filter((r) => r.id !== review.id).at(-1);
-  const comparison =
-    prior && isCapabilityEnabled('historicalReviews', edition) ? compareReviews(prior, review) : null;
+  const comparison = prior ? compareReviews(prior, review) : null;
 
   if (!stage) return null;
 
@@ -314,7 +299,6 @@ export function ActiveReviewPanel({
             <button
               type="button"
               className="primary"
-              disabled={!support.canApprove && edition === 'oss'}
               onClick={() => {
                 const done = finalizeReview(
                   completeStage(review, 'approval'),
@@ -326,18 +310,16 @@ export function ActiveReviewPanel({
             >
               {support.canApprove ? 'Approve architecture' : 'Record rejection'}
             </button>
-            {isCapabilityEnabled('waiverWorkflow', edition) && (
-              <button
-                type="button"
-                onClick={() => {
-                  const done = finalizeReview(completeStage(review, 'approval'), 'Approved with Waiver');
-                  persistReview(graph, done);
-                  onFinish(done);
-                }}
-              >
-                Approve with waiver
-              </button>
-            )}
+            <button
+              type="button"
+              onClick={() => {
+                const done = finalizeReview(completeStage(review, 'approval'), 'Approved with Waiver');
+                persistReview(graph, done);
+                onFinish(done);
+              }}
+            >
+              Approve with waiver
+            </button>
           </div>
         </section>
       )}

@@ -4,9 +4,9 @@
   "graph": {
     "version": "2.0",
     "scan": {
-      "id": "scan:demo-estate:2026-08-05t19:18:21.011z",
+      "id": "scan:demo-estate:2026-08-06t19:04:24.199z",
       "project": "demo-estate",
-      "generatedAt": "2026-08-05T19:18:21.011Z",
+      "generatedAt": "2026-08-06T19:04:24.199Z",
       "adapters": [
         "terraform",
         "kubernetes",
@@ -14,11 +14,10 @@
         "app-config",
         "aws-snapshot"
       ],
-      "edition": "commercial",
       "warnings": [],
       "errors": [],
-      "durationMs": 14,
-      "contentHash": "h5e793f44"
+      "durationMs": 15,
+      "contentHash": "h24c09550"
     },
     "resources": [
       {
@@ -89,10 +88,7 @@
         },
         "tags": [
           "terraform",
-          "aws",
-          "capability:customer-ordering",
-          "capability:catalog",
-          "capability:order-processing"
+          "aws"
         ],
         "boundary": "AWS",
         "ownership": [
@@ -664,7 +660,9 @@
         "tags": [
           "terraform",
           "aws",
-          "capability:customer-ordering"
+          "capability:customer-ordering",
+          "capability:catalog",
+          "capability:order-processing"
         ],
         "boundary": "AWS",
         "ownership": [
@@ -1484,42 +1482,6 @@
             "evidenceIds": [
               "ev:kubernetes:snapshot:cluster:deployment/retail-prod/catalog"
             ]
-          },
-          {
-            "id": "kubernetes:kubernetes:retail-staging:workload:staging-catalog:rendered",
-            "truthState": "rendered",
-            "attributes": {
-              "apiVersion": "apps/v1",
-              "kind": "Deployment",
-              "namespace": "retail-staging",
-              "labels": {},
-              "selector": {
-                "matchLabels": {
-                  "app": "staging-catalog"
-                }
-              },
-              "replicas": 1,
-              "ports": [],
-              "images": [
-                "example/catalog:1.9.0"
-              ],
-              "env": {
-                "DB_HOST": "retail-prod-db",
-                "ORDER_QUEUE": "retail-prod-orders"
-              },
-              "resources": [
-                null
-              ],
-              "probes": [
-                {
-                  "liveness": false,
-                  "readiness": false
-                }
-              ]
-            },
-            "evidenceIds": [
-              "ev:kubernetes:deploy/openshift.yaml:deployment/retail-staging/staging-catalog"
-            ]
           }
         ],
         "metadata": {
@@ -1551,32 +1513,23 @@
         "interfaces": [],
         "evidence": [
           "ev:kubernetes:deploy/openshift.yaml:deployment/retail-prod/catalog",
-          "ev:kubernetes:snapshot:cluster:deployment/retail-prod/catalog",
-          "ev:kubernetes:deploy/openshift.yaml:deployment/retail-staging/staging-catalog",
-          "ev:reconciliation:reconcile:kubernetes:kubernetes:retail-prod:workload:catalog:kubernetes:kubernetes:retail-staging:workload:staging-catalog:root"
+          "ev:kubernetes:snapshot:cluster:deployment/retail-prod/catalog"
         ],
         "findings": [],
         "confidence": {
-          "band": "medium",
-          "score": 0.7,
+          "band": "high",
+          "score": 0.98,
           "reasons": [
             "Kubernetes Deployment from deploy/openshift.yaml",
-            "Kubernetes Deployment from snapshot:cluster",
-            "Probabilistic match via endpoint-soft-match (score 0.8)"
+            "Kubernetes Deployment from snapshot:cluster"
           ],
-          "missingEvidence": [
-            "deterministic identity (ARN/UID/address)"
-          ],
+          "missingEvidence": [],
           "conflicts": [],
-          "inferenceMethod": "endpoint-soft-match",
-          "wouldIncreaseConfidence": [
-            "Confirm ARN or Terraform address equality"
-          ]
+          "wouldIncreaseConfidence": []
         },
         "tags": [
           "kubernetes",
           "deployment",
-          "reconciled",
           "capability:customer-ordering",
           "capability:catalog"
         ],
@@ -2069,6 +2022,124 @@
         ]
       },
       {
+        "id": "kubernetes:kubernetes:retail-staging:workload:staging-catalog",
+        "logicalId": "kubernetes:kubernetes:retail-staging:workload:staging-catalog",
+        "kind": "workload",
+        "subtype": "Deployment",
+        "provider": "kubernetes",
+        "platform": "kubernetes",
+        "name": "staging-catalog",
+        "displayName": "staging-catalog",
+        "environment": "staging",
+        "cluster": "local",
+        "namespace": "retail-staging",
+        "lifecycle": "active",
+        "truthStates": [
+          "rendered"
+        ],
+        "instances": [
+          {
+            "id": "kubernetes:kubernetes:retail-staging:workload:staging-catalog:rendered",
+            "truthState": "rendered",
+            "attributes": {
+              "apiVersion": "apps/v1",
+              "kind": "Deployment",
+              "namespace": "retail-staging",
+              "labels": {},
+              "selector": {
+                "matchLabels": {
+                  "app": "staging-catalog"
+                }
+              },
+              "replicas": 1,
+              "ports": [],
+              "images": [
+                "example/catalog:1.9.0"
+              ],
+              "env": {
+                "DB_HOST": "retail-prod-db",
+                "ORDER_QUEUE": "retail-prod-orders"
+              },
+              "resources": [
+                null
+              ],
+              "probes": [
+                {
+                  "liveness": false,
+                  "readiness": false
+                }
+              ]
+            },
+            "evidenceIds": [
+              "ev:kubernetes:deploy/openshift.yaml:deployment/retail-staging/staging-catalog"
+            ]
+          }
+        ],
+        "metadata": {
+          "apiVersion": "apps/v1",
+          "kind": "Deployment",
+          "namespace": "retail-staging",
+          "labels": {},
+          "selector": {
+            "matchLabels": {
+              "app": "staging-catalog"
+            }
+          },
+          "replicas": 1,
+          "ports": [],
+          "images": [
+            "example/catalog:1.9.0"
+          ],
+          "env": {
+            "DB_HOST": "retail-prod-db",
+            "ORDER_QUEUE": "retail-prod-orders"
+          },
+          "resources": [
+            null
+          ],
+          "probes": [
+            {
+              "liveness": false,
+              "readiness": false
+            }
+          ]
+        },
+        "interfaces": [],
+        "evidence": [
+          "ev:kubernetes:deploy/openshift.yaml:deployment/retail-staging/staging-catalog"
+        ],
+        "findings": [],
+        "confidence": {
+          "band": "high",
+          "score": 0.98,
+          "reasons": [
+            "Kubernetes Deployment from deploy/openshift.yaml"
+          ],
+          "missingEvidence": [],
+          "conflicts": [],
+          "wouldIncreaseConfidence": []
+        },
+        "tags": [
+          "kubernetes",
+          "deployment",
+          "capability:customer-ordering",
+          "capability:catalog",
+          "capability:order-processing"
+        ],
+        "boundary": "ns:retail-staging",
+        "ownership": [
+          {
+            "team": "Retail Team"
+          }
+        ],
+        "layers": [
+          "application",
+          "deployment",
+          "ownership",
+          "evidence"
+        ]
+      },
+      {
         "id": "openshift:openshift:retail-prod:route:shop",
         "logicalId": "openshift:openshift:retail-prod:route:shop",
         "kind": "route",
@@ -2231,7 +2302,8 @@
         },
         "tags": [
           "openshift",
-          "route"
+          "route",
+          "capability:customer-ordering"
         ],
         "boundary": "ns:retail-prod",
         "ownership": [
@@ -2412,6 +2484,81 @@
           "capability:customer-ordering"
         ],
         "boundary": "Application config",
+        "ownership": [
+          {
+            "team": "Retail Team"
+          }
+        ],
+        "layers": [
+          "application",
+          "deployment",
+          "ownership",
+          "evidence"
+        ]
+      },
+      {
+        "id": "application:application:catalog",
+        "logicalId": "application:application:catalog",
+        "kind": "application",
+        "provider": "application",
+        "name": "catalog",
+        "displayName": "catalog",
+        "environment": "shared",
+        "lifecycle": "active",
+        "truthStates": [
+          "declared"
+        ],
+        "instances": [
+          {
+            "id": "application:application:catalog:declared",
+            "truthState": "declared",
+            "attributes": {
+              "techStack": {
+                "role": "backend",
+                "tech": "Spring Boot",
+                "techKey": "spring"
+              },
+              "role": "backend",
+              "framework": "spring-boot",
+              "configFile": "apps/catalog/application.yaml"
+            },
+            "evidenceIds": [
+              "ev:app-config:apps/catalog/application.yaml:root"
+            ]
+          }
+        ],
+        "metadata": {
+          "techStack": {
+            "role": "backend",
+            "tech": "Spring Boot",
+            "techKey": "spring"
+          },
+          "role": "backend",
+          "framework": "spring-boot",
+          "configFile": "apps/catalog/application.yaml"
+        },
+        "interfaces": [],
+        "evidence": [
+          "ev:app-config:apps/catalog/application.yaml:root"
+        ],
+        "findings": [],
+        "confidence": {
+          "band": "high",
+          "score": 0.9,
+          "reasons": [
+            "Spring application configuration"
+          ],
+          "missingEvidence": [],
+          "conflicts": [],
+          "wouldIncreaseConfidence": []
+        },
+        "tags": [
+          "tech:spring",
+          "role:backend",
+          "capability:customer-ordering",
+          "capability:catalog"
+        ],
+        "boundary": "Source",
         "ownership": [
           {
             "team": "Retail Team"
@@ -2617,7 +2764,13 @@
               ],
               "scripts": {
                 "start": "vite --port 8080"
-              }
+              },
+              "techStack": {
+                "role": "frontend",
+                "tech": "React",
+                "techKey": "react"
+              },
+              "role": "frontend"
             },
             "evidenceIds": [
               "ev:app-config:apps/storefront/package.json:root"
@@ -2630,7 +2783,13 @@
           ],
           "scripts": {
             "start": "vite --port 8080"
-          }
+          },
+          "techStack": {
+            "role": "frontend",
+            "tech": "React",
+            "techKey": "react"
+          },
+          "role": "frontend"
         },
         "interfaces": [],
         "evidence": [
@@ -2648,6 +2807,8 @@
           "wouldIncreaseConfidence": []
         },
         "tags": [
+          "tech:react",
+          "role:frontend",
           "capability:customer-ordering"
         ],
         "boundary": "Source",
@@ -2737,7 +2898,8 @@
         "region": "eu-west-2",
         "lifecycle": "active",
         "truthStates": [
-          "observed"
+          "observed",
+          "declared"
         ],
         "instances": [
           {
@@ -2752,9 +2914,30 @@
             "evidenceIds": [
               "ev:aws-snapshot:aws-snapshot://123456789012/eu-west-2:root"
             ]
+          },
+          {
+            "id": "aws:terraform:bucket:retail-prod-assets:declared",
+            "truthState": "declared",
+            "attributes": {
+              "terraformType": "aws_s3_bucket",
+              "logicalName": "assets",
+              "address": "aws_s3_bucket.assets",
+              "isData": false,
+              "unresolvedAttributes": [],
+              "bucket": "retail-prod-assets"
+            },
+            "evidenceIds": [
+              "ev:terraform:infra/main.tf:resource.aws_s3_bucket.assets"
+            ]
           }
         ],
         "metadata": {
+          "terraformType": "aws_s3_bucket",
+          "logicalName": "assets",
+          "address": "aws_s3_bucket.assets",
+          "isData": false,
+          "unresolvedAttributes": [],
+          "bucket": "retail-prod-assets",
           "arn": "arn:aws:s3:::retail-prod-assets",
           "providerId": "retail-prod-assets",
           "tags": {},
@@ -2762,22 +2945,34 @@
         },
         "interfaces": [],
         "evidence": [
-          "ev:aws-snapshot:aws-snapshot://123456789012/eu-west-2:root"
+          "ev:aws-snapshot:aws-snapshot://123456789012/eu-west-2:root",
+          "ev:terraform:infra/main.tf:resource.aws_s3_bucket.assets",
+          "ev:reconciliation:reconcile:aws:aws:bucket:retail-prod-assets:aws:terraform:bucket:retail-prod-assets:root"
         ],
         "findings": [],
         "confidence": {
-          "band": "high",
-          "score": 0.97,
+          "band": "medium",
+          "score": 0.7,
           "reasons": [
-            "Observed in AWS inventory snapshot at 2026-08-05T12:00:00.000Z"
+            "Observed in AWS inventory snapshot at 2026-08-05T12:00:00.000Z",
+            "Probabilistic match via scored-name-kind (score 0.75)"
           ],
-          "missingEvidence": [],
+          "missingEvidence": [
+            "deterministic identity (ARN/UID/address)"
+          ],
           "conflicts": [],
-          "wouldIncreaseConfidence": []
+          "inferenceMethod": "scored-name-kind",
+          "wouldIncreaseConfidence": [
+            "Confirm ARN or Terraform address equality"
+          ]
         },
         "tags": [
           "aws",
           "observed",
+          "terraform",
+          "reconciled",
+          "capability:customer-ordering",
+          "capability:order-processing",
           "capability:asset-delivery"
         ],
         "boundary": "AWS eu-west-2",
@@ -2807,8 +3002,7 @@
         "region": "eu-west-2",
         "lifecycle": "active",
         "truthStates": [
-          "observed",
-          "declared"
+          "observed"
         ],
         "instances": [
           {
@@ -2824,30 +3018,9 @@
             "evidenceIds": [
               "ev:aws-snapshot:aws-snapshot://123456789012/eu-west-2:root"
             ]
-          },
-          {
-            "id": "aws:terraform:bucket:retail-prod-assets:declared",
-            "truthState": "declared",
-            "attributes": {
-              "terraformType": "aws_s3_bucket",
-              "logicalName": "assets",
-              "address": "aws_s3_bucket.assets",
-              "isData": false,
-              "unresolvedAttributes": [],
-              "bucket": "retail-prod-assets"
-            },
-            "evidenceIds": [
-              "ev:terraform:infra/main.tf:resource.aws_s3_bucket.assets"
-            ]
           }
         ],
         "metadata": {
-          "terraformType": "aws_s3_bucket",
-          "logicalName": "assets",
-          "address": "aws_s3_bucket.assets",
-          "isData": false,
-          "unresolvedAttributes": [],
-          "bucket": "retail-prod-assets",
           "arn": "arn:aws:s3:::retail-prod-assets-logs",
           "providerId": "retail-prod-assets-logs",
           "tags": {},
@@ -2856,32 +3029,22 @@
         },
         "interfaces": [],
         "evidence": [
-          "ev:aws-snapshot:aws-snapshot://123456789012/eu-west-2:root",
-          "ev:terraform:infra/main.tf:resource.aws_s3_bucket.assets",
-          "ev:reconciliation:reconcile:aws:aws:bucket:retail-prod-assets-logs:aws:terraform:bucket:retail-prod-assets:root"
+          "ev:aws-snapshot:aws-snapshot://123456789012/eu-west-2:root"
         ],
         "findings": [],
         "confidence": {
-          "band": "medium",
-          "score": 0.7,
+          "band": "high",
+          "score": 0.97,
           "reasons": [
-            "Observed in AWS inventory snapshot at 2026-08-05T12:00:00.000Z",
-            "Probabilistic match via endpoint-soft-match (score 0.8)"
+            "Observed in AWS inventory snapshot at 2026-08-05T12:00:00.000Z"
           ],
-          "missingEvidence": [
-            "deterministic identity (ARN/UID/address)"
-          ],
+          "missingEvidence": [],
           "conflicts": [],
-          "inferenceMethod": "endpoint-soft-match",
-          "wouldIncreaseConfidence": [
-            "Confirm ARN or Terraform address equality"
-          ]
+          "wouldIncreaseConfidence": []
         },
         "tags": [
           "aws",
           "observed",
-          "terraform",
-          "reconciled",
           "capability:asset-delivery"
         ],
         "boundary": "AWS eu-west-2",
@@ -3005,7 +3168,8 @@
           "observed",
           "terraform",
           "reconciled",
-          "capability:customer-ordering"
+          "capability:catalog",
+          "capability:order-processing"
         ],
         "boundary": "AWS eu-west-2",
         "ownership": [
@@ -3588,7 +3752,7 @@
             "id": "capability:customer-ordering:inferred",
             "truthState": "inferred",
             "attributes": {
-              "memberCount": 15
+              "memberCount": 17
             },
             "evidenceIds": [
               "ev:architecture-intelligence:capability:customer-ordering:root"
@@ -3598,7 +3762,6 @@
         "metadata": {
           "inferred": true,
           "memberIds": [
-            "aws:terraform:vpc:retail",
             "aws:terraform:queue:retail-prod-orders",
             "aws:terraform:dns:shop.example.com",
             "kubernetes:kubernetes:retail-prod:workload:storefront",
@@ -3606,10 +3769,13 @@
             "kubernetes:kubernetes:retail-prod:workload:catalog",
             "kubernetes:kubernetes:retail-prod:workload:order-worker",
             "kubernetes:kubernetes:retail-prod:service-account:storefront",
+            "kubernetes:kubernetes:retail-staging:workload:staging-catalog",
             "openshift:openshift:retail-prod:route:shop",
+            "openshift:openshift:retail-prod:route:admin",
             "application:config:order_queue",
+            "application:application:catalog",
             "application:application:storefront",
-            "aws:aws:relational-database:retail-prod-db",
+            "aws:aws:bucket:retail-prod-assets",
             "aws:aws:queue:retail-staging-orders",
             "external:external-system:payments.partner.example",
             "external:external-system:otel-collector"
@@ -3626,7 +3792,7 @@
           "score": 0.78,
           "reasons": [
             "Matched storefront/order naming and deployment metadata",
-            "15 implementing components"
+            "17 implementing components"
           ],
           "missingEvidence": [
             "explicit capability catalogue annotation"
@@ -3653,7 +3819,7 @@
         "subtype": "catalog",
         "name": "Product Catalogue",
         "displayName": "Product Catalogue",
-        "environment": "shared",
+        "environment": "production",
         "lifecycle": "active",
         "truthStates": [
           "inferred"
@@ -3663,7 +3829,7 @@
             "id": "capability:catalog:inferred",
             "truthState": "inferred",
             "attributes": {
-              "memberCount": 8
+              "memberCount": 11
             },
             "evidenceIds": [
               "ev:architecture-intelligence:capability:catalog:root"
@@ -3673,12 +3839,15 @@
         "metadata": {
           "inferred": true,
           "memberIds": [
-            "aws:terraform:vpc:retail",
+            "aws:terraform:queue:retail-prod-orders",
             "aws:terraform:iam-policy:catalog-broad",
             "kubernetes:kubernetes:retail-prod:workload:storefront",
             "kubernetes:kubernetes:retail-prod:workload:catalog",
             "kubernetes:kubernetes:retail-prod:service:catalog",
             "kubernetes:kubernetes:retail-prod:network-policy:restrict-catalog",
+            "kubernetes:kubernetes:retail-staging:workload:staging-catalog",
+            "application:application:catalog",
+            "aws:aws:relational-database:retail-prod-db",
             "aws:aws:security-group:retail-catalog",
             "aws:aws:iam-role:retail-catalog-role"
           ],
@@ -3694,7 +3863,7 @@
           "score": 0.78,
           "reasons": [
             "Matched catalog/product service naming",
-            "8 implementing components"
+            "11 implementing components"
           ],
           "missingEvidence": [
             "explicit capability catalogue annotation"
@@ -3721,7 +3890,7 @@
         "subtype": "order-processing",
         "name": "Order Processing",
         "displayName": "Order Processing",
-        "environment": "shared",
+        "environment": "production",
         "lifecycle": "active",
         "truthStates": [
           "inferred"
@@ -3731,7 +3900,7 @@
             "id": "capability:order-processing:inferred",
             "truthState": "inferred",
             "attributes": {
-              "memberCount": 2
+              "memberCount": 5
             },
             "evidenceIds": [
               "ev:architecture-intelligence:capability:order-processing:root"
@@ -3741,8 +3910,11 @@
         "metadata": {
           "inferred": true,
           "memberIds": [
-            "aws:terraform:vpc:retail",
-            "kubernetes:kubernetes:retail-prod:workload:order-worker"
+            "aws:terraform:queue:retail-prod-orders",
+            "kubernetes:kubernetes:retail-prod:workload:order-worker",
+            "kubernetes:kubernetes:retail-staging:workload:staging-catalog",
+            "aws:aws:bucket:retail-prod-assets",
+            "aws:aws:relational-database:retail-prod-db"
           ],
           "rationale": "Matched asynchronous order worker patterns"
         },
@@ -3756,7 +3928,7 @@
           "score": 0.78,
           "reasons": [
             "Matched asynchronous order worker patterns",
-            "2 implementing components"
+            "5 implementing components"
           ],
           "missingEvidence": [
             "explicit capability catalogue annotation"
@@ -4106,7 +4278,9 @@
             "kubernetes:kubernetes:retail-prod:workload:order-worker",
             "kubernetes:kubernetes:retail-prod:network-policy:restrict-catalog",
             "kubernetes:kubernetes:retail-prod:service-account:storefront",
+            "kubernetes:kubernetes:retail-staging:workload:staging-catalog",
             "application:config:order_queue",
+            "application:application:catalog",
             "application:application:storefront",
             "aws:aws:security-group:retail-catalog",
             "aws:aws:iam-role:retail-catalog-role",
@@ -4164,6 +4338,8 @@
             "kubernetes:kubernetes:retail-prod:workload:catalog",
             "kubernetes:kubernetes:retail-prod:service:catalog",
             "kubernetes:kubernetes:retail-prod:network-policy:restrict-catalog",
+            "kubernetes:kubernetes:retail-staging:workload:staging-catalog",
+            "application:application:catalog",
             "aws:aws:relational-database:retail-prod-db",
             "aws:aws:security-group:retail-catalog",
             "aws:aws:iam-role:retail-catalog-role"
@@ -4173,6 +4349,8 @@
             "kubernetes:kubernetes:retail-prod:workload:catalog",
             "kubernetes:kubernetes:retail-prod:service:catalog",
             "kubernetes:kubernetes:retail-prod:network-policy:restrict-catalog",
+            "kubernetes:kubernetes:retail-staging:workload:staging-catalog",
+            "application:application:catalog",
             "aws:aws:security-group:retail-catalog",
             "aws:aws:iam-role:retail-catalog-role",
             "capability:catalog"
@@ -4188,7 +4366,7 @@
           "score": 0.74,
           "reasons": [
             "Classification internal",
-            "7 storage location(s)"
+            "9 storage location(s)"
           ],
           "missingEvidence": [
             "explicit data catalogue tags"
@@ -4337,6 +4515,8 @@
             "kubernetes:kubernetes:retail-prod:workload:catalog",
             "kubernetes:kubernetes:retail-prod:service:catalog",
             "kubernetes:kubernetes:retail-prod:network-policy:restrict-catalog",
+            "kubernetes:kubernetes:retail-staging:workload:staging-catalog",
+            "application:application:catalog",
             "aws:aws:bucket:retail-prod-assets-logs",
             "aws:aws:security-group:retail-catalog",
             "aws:aws:iam-role:retail-catalog-role",
@@ -4354,7 +4534,7 @@
           "score": 0.74,
           "reasons": [
             "Classification internal",
-            "9 storage location(s)"
+            "11 storage location(s)"
           ],
           "missingEvidence": [
             "explicit data catalogue tags"
@@ -4400,9 +4580,11 @@
             "kubernetes:kubernetes:retail-prod:workload:order-worker",
             "kubernetes:kubernetes:retail-prod:network-policy:restrict-catalog",
             "kubernetes:kubernetes:retail-prod:service-account:storefront",
+            "kubernetes:kubernetes:retail-staging:workload:staging-catalog",
             "openshift:openshift:retail-prod:route:shop",
             "openshift:openshift:retail-prod:route:admin",
             "application:config:order_queue",
+            "application:application:catalog",
             "application:application:storefront",
             "aws:aws:bucket:retail-prod-assets",
             "aws:aws:bucket:retail-prod-assets-logs",
@@ -4422,7 +4604,7 @@
           "band": "medium",
           "score": 0.65,
           "reasons": [
-            "24 resources matched ownership heuristics"
+            "26 resources matched ownership heuristics"
           ],
           "missingEvidence": [
             "explicit ownership annotations"
@@ -4713,6 +4895,8 @@
             "kubernetes:kubernetes:retail-prod:workload:catalog",
             "kubernetes:kubernetes:retail-prod:service:catalog",
             "kubernetes:kubernetes:retail-prod:workload:order-worker",
+            "kubernetes:kubernetes:retail-staging:workload:staging-catalog",
+            "application:application:catalog",
             "application:application:storefront",
             "application:workload:local-mail"
           ]
@@ -4726,7 +4910,7 @@
           "band": "medium",
           "score": 0.8,
           "reasons": [
-            "7 members in Application Trust Zone"
+            "9 members in Application Trust Zone"
           ],
           "missingEvidence": [],
           "conflicts": [],
@@ -6686,9 +6870,9 @@
         "findings": []
       },
       {
-        "id": "openshift:openshift:retail-prod:route:shop:kubernetes:retail-prod:service:storefront:routes-to:tls-edge",
+        "id": "openshift:openshift:retail-prod:route:shop:kubernetes:kubernetes:retail-prod:service:storefront:routes-to:tls-edge",
         "source": "openshift:openshift:retail-prod:route:shop",
-        "target": "kubernetes:retail-prod:service:storefront",
+        "target": "kubernetes:kubernetes:retail-prod:service:storefront",
         "relation": "routes-to",
         "direction": "directed",
         "protocol": "HTTPS",
@@ -6713,9 +6897,9 @@
         "findings": []
       },
       {
-        "id": "openshift:openshift:retail-prod:route:admin:kubernetes:retail-prod:service:storefront:routes-to:tls-edge",
+        "id": "openshift:openshift:retail-prod:route:admin:kubernetes:kubernetes:retail-prod:service:storefront:routes-to:tls-edge",
         "source": "openshift:openshift:retail-prod:route:admin",
-        "target": "kubernetes:retail-prod:service:storefront",
+        "target": "kubernetes:kubernetes:retail-prod:service:storefront",
         "relation": "routes-to",
         "direction": "directed",
         "protocol": "HTTPS",
@@ -6740,11 +6924,18 @@
         "findings": []
       },
       {
-        "id": "kubernetes:kubernetes:retail-prod:workload:storefront:kubernetes:kubernetes:retail-prod:workload:catalog:configuration-reference:catalog_url",
+        "id": "kubernetes:kubernetes:retail-prod:workload:storefront:kubernetes:kubernetes:retail-prod:workload:catalog:connects:catalog_url",
         "source": "kubernetes:kubernetes:retail-prod:workload:storefront",
         "target": "kubernetes:kubernetes:retail-prod:workload:catalog",
-        "relation": "configuration-reference",
+        "relation": "connects",
         "direction": "directed",
+        "protocol": "HTTP",
+        "ports": [
+          {
+            "from": 8081,
+            "protocol": "HTTP"
+          }
+        ],
         "label": "CATALOG_URL",
         "effectiveState": "unknown",
         "truthStates": [
@@ -6754,10 +6945,10 @@
           "ev:app-config:ev:kubernetes:deploy/openshift.yaml:deployment/retail-prod/storefront:root"
         ],
         "confidence": {
-          "band": "medium",
-          "score": 0.82,
+          "band": "high",
+          "score": 0.9,
           "reasons": [
-            "CATALOG_URL matches catalog"
+            "Internal service URL catalog"
           ],
           "missingEvidence": [],
           "conflicts": [],
@@ -6766,9 +6957,9 @@
         "findings": []
       },
       {
-        "id": "kubernetes:kubernetes:retail-prod:workload:storefront:aws:terraform:vpc:retail:data-read:asset_bucket",
+        "id": "kubernetes:kubernetes:retail-prod:workload:storefront:aws:terraform:bucket:retail-prod-assets:data-read:asset_bucket",
         "source": "kubernetes:kubernetes:retail-prod:workload:storefront",
-        "target": "aws:terraform:vpc:retail",
+        "target": "aws:aws:bucket:retail-prod-assets",
         "relation": "data-read",
         "direction": "directed",
         "label": "ASSET_BUCKET",
@@ -6783,7 +6974,7 @@
           "band": "medium",
           "score": 0.82,
           "reasons": [
-            "ASSET_BUCKET matches retail"
+            "ASSET_BUCKET matches retail-prod-assets"
           ],
           "missingEvidence": [
             "live confirmation of endpoint"
@@ -6852,9 +7043,9 @@
         "findings": []
       },
       {
-        "id": "kubernetes:kubernetes:retail-prod:workload:order-worker:aws:terraform:vpc:retail:event-publish:order_queue",
+        "id": "kubernetes:kubernetes:retail-prod:workload:order-worker:aws:terraform:queue:retail-prod-orders:event-publish:order_queue",
         "source": "kubernetes:kubernetes:retail-prod:workload:order-worker",
-        "target": "aws:terraform:vpc:retail",
+        "target": "aws:terraform:queue:retail-prod-orders",
         "relation": "event-publish",
         "direction": "directed",
         "label": "ORDER_QUEUE",
@@ -6869,7 +7060,7 @@
           "band": "medium",
           "score": 0.82,
           "reasons": [
-            "ORDER_QUEUE matches retail"
+            "ORDER_QUEUE matches retail-prod-orders"
           ],
           "missingEvidence": [
             "live confirmation of endpoint"
@@ -6882,9 +7073,9 @@
         "findings": []
       },
       {
-        "id": "kubernetes:kubernetes:retail-prod:workload:order-worker:aws:terraform:vpc:retail:data-read:asset_bucket",
+        "id": "kubernetes:kubernetes:retail-prod:workload:order-worker:aws:terraform:bucket:retail-prod-assets:data-read:asset_bucket",
         "source": "kubernetes:kubernetes:retail-prod:workload:order-worker",
-        "target": "aws:terraform:vpc:retail",
+        "target": "aws:aws:bucket:retail-prod-assets",
         "relation": "data-read",
         "direction": "directed",
         "label": "ASSET_BUCKET",
@@ -6899,7 +7090,7 @@
           "band": "medium",
           "score": 0.82,
           "reasons": [
-            "ASSET_BUCKET matches retail"
+            "ASSET_BUCKET matches retail-prod-assets"
           ],
           "missingEvidence": [
             "live confirmation of endpoint"
@@ -6912,9 +7103,9 @@
         "findings": []
       },
       {
-        "id": "kubernetes:kubernetes:retail-staging:workload:staging-catalog:aws:terraform:vpc:retail:connects:db_host",
-        "source": "kubernetes:kubernetes:retail-prod:workload:catalog",
-        "target": "aws:terraform:vpc:retail",
+        "id": "kubernetes:kubernetes:retail-staging:workload:staging-catalog:aws:terraform:relational-database:retail-prod-db:connects:db_host",
+        "source": "kubernetes:kubernetes:retail-staging:workload:staging-catalog",
+        "target": "aws:aws:relational-database:retail-prod-db",
         "relation": "connects",
         "direction": "directed",
         "protocol": "TCP",
@@ -6936,7 +7127,7 @@
           "band": "medium",
           "score": 0.82,
           "reasons": [
-            "DB_HOST matches retail"
+            "DB_HOST matches retail-prod-db"
           ],
           "missingEvidence": [
             "live confirmation of endpoint"
@@ -6949,9 +7140,9 @@
         "findings": []
       },
       {
-        "id": "kubernetes:kubernetes:retail-staging:workload:staging-catalog:aws:terraform:vpc:retail:event-publish:order_queue",
-        "source": "kubernetes:kubernetes:retail-prod:workload:catalog",
-        "target": "aws:terraform:vpc:retail",
+        "id": "kubernetes:kubernetes:retail-staging:workload:staging-catalog:aws:terraform:queue:retail-prod-orders:event-publish:order_queue",
+        "source": "kubernetes:kubernetes:retail-staging:workload:staging-catalog",
+        "target": "aws:terraform:queue:retail-prod-orders",
         "relation": "event-publish",
         "direction": "directed",
         "label": "ORDER_QUEUE",
@@ -6966,7 +7157,7 @@
           "band": "medium",
           "score": 0.82,
           "reasons": [
-            "ORDER_QUEUE matches retail"
+            "ORDER_QUEUE matches retail-prod-orders"
           ],
           "missingEvidence": [
             "live confirmation of endpoint"
@@ -6979,9 +7170,9 @@
         "findings": []
       },
       {
-        "id": "application:application:storefront:aws:terraform:vpc:retail:connects:db_host",
-        "source": "application:application:storefront",
-        "target": "aws:terraform:vpc:retail",
+        "id": "application:application:catalog:aws:terraform:relational-database:retail-prod-db:connects:db_host",
+        "source": "application:application:catalog",
+        "target": "aws:aws:relational-database:retail-prod-db",
         "relation": "connects",
         "direction": "directed",
         "protocol": "TCP",
@@ -7003,7 +7194,7 @@
           "band": "medium",
           "score": 0.82,
           "reasons": [
-            "DB_HOST matches retail"
+            "DB_HOST matches retail-prod-db"
           ],
           "missingEvidence": [],
           "conflicts": [],
@@ -7012,8 +7203,8 @@
         "findings": []
       },
       {
-        "id": "application:application:storefront:aws:terraform:relational-database:retail-prod-db:connects:db_port",
-        "source": "application:application:storefront",
+        "id": "application:application:catalog:aws:terraform:relational-database:retail-prod-db:connects:db_port",
+        "source": "application:application:catalog",
         "target": "aws:aws:relational-database:retail-prod-db",
         "relation": "connects",
         "direction": "directed",
@@ -7045,9 +7236,9 @@
         "findings": []
       },
       {
-        "id": "application:application:storefront:aws:terraform:vpc:retail:event-publish:order_queue",
-        "source": "application:application:storefront",
-        "target": "aws:terraform:vpc:retail",
+        "id": "application:application:catalog:aws:terraform:queue:retail-prod-orders:event-publish:order_queue",
+        "source": "application:application:catalog",
+        "target": "aws:terraform:queue:retail-prod-orders",
         "relation": "event-publish",
         "direction": "directed",
         "label": "ORDER_QUEUE",
@@ -7062,7 +7253,7 @@
           "band": "medium",
           "score": 0.82,
           "reasons": [
-            "ORDER_QUEUE matches retail"
+            "ORDER_QUEUE matches retail-prod-orders"
           ],
           "missingEvidence": [],
           "conflicts": [],
@@ -7071,9 +7262,9 @@
         "findings": []
       },
       {
-        "id": "application:application:storefront:aws:terraform:vpc:retail:configuration-reference:spring.datasource.url",
-        "source": "application:application:storefront",
-        "target": "aws:terraform:vpc:retail",
+        "id": "application:application:catalog:aws:terraform:relational-database:retail-prod-db:configuration-reference:spring.datasource.url",
+        "source": "application:application:catalog",
+        "target": "aws:aws:relational-database:retail-prod-db",
         "relation": "configuration-reference",
         "direction": "directed",
         "label": "spring.datasource.url",
@@ -7088,33 +7279,7 @@
           "band": "medium",
           "score": 0.82,
           "reasons": [
-            "spring.datasource.url matches retail"
-          ],
-          "missingEvidence": [],
-          "conflicts": [],
-          "wouldIncreaseConfidence": []
-        },
-        "findings": []
-      },
-      {
-        "id": "application:application:storefront:aws:terraform:vpc:retail:configuration-reference:spring.redis.host",
-        "source": "application:application:storefront",
-        "target": "aws:terraform:vpc:retail",
-        "relation": "configuration-reference",
-        "direction": "directed",
-        "label": "spring.redis.host",
-        "effectiveState": "unknown",
-        "truthStates": [
-          "declared"
-        ],
-        "evidence": [
-          "ev:app-config:apps/catalog/application.yaml:spring.redis.host"
-        ],
-        "confidence": {
-          "band": "medium",
-          "score": 0.82,
-          "reasons": [
-            "spring.redis.host matches retail"
+            "spring.datasource.url matches retail-prod-db"
           ],
           "missingEvidence": [],
           "conflicts": [],
@@ -7225,58 +7390,6 @@
         "findings": [],
         "label": "public",
         "effectiveState": "allowed"
-      },
-      {
-        "id": "capability:customer-ordering:contains:aws:terraform:vpc:retail",
-        "source": "capability:customer-ordering",
-        "target": "aws:terraform:vpc:retail",
-        "relation": "contains",
-        "direction": "directed",
-        "truthStates": [
-          "inferred"
-        ],
-        "evidence": [
-          "ev:architecture-intelligence:capability:customer-ordering:root"
-        ],
-        "confidence": {
-          "band": "medium",
-          "score": 0.75,
-          "reasons": [
-            "retail supports Customer Ordering"
-          ],
-          "missingEvidence": [],
-          "conflicts": [],
-          "inferenceMethod": "capability-membership",
-          "wouldIncreaseConfidence": []
-        },
-        "findings": [],
-        "label": "implements"
-      },
-      {
-        "id": "aws:terraform:vpc:retail:implements:capability:customer-ordering",
-        "source": "aws:terraform:vpc:retail",
-        "target": "capability:customer-ordering",
-        "relation": "implements",
-        "direction": "directed",
-        "truthStates": [
-          "inferred"
-        ],
-        "evidence": [
-          "ev:architecture-intelligence:capability:customer-ordering:root"
-        ],
-        "confidence": {
-          "band": "medium",
-          "score": 0.75,
-          "reasons": [
-            "retail supports Customer Ordering"
-          ],
-          "missingEvidence": [],
-          "conflicts": [],
-          "inferenceMethod": "capability-membership",
-          "wouldIncreaseConfidence": []
-        },
-        "findings": [],
-        "label": "supports capability"
       },
       {
         "id": "capability:customer-ordering:contains:aws:terraform:queue:retail-prod-orders",
@@ -7643,6 +7756,58 @@
         "label": "supports capability"
       },
       {
+        "id": "capability:customer-ordering:contains:kubernetes:kubernetes:retail-staging:workload:staging-catalog",
+        "source": "capability:customer-ordering",
+        "target": "kubernetes:kubernetes:retail-staging:workload:staging-catalog",
+        "relation": "contains",
+        "direction": "directed",
+        "truthStates": [
+          "inferred"
+        ],
+        "evidence": [
+          "ev:architecture-intelligence:capability:customer-ordering:root"
+        ],
+        "confidence": {
+          "band": "medium",
+          "score": 0.75,
+          "reasons": [
+            "staging-catalog supports Customer Ordering"
+          ],
+          "missingEvidence": [],
+          "conflicts": [],
+          "inferenceMethod": "capability-membership",
+          "wouldIncreaseConfidence": []
+        },
+        "findings": [],
+        "label": "implements"
+      },
+      {
+        "id": "kubernetes:kubernetes:retail-staging:workload:staging-catalog:implements:capability:customer-ordering",
+        "source": "kubernetes:kubernetes:retail-staging:workload:staging-catalog",
+        "target": "capability:customer-ordering",
+        "relation": "implements",
+        "direction": "directed",
+        "truthStates": [
+          "inferred"
+        ],
+        "evidence": [
+          "ev:architecture-intelligence:capability:customer-ordering:root"
+        ],
+        "confidence": {
+          "band": "medium",
+          "score": 0.75,
+          "reasons": [
+            "staging-catalog supports Customer Ordering"
+          ],
+          "missingEvidence": [],
+          "conflicts": [],
+          "inferenceMethod": "capability-membership",
+          "wouldIncreaseConfidence": []
+        },
+        "findings": [],
+        "label": "supports capability"
+      },
+      {
         "id": "capability:customer-ordering:contains:openshift:openshift:retail-prod:route:shop",
         "source": "capability:customer-ordering",
         "target": "openshift:openshift:retail-prod:route:shop",
@@ -7685,6 +7850,58 @@
           "score": 0.75,
           "reasons": [
             "shop supports Customer Ordering"
+          ],
+          "missingEvidence": [],
+          "conflicts": [],
+          "inferenceMethod": "capability-membership",
+          "wouldIncreaseConfidence": []
+        },
+        "findings": [],
+        "label": "supports capability"
+      },
+      {
+        "id": "capability:customer-ordering:contains:openshift:openshift:retail-prod:route:admin",
+        "source": "capability:customer-ordering",
+        "target": "openshift:openshift:retail-prod:route:admin",
+        "relation": "contains",
+        "direction": "directed",
+        "truthStates": [
+          "inferred"
+        ],
+        "evidence": [
+          "ev:architecture-intelligence:capability:customer-ordering:root"
+        ],
+        "confidence": {
+          "band": "medium",
+          "score": 0.75,
+          "reasons": [
+            "admin supports Customer Ordering"
+          ],
+          "missingEvidence": [],
+          "conflicts": [],
+          "inferenceMethod": "capability-membership",
+          "wouldIncreaseConfidence": []
+        },
+        "findings": [],
+        "label": "implements"
+      },
+      {
+        "id": "openshift:openshift:retail-prod:route:admin:implements:capability:customer-ordering",
+        "source": "openshift:openshift:retail-prod:route:admin",
+        "target": "capability:customer-ordering",
+        "relation": "implements",
+        "direction": "directed",
+        "truthStates": [
+          "inferred"
+        ],
+        "evidence": [
+          "ev:architecture-intelligence:capability:customer-ordering:root"
+        ],
+        "confidence": {
+          "band": "medium",
+          "score": 0.75,
+          "reasons": [
+            "admin supports Customer Ordering"
           ],
           "missingEvidence": [],
           "conflicts": [],
@@ -7747,6 +7964,58 @@
         "label": "supports capability"
       },
       {
+        "id": "capability:customer-ordering:contains:application:application:catalog",
+        "source": "capability:customer-ordering",
+        "target": "application:application:catalog",
+        "relation": "contains",
+        "direction": "directed",
+        "truthStates": [
+          "inferred"
+        ],
+        "evidence": [
+          "ev:architecture-intelligence:capability:customer-ordering:root"
+        ],
+        "confidence": {
+          "band": "medium",
+          "score": 0.75,
+          "reasons": [
+            "catalog supports Customer Ordering"
+          ],
+          "missingEvidence": [],
+          "conflicts": [],
+          "inferenceMethod": "capability-membership",
+          "wouldIncreaseConfidence": []
+        },
+        "findings": [],
+        "label": "implements"
+      },
+      {
+        "id": "application:application:catalog:implements:capability:customer-ordering",
+        "source": "application:application:catalog",
+        "target": "capability:customer-ordering",
+        "relation": "implements",
+        "direction": "directed",
+        "truthStates": [
+          "inferred"
+        ],
+        "evidence": [
+          "ev:architecture-intelligence:capability:customer-ordering:root"
+        ],
+        "confidence": {
+          "band": "medium",
+          "score": 0.75,
+          "reasons": [
+            "catalog supports Customer Ordering"
+          ],
+          "missingEvidence": [],
+          "conflicts": [],
+          "inferenceMethod": "capability-membership",
+          "wouldIncreaseConfidence": []
+        },
+        "findings": [],
+        "label": "supports capability"
+      },
+      {
         "id": "capability:customer-ordering:contains:application:application:storefront",
         "source": "capability:customer-ordering",
         "target": "application:application:storefront",
@@ -7799,9 +8068,9 @@
         "label": "supports capability"
       },
       {
-        "id": "capability:customer-ordering:contains:aws:aws:relational-database:retail-prod-db",
+        "id": "capability:customer-ordering:contains:aws:aws:bucket:retail-prod-assets",
         "source": "capability:customer-ordering",
-        "target": "aws:aws:relational-database:retail-prod-db",
+        "target": "aws:aws:bucket:retail-prod-assets",
         "relation": "contains",
         "direction": "directed",
         "truthStates": [
@@ -7814,7 +8083,7 @@
           "band": "medium",
           "score": 0.75,
           "reasons": [
-            "retail-prod-db supports Customer Ordering"
+            "retail-prod-assets supports Customer Ordering"
           ],
           "missingEvidence": [],
           "conflicts": [],
@@ -7825,8 +8094,8 @@
         "label": "implements"
       },
       {
-        "id": "aws:aws:relational-database:retail-prod-db:implements:capability:customer-ordering",
-        "source": "aws:aws:relational-database:retail-prod-db",
+        "id": "aws:aws:bucket:retail-prod-assets:implements:capability:customer-ordering",
+        "source": "aws:aws:bucket:retail-prod-assets",
         "target": "capability:customer-ordering",
         "relation": "implements",
         "direction": "directed",
@@ -7840,7 +8109,7 @@
           "band": "medium",
           "score": 0.75,
           "reasons": [
-            "retail-prod-db supports Customer Ordering"
+            "retail-prod-assets supports Customer Ordering"
           ],
           "missingEvidence": [],
           "conflicts": [],
@@ -8007,9 +8276,9 @@
         "label": "supports capability"
       },
       {
-        "id": "capability:catalog:contains:aws:terraform:vpc:retail",
+        "id": "capability:catalog:contains:aws:terraform:queue:retail-prod-orders",
         "source": "capability:catalog",
-        "target": "aws:terraform:vpc:retail",
+        "target": "aws:terraform:queue:retail-prod-orders",
         "relation": "contains",
         "direction": "directed",
         "truthStates": [
@@ -8022,7 +8291,7 @@
           "band": "medium",
           "score": 0.75,
           "reasons": [
-            "retail supports Product Catalogue"
+            "retail-prod-orders supports Product Catalogue"
           ],
           "missingEvidence": [],
           "conflicts": [],
@@ -8033,8 +8302,8 @@
         "label": "implements"
       },
       {
-        "id": "aws:terraform:vpc:retail:implements:capability:catalog",
-        "source": "aws:terraform:vpc:retail",
+        "id": "aws:terraform:queue:retail-prod-orders:implements:capability:catalog",
+        "source": "aws:terraform:queue:retail-prod-orders",
         "target": "capability:catalog",
         "relation": "implements",
         "direction": "directed",
@@ -8048,7 +8317,7 @@
           "band": "medium",
           "score": 0.75,
           "reasons": [
-            "retail supports Product Catalogue"
+            "retail-prod-orders supports Product Catalogue"
           ],
           "missingEvidence": [],
           "conflicts": [],
@@ -8319,6 +8588,162 @@
         "label": "supports capability"
       },
       {
+        "id": "capability:catalog:contains:kubernetes:kubernetes:retail-staging:workload:staging-catalog",
+        "source": "capability:catalog",
+        "target": "kubernetes:kubernetes:retail-staging:workload:staging-catalog",
+        "relation": "contains",
+        "direction": "directed",
+        "truthStates": [
+          "inferred"
+        ],
+        "evidence": [
+          "ev:architecture-intelligence:capability:catalog:root"
+        ],
+        "confidence": {
+          "band": "medium",
+          "score": 0.75,
+          "reasons": [
+            "staging-catalog supports Product Catalogue"
+          ],
+          "missingEvidence": [],
+          "conflicts": [],
+          "inferenceMethod": "capability-membership",
+          "wouldIncreaseConfidence": []
+        },
+        "findings": [],
+        "label": "implements"
+      },
+      {
+        "id": "kubernetes:kubernetes:retail-staging:workload:staging-catalog:implements:capability:catalog",
+        "source": "kubernetes:kubernetes:retail-staging:workload:staging-catalog",
+        "target": "capability:catalog",
+        "relation": "implements",
+        "direction": "directed",
+        "truthStates": [
+          "inferred"
+        ],
+        "evidence": [
+          "ev:architecture-intelligence:capability:catalog:root"
+        ],
+        "confidence": {
+          "band": "medium",
+          "score": 0.75,
+          "reasons": [
+            "staging-catalog supports Product Catalogue"
+          ],
+          "missingEvidence": [],
+          "conflicts": [],
+          "inferenceMethod": "capability-membership",
+          "wouldIncreaseConfidence": []
+        },
+        "findings": [],
+        "label": "supports capability"
+      },
+      {
+        "id": "capability:catalog:contains:application:application:catalog",
+        "source": "capability:catalog",
+        "target": "application:application:catalog",
+        "relation": "contains",
+        "direction": "directed",
+        "truthStates": [
+          "inferred"
+        ],
+        "evidence": [
+          "ev:architecture-intelligence:capability:catalog:root"
+        ],
+        "confidence": {
+          "band": "medium",
+          "score": 0.75,
+          "reasons": [
+            "catalog supports Product Catalogue"
+          ],
+          "missingEvidence": [],
+          "conflicts": [],
+          "inferenceMethod": "capability-membership",
+          "wouldIncreaseConfidence": []
+        },
+        "findings": [],
+        "label": "implements"
+      },
+      {
+        "id": "application:application:catalog:implements:capability:catalog",
+        "source": "application:application:catalog",
+        "target": "capability:catalog",
+        "relation": "implements",
+        "direction": "directed",
+        "truthStates": [
+          "inferred"
+        ],
+        "evidence": [
+          "ev:architecture-intelligence:capability:catalog:root"
+        ],
+        "confidence": {
+          "band": "medium",
+          "score": 0.75,
+          "reasons": [
+            "catalog supports Product Catalogue"
+          ],
+          "missingEvidence": [],
+          "conflicts": [],
+          "inferenceMethod": "capability-membership",
+          "wouldIncreaseConfidence": []
+        },
+        "findings": [],
+        "label": "supports capability"
+      },
+      {
+        "id": "capability:catalog:contains:aws:aws:relational-database:retail-prod-db",
+        "source": "capability:catalog",
+        "target": "aws:aws:relational-database:retail-prod-db",
+        "relation": "contains",
+        "direction": "directed",
+        "truthStates": [
+          "inferred"
+        ],
+        "evidence": [
+          "ev:architecture-intelligence:capability:catalog:root"
+        ],
+        "confidence": {
+          "band": "medium",
+          "score": 0.75,
+          "reasons": [
+            "retail-prod-db supports Product Catalogue"
+          ],
+          "missingEvidence": [],
+          "conflicts": [],
+          "inferenceMethod": "capability-membership",
+          "wouldIncreaseConfidence": []
+        },
+        "findings": [],
+        "label": "implements"
+      },
+      {
+        "id": "aws:aws:relational-database:retail-prod-db:implements:capability:catalog",
+        "source": "aws:aws:relational-database:retail-prod-db",
+        "target": "capability:catalog",
+        "relation": "implements",
+        "direction": "directed",
+        "truthStates": [
+          "inferred"
+        ],
+        "evidence": [
+          "ev:architecture-intelligence:capability:catalog:root"
+        ],
+        "confidence": {
+          "band": "medium",
+          "score": 0.75,
+          "reasons": [
+            "retail-prod-db supports Product Catalogue"
+          ],
+          "missingEvidence": [],
+          "conflicts": [],
+          "inferenceMethod": "capability-membership",
+          "wouldIncreaseConfidence": []
+        },
+        "findings": [],
+        "label": "supports capability"
+      },
+      {
         "id": "capability:catalog:contains:aws:aws:security-group:retail-catalog",
         "source": "capability:catalog",
         "target": "aws:aws:security-group:retail-catalog",
@@ -8423,9 +8848,9 @@
         "label": "supports capability"
       },
       {
-        "id": "capability:order-processing:contains:aws:terraform:vpc:retail",
+        "id": "capability:order-processing:contains:aws:terraform:queue:retail-prod-orders",
         "source": "capability:order-processing",
-        "target": "aws:terraform:vpc:retail",
+        "target": "aws:terraform:queue:retail-prod-orders",
         "relation": "contains",
         "direction": "directed",
         "truthStates": [
@@ -8438,7 +8863,7 @@
           "band": "medium",
           "score": 0.75,
           "reasons": [
-            "retail supports Order Processing"
+            "retail-prod-orders supports Order Processing"
           ],
           "missingEvidence": [],
           "conflicts": [],
@@ -8449,8 +8874,8 @@
         "label": "implements"
       },
       {
-        "id": "aws:terraform:vpc:retail:implements:capability:order-processing",
-        "source": "aws:terraform:vpc:retail",
+        "id": "aws:terraform:queue:retail-prod-orders:implements:capability:order-processing",
+        "source": "aws:terraform:queue:retail-prod-orders",
         "target": "capability:order-processing",
         "relation": "implements",
         "direction": "directed",
@@ -8464,7 +8889,7 @@
           "band": "medium",
           "score": 0.75,
           "reasons": [
-            "retail supports Order Processing"
+            "retail-prod-orders supports Order Processing"
           ],
           "missingEvidence": [],
           "conflicts": [],
@@ -8517,6 +8942,162 @@
           "score": 0.75,
           "reasons": [
             "order-worker supports Order Processing"
+          ],
+          "missingEvidence": [],
+          "conflicts": [],
+          "inferenceMethod": "capability-membership",
+          "wouldIncreaseConfidence": []
+        },
+        "findings": [],
+        "label": "supports capability"
+      },
+      {
+        "id": "capability:order-processing:contains:kubernetes:kubernetes:retail-staging:workload:staging-catalog",
+        "source": "capability:order-processing",
+        "target": "kubernetes:kubernetes:retail-staging:workload:staging-catalog",
+        "relation": "contains",
+        "direction": "directed",
+        "truthStates": [
+          "inferred"
+        ],
+        "evidence": [
+          "ev:architecture-intelligence:capability:order-processing:root"
+        ],
+        "confidence": {
+          "band": "medium",
+          "score": 0.75,
+          "reasons": [
+            "staging-catalog supports Order Processing"
+          ],
+          "missingEvidence": [],
+          "conflicts": [],
+          "inferenceMethod": "capability-membership",
+          "wouldIncreaseConfidence": []
+        },
+        "findings": [],
+        "label": "implements"
+      },
+      {
+        "id": "kubernetes:kubernetes:retail-staging:workload:staging-catalog:implements:capability:order-processing",
+        "source": "kubernetes:kubernetes:retail-staging:workload:staging-catalog",
+        "target": "capability:order-processing",
+        "relation": "implements",
+        "direction": "directed",
+        "truthStates": [
+          "inferred"
+        ],
+        "evidence": [
+          "ev:architecture-intelligence:capability:order-processing:root"
+        ],
+        "confidence": {
+          "band": "medium",
+          "score": 0.75,
+          "reasons": [
+            "staging-catalog supports Order Processing"
+          ],
+          "missingEvidence": [],
+          "conflicts": [],
+          "inferenceMethod": "capability-membership",
+          "wouldIncreaseConfidence": []
+        },
+        "findings": [],
+        "label": "supports capability"
+      },
+      {
+        "id": "capability:order-processing:contains:aws:aws:bucket:retail-prod-assets",
+        "source": "capability:order-processing",
+        "target": "aws:aws:bucket:retail-prod-assets",
+        "relation": "contains",
+        "direction": "directed",
+        "truthStates": [
+          "inferred"
+        ],
+        "evidence": [
+          "ev:architecture-intelligence:capability:order-processing:root"
+        ],
+        "confidence": {
+          "band": "medium",
+          "score": 0.75,
+          "reasons": [
+            "retail-prod-assets supports Order Processing"
+          ],
+          "missingEvidence": [],
+          "conflicts": [],
+          "inferenceMethod": "capability-membership",
+          "wouldIncreaseConfidence": []
+        },
+        "findings": [],
+        "label": "implements"
+      },
+      {
+        "id": "aws:aws:bucket:retail-prod-assets:implements:capability:order-processing",
+        "source": "aws:aws:bucket:retail-prod-assets",
+        "target": "capability:order-processing",
+        "relation": "implements",
+        "direction": "directed",
+        "truthStates": [
+          "inferred"
+        ],
+        "evidence": [
+          "ev:architecture-intelligence:capability:order-processing:root"
+        ],
+        "confidence": {
+          "band": "medium",
+          "score": 0.75,
+          "reasons": [
+            "retail-prod-assets supports Order Processing"
+          ],
+          "missingEvidence": [],
+          "conflicts": [],
+          "inferenceMethod": "capability-membership",
+          "wouldIncreaseConfidence": []
+        },
+        "findings": [],
+        "label": "supports capability"
+      },
+      {
+        "id": "capability:order-processing:contains:aws:aws:relational-database:retail-prod-db",
+        "source": "capability:order-processing",
+        "target": "aws:aws:relational-database:retail-prod-db",
+        "relation": "contains",
+        "direction": "directed",
+        "truthStates": [
+          "inferred"
+        ],
+        "evidence": [
+          "ev:architecture-intelligence:capability:order-processing:root"
+        ],
+        "confidence": {
+          "band": "medium",
+          "score": 0.75,
+          "reasons": [
+            "retail-prod-db supports Order Processing"
+          ],
+          "missingEvidence": [],
+          "conflicts": [],
+          "inferenceMethod": "capability-membership",
+          "wouldIncreaseConfidence": []
+        },
+        "findings": [],
+        "label": "implements"
+      },
+      {
+        "id": "aws:aws:relational-database:retail-prod-db:implements:capability:order-processing",
+        "source": "aws:aws:relational-database:retail-prod-db",
+        "target": "capability:order-processing",
+        "relation": "implements",
+        "direction": "directed",
+        "truthStates": [
+          "inferred"
+        ],
+        "evidence": [
+          "ev:architecture-intelligence:capability:order-processing:root"
+        ],
+        "confidence": {
+          "band": "medium",
+          "score": 0.75,
+          "reasons": [
+            "retail-prod-db supports Order Processing"
           ],
           "missingEvidence": [],
           "conflicts": [],
@@ -9562,6 +10143,34 @@
         ]
       },
       {
+        "id": "kubernetes:kubernetes:retail-staging:workload:staging-catalog:creates:data:orders",
+        "source": "kubernetes:kubernetes:retail-staging:workload:staging-catalog",
+        "target": "data:orders",
+        "relation": "creates",
+        "direction": "directed",
+        "truthStates": [
+          "inferred"
+        ],
+        "evidence": [
+          "ev:architecture-intelligence:data:orders:root"
+        ],
+        "confidence": {
+          "band": "medium",
+          "score": 0.7,
+          "reasons": [
+            "staging-catalog produces Customer Orders"
+          ],
+          "missingEvidence": [],
+          "conflicts": [],
+          "wouldIncreaseConfidence": []
+        },
+        "findings": [],
+        "label": "creates",
+        "dataClassifications": [
+          "confidential"
+        ]
+      },
+      {
         "id": "application:config:order_queue:creates:data:orders",
         "source": "application:config:order_queue",
         "target": "data:orders",
@@ -9578,6 +10187,34 @@
           "score": 0.7,
           "reasons": [
             "ORDER_QUEUE produces Customer Orders"
+          ],
+          "missingEvidence": [],
+          "conflicts": [],
+          "wouldIncreaseConfidence": []
+        },
+        "findings": [],
+        "label": "creates",
+        "dataClassifications": [
+          "confidential"
+        ]
+      },
+      {
+        "id": "application:application:catalog:creates:data:orders",
+        "source": "application:application:catalog",
+        "target": "data:orders",
+        "relation": "creates",
+        "direction": "directed",
+        "truthStates": [
+          "inferred"
+        ],
+        "evidence": [
+          "ev:architecture-intelligence:data:orders:root"
+        ],
+        "confidence": {
+          "band": "medium",
+          "score": 0.7,
+          "reasons": [
+            "catalog produces Customer Orders"
           ],
           "missingEvidence": [],
           "conflicts": [],
@@ -9898,6 +10535,62 @@
         ]
       },
       {
+        "id": "data:product-catalogue:stores:kubernetes:kubernetes:retail-staging:workload:staging-catalog",
+        "source": "data:product-catalogue",
+        "target": "kubernetes:kubernetes:retail-staging:workload:staging-catalog",
+        "relation": "stores",
+        "direction": "directed",
+        "truthStates": [
+          "inferred"
+        ],
+        "evidence": [
+          "ev:architecture-intelligence:data:product-catalogue:root"
+        ],
+        "confidence": {
+          "band": "medium",
+          "score": 0.8,
+          "reasons": [
+            "Product Catalogue stored in staging-catalog"
+          ],
+          "missingEvidence": [],
+          "conflicts": [],
+          "wouldIncreaseConfidence": []
+        },
+        "findings": [],
+        "label": "stored in",
+        "dataClassifications": [
+          "internal"
+        ]
+      },
+      {
+        "id": "data:product-catalogue:stores:application:application:catalog",
+        "source": "data:product-catalogue",
+        "target": "application:application:catalog",
+        "relation": "stores",
+        "direction": "directed",
+        "truthStates": [
+          "inferred"
+        ],
+        "evidence": [
+          "ev:architecture-intelligence:data:product-catalogue:root"
+        ],
+        "confidence": {
+          "band": "medium",
+          "score": 0.8,
+          "reasons": [
+            "Product Catalogue stored in catalog"
+          ],
+          "missingEvidence": [],
+          "conflicts": [],
+          "wouldIncreaseConfidence": []
+        },
+        "findings": [],
+        "label": "stored in",
+        "dataClassifications": [
+          "internal"
+        ]
+      },
+      {
         "id": "data:product-catalogue:stores:aws:aws:relational-database:retail-prod-db",
         "source": "data:product-catalogue",
         "target": "aws:aws:relational-database:retail-prod-db",
@@ -10082,6 +10775,62 @@
           "score": 0.7,
           "reasons": [
             "restrict-catalog produces Product Catalogue"
+          ],
+          "missingEvidence": [],
+          "conflicts": [],
+          "wouldIncreaseConfidence": []
+        },
+        "findings": [],
+        "label": "creates",
+        "dataClassifications": [
+          "internal"
+        ]
+      },
+      {
+        "id": "kubernetes:kubernetes:retail-staging:workload:staging-catalog:creates:data:product-catalogue",
+        "source": "kubernetes:kubernetes:retail-staging:workload:staging-catalog",
+        "target": "data:product-catalogue",
+        "relation": "creates",
+        "direction": "directed",
+        "truthStates": [
+          "inferred"
+        ],
+        "evidence": [
+          "ev:architecture-intelligence:data:product-catalogue:root"
+        ],
+        "confidence": {
+          "band": "medium",
+          "score": 0.7,
+          "reasons": [
+            "staging-catalog produces Product Catalogue"
+          ],
+          "missingEvidence": [],
+          "conflicts": [],
+          "wouldIncreaseConfidence": []
+        },
+        "findings": [],
+        "label": "creates",
+        "dataClassifications": [
+          "internal"
+        ]
+      },
+      {
+        "id": "application:application:catalog:creates:data:product-catalogue",
+        "source": "application:application:catalog",
+        "target": "data:product-catalogue",
+        "relation": "creates",
+        "direction": "directed",
+        "truthStates": [
+          "inferred"
+        ],
+        "evidence": [
+          "ev:architecture-intelligence:data:product-catalogue:root"
+        ],
+        "confidence": {
+          "band": "medium",
+          "score": 0.7,
+          "reasons": [
+            "catalog produces Product Catalogue"
           ],
           "missingEvidence": [],
           "conflicts": [],
@@ -10710,6 +11459,62 @@
         ]
       },
       {
+        "id": "data:telemetry:stores:kubernetes:kubernetes:retail-staging:workload:staging-catalog",
+        "source": "data:telemetry",
+        "target": "kubernetes:kubernetes:retail-staging:workload:staging-catalog",
+        "relation": "stores",
+        "direction": "directed",
+        "truthStates": [
+          "inferred"
+        ],
+        "evidence": [
+          "ev:architecture-intelligence:data:telemetry:root"
+        ],
+        "confidence": {
+          "band": "medium",
+          "score": 0.8,
+          "reasons": [
+            "Telemetry stored in staging-catalog"
+          ],
+          "missingEvidence": [],
+          "conflicts": [],
+          "wouldIncreaseConfidence": []
+        },
+        "findings": [],
+        "label": "stored in",
+        "dataClassifications": [
+          "internal"
+        ]
+      },
+      {
+        "id": "data:telemetry:stores:application:application:catalog",
+        "source": "data:telemetry",
+        "target": "application:application:catalog",
+        "relation": "stores",
+        "direction": "directed",
+        "truthStates": [
+          "inferred"
+        ],
+        "evidence": [
+          "ev:architecture-intelligence:data:telemetry:root"
+        ],
+        "confidence": {
+          "band": "medium",
+          "score": 0.8,
+          "reasons": [
+            "Telemetry stored in catalog"
+          ],
+          "missingEvidence": [],
+          "conflicts": [],
+          "wouldIncreaseConfidence": []
+        },
+        "findings": [],
+        "label": "stored in",
+        "dataClassifications": [
+          "internal"
+        ]
+      },
+      {
         "id": "data:telemetry:stores:aws:aws:bucket:retail-prod-assets-logs",
         "source": "data:telemetry",
         "target": "aws:aws:bucket:retail-prod-assets-logs",
@@ -11147,6 +11952,31 @@
         "label": "owned by"
       },
       {
+        "id": "kubernetes:kubernetes:retail-staging:workload:staging-catalog:owned-by:team:retail",
+        "source": "kubernetes:kubernetes:retail-staging:workload:staging-catalog",
+        "target": "team:retail",
+        "relation": "owned-by",
+        "direction": "directed",
+        "truthStates": [
+          "inferred"
+        ],
+        "evidence": [
+          "ev:architecture-intelligence:team:retail:root"
+        ],
+        "confidence": {
+          "band": "medium",
+          "score": 0.65,
+          "reasons": [
+            "staging-catalog owned by Retail Team"
+          ],
+          "missingEvidence": [],
+          "conflicts": [],
+          "wouldIncreaseConfidence": []
+        },
+        "findings": [],
+        "label": "owned by"
+      },
+      {
         "id": "openshift:openshift:retail-prod:route:shop:owned-by:team:retail",
         "source": "openshift:openshift:retail-prod:route:shop",
         "target": "team:retail",
@@ -11213,6 +12043,31 @@
           "score": 0.65,
           "reasons": [
             "ORDER_QUEUE owned by Retail Team"
+          ],
+          "missingEvidence": [],
+          "conflicts": [],
+          "wouldIncreaseConfidence": []
+        },
+        "findings": [],
+        "label": "owned by"
+      },
+      {
+        "id": "application:application:catalog:owned-by:team:retail",
+        "source": "application:application:catalog",
+        "target": "team:retail",
+        "relation": "owned-by",
+        "direction": "directed",
+        "truthStates": [
+          "inferred"
+        ],
+        "evidence": [
+          "ev:architecture-intelligence:team:retail:root"
+        ],
+        "confidence": {
+          "band": "medium",
+          "score": 0.65,
+          "reasons": [
+            "catalog owned by Retail Team"
           ],
           "missingEvidence": [],
           "conflicts": [],
@@ -12122,6 +12977,56 @@
         "label": "in trust zone"
       },
       {
+        "id": "kubernetes:kubernetes:retail-staging:workload:staging-catalog:protected-by:trust:application",
+        "source": "kubernetes:kubernetes:retail-staging:workload:staging-catalog",
+        "target": "trust:application",
+        "relation": "protected-by",
+        "direction": "directed",
+        "truthStates": [
+          "inferred"
+        ],
+        "evidence": [
+          "ev:architecture-intelligence:trust:application:root"
+        ],
+        "confidence": {
+          "band": "medium",
+          "score": 0.75,
+          "reasons": [
+            "staging-catalog in Application Trust Zone"
+          ],
+          "missingEvidence": [],
+          "conflicts": [],
+          "wouldIncreaseConfidence": []
+        },
+        "findings": [],
+        "label": "in trust zone"
+      },
+      {
+        "id": "application:application:catalog:protected-by:trust:application",
+        "source": "application:application:catalog",
+        "target": "trust:application",
+        "relation": "protected-by",
+        "direction": "directed",
+        "truthStates": [
+          "inferred"
+        ],
+        "evidence": [
+          "ev:architecture-intelligence:trust:application:root"
+        ],
+        "confidence": {
+          "band": "medium",
+          "score": 0.75,
+          "reasons": [
+            "catalog in Application Trust Zone"
+          ],
+          "missingEvidence": [],
+          "conflicts": [],
+          "wouldIncreaseConfidence": []
+        },
+        "findings": [],
+        "label": "in trust zone"
+      },
+      {
         "id": "application:application:storefront:protected-by:trust:application",
         "source": "application:application:storefront",
         "target": "trust:application",
@@ -12472,6 +13377,292 @@
         "label": "in trust zone"
       },
       {
+        "id": "aws:aws:security-group:retail-db:protected-by:aws:aws:relational-database:retail-prod-db",
+        "source": "aws:aws:security-group:retail-db",
+        "target": "aws:aws:relational-database:retail-prod-db",
+        "relation": "protected-by",
+        "direction": "directed",
+        "truthStates": [
+          "inferred"
+        ],
+        "evidence": [
+          "ev:architecture-intelligence:sg:aws:aws:security-group:retail-db:root"
+        ],
+        "confidence": {
+          "band": "medium",
+          "score": 0.7,
+          "reasons": [
+            "SG retail-db ↔ retail-prod-db"
+          ],
+          "missingEvidence": [],
+          "conflicts": [],
+          "wouldIncreaseConfidence": []
+        },
+        "findings": [],
+        "label": "security-group",
+        "effectiveState": "allowed"
+      },
+      {
+        "id": "aws:aws:security-group:retail-catalog:protected-by:kubernetes:kubernetes:retail-prod:workload:catalog",
+        "source": "aws:aws:security-group:retail-catalog",
+        "target": "kubernetes:kubernetes:retail-prod:workload:catalog",
+        "relation": "protected-by",
+        "direction": "directed",
+        "truthStates": [
+          "inferred"
+        ],
+        "evidence": [
+          "ev:architecture-intelligence:sg:aws:aws:security-group:retail-catalog:root"
+        ],
+        "confidence": {
+          "band": "medium",
+          "score": 0.7,
+          "reasons": [
+            "SG retail-catalog ↔ catalog"
+          ],
+          "missingEvidence": [],
+          "conflicts": [],
+          "wouldIncreaseConfidence": []
+        },
+        "findings": [],
+        "label": "security-group",
+        "effectiveState": "allowed"
+      },
+      {
+        "id": "aws:aws:security-group:retail-catalog:protected-by:kubernetes:kubernetes:retail-prod:service:catalog",
+        "source": "aws:aws:security-group:retail-catalog",
+        "target": "kubernetes:kubernetes:retail-prod:service:catalog",
+        "relation": "protected-by",
+        "direction": "directed",
+        "truthStates": [
+          "inferred"
+        ],
+        "evidence": [
+          "ev:architecture-intelligence:sg:aws:aws:security-group:retail-catalog:root"
+        ],
+        "confidence": {
+          "band": "medium",
+          "score": 0.7,
+          "reasons": [
+            "SG retail-catalog ↔ catalog"
+          ],
+          "missingEvidence": [],
+          "conflicts": [],
+          "wouldIncreaseConfidence": []
+        },
+        "findings": [],
+        "label": "security-group",
+        "effectiveState": "allowed"
+      },
+      {
+        "id": "aws:aws:security-group:retail-catalog:protected-by:kubernetes:kubernetes:retail-staging:workload:staging-catalog",
+        "source": "aws:aws:security-group:retail-catalog",
+        "target": "kubernetes:kubernetes:retail-staging:workload:staging-catalog",
+        "relation": "protected-by",
+        "direction": "directed",
+        "truthStates": [
+          "inferred"
+        ],
+        "evidence": [
+          "ev:architecture-intelligence:sg:aws:aws:security-group:retail-catalog:root"
+        ],
+        "confidence": {
+          "band": "medium",
+          "score": 0.7,
+          "reasons": [
+            "SG retail-catalog ↔ staging-catalog"
+          ],
+          "missingEvidence": [],
+          "conflicts": [],
+          "wouldIncreaseConfidence": []
+        },
+        "findings": [],
+        "label": "security-group",
+        "effectiveState": "allowed"
+      },
+      {
+        "id": "kubernetes:kubernetes:retail-prod:network-policy:restrict-catalog:protected-by:kubernetes:kubernetes:retail-prod:workload:catalog",
+        "source": "kubernetes:kubernetes:retail-prod:network-policy:restrict-catalog",
+        "target": "kubernetes:kubernetes:retail-prod:workload:catalog",
+        "relation": "protected-by",
+        "direction": "directed",
+        "truthStates": [
+          "inferred"
+        ],
+        "evidence": [
+          "ev:architecture-intelligence:np:kubernetes:kubernetes:retail-prod:network-policy:restrict-catalog:root"
+        ],
+        "confidence": {
+          "band": "medium",
+          "score": 0.72,
+          "reasons": [
+            "NetworkPolicy restrict-catalog ↔ catalog"
+          ],
+          "missingEvidence": [],
+          "conflicts": [],
+          "wouldIncreaseConfidence": []
+        },
+        "findings": [],
+        "label": "network-policy",
+        "effectiveState": "allowed"
+      },
+      {
+        "id": "kubernetes:kubernetes:retail-prod:network-policy:restrict-catalog:protected-by:kubernetes:kubernetes:retail-prod:service:catalog",
+        "source": "kubernetes:kubernetes:retail-prod:network-policy:restrict-catalog",
+        "target": "kubernetes:kubernetes:retail-prod:service:catalog",
+        "relation": "protected-by",
+        "direction": "directed",
+        "truthStates": [
+          "inferred"
+        ],
+        "evidence": [
+          "ev:architecture-intelligence:np:kubernetes:kubernetes:retail-prod:network-policy:restrict-catalog:root"
+        ],
+        "confidence": {
+          "band": "medium",
+          "score": 0.72,
+          "reasons": [
+            "NetworkPolicy restrict-catalog ↔ catalog"
+          ],
+          "missingEvidence": [],
+          "conflicts": [],
+          "wouldIncreaseConfidence": []
+        },
+        "findings": [],
+        "label": "network-policy",
+        "effectiveState": "allowed"
+      },
+      {
+        "id": "kubernetes:kubernetes:retail-prod:network-policy:restrict-catalog:protected-by:kubernetes:kubernetes:retail-staging:workload:staging-catalog",
+        "source": "kubernetes:kubernetes:retail-prod:network-policy:restrict-catalog",
+        "target": "kubernetes:kubernetes:retail-staging:workload:staging-catalog",
+        "relation": "protected-by",
+        "direction": "directed",
+        "truthStates": [
+          "inferred"
+        ],
+        "evidence": [
+          "ev:architecture-intelligence:np:kubernetes:kubernetes:retail-prod:network-policy:restrict-catalog:root"
+        ],
+        "confidence": {
+          "band": "medium",
+          "score": 0.72,
+          "reasons": [
+            "NetworkPolicy restrict-catalog ↔ staging-catalog"
+          ],
+          "missingEvidence": [],
+          "conflicts": [],
+          "wouldIncreaseConfidence": []
+        },
+        "findings": [],
+        "label": "network-policy",
+        "effectiveState": "allowed"
+      },
+      {
+        "id": "aws:terraform:iam-policy:catalog-broad:iam-authorised:kubernetes:kubernetes:retail-prod:workload:catalog",
+        "source": "aws:terraform:iam-policy:catalog-broad",
+        "target": "kubernetes:kubernetes:retail-prod:workload:catalog",
+        "relation": "iam-authorised",
+        "direction": "directed",
+        "truthStates": [
+          "inferred"
+        ],
+        "evidence": [
+          "ev:architecture-intelligence:iam:aws:terraform:iam-policy:catalog-broad:root"
+        ],
+        "confidence": {
+          "band": "medium",
+          "score": 0.68,
+          "reasons": [
+            "IAM catalog-broad ↔ catalog"
+          ],
+          "missingEvidence": [],
+          "conflicts": [],
+          "wouldIncreaseConfidence": []
+        },
+        "findings": [],
+        "label": "IAM",
+        "effectiveState": "allowed"
+      },
+      {
+        "id": "aws:terraform:iam-policy:catalog-broad:iam-authorised:kubernetes:kubernetes:retail-prod:service:catalog",
+        "source": "aws:terraform:iam-policy:catalog-broad",
+        "target": "kubernetes:kubernetes:retail-prod:service:catalog",
+        "relation": "iam-authorised",
+        "direction": "directed",
+        "truthStates": [
+          "inferred"
+        ],
+        "evidence": [
+          "ev:architecture-intelligence:iam:aws:terraform:iam-policy:catalog-broad:root"
+        ],
+        "confidence": {
+          "band": "medium",
+          "score": 0.68,
+          "reasons": [
+            "IAM catalog-broad ↔ catalog"
+          ],
+          "missingEvidence": [],
+          "conflicts": [],
+          "wouldIncreaseConfidence": []
+        },
+        "findings": [],
+        "label": "IAM",
+        "effectiveState": "allowed"
+      },
+      {
+        "id": "aws:aws:iam-role:retail-catalog-role:iam-authorised:kubernetes:kubernetes:retail-prod:workload:catalog",
+        "source": "aws:aws:iam-role:retail-catalog-role",
+        "target": "kubernetes:kubernetes:retail-prod:workload:catalog",
+        "relation": "iam-authorised",
+        "direction": "directed",
+        "truthStates": [
+          "inferred"
+        ],
+        "evidence": [
+          "ev:architecture-intelligence:iam:aws:aws:iam-role:retail-catalog-role:root"
+        ],
+        "confidence": {
+          "band": "medium",
+          "score": 0.68,
+          "reasons": [
+            "IAM retail-catalog-role ↔ catalog"
+          ],
+          "missingEvidence": [],
+          "conflicts": [],
+          "wouldIncreaseConfidence": []
+        },
+        "findings": [],
+        "label": "IAM",
+        "effectiveState": "allowed"
+      },
+      {
+        "id": "aws:aws:iam-role:retail-catalog-role:iam-authorised:kubernetes:kubernetes:retail-prod:service:catalog",
+        "source": "aws:aws:iam-role:retail-catalog-role",
+        "target": "kubernetes:kubernetes:retail-prod:service:catalog",
+        "relation": "iam-authorised",
+        "direction": "directed",
+        "truthStates": [
+          "inferred"
+        ],
+        "evidence": [
+          "ev:architecture-intelligence:iam:aws:aws:iam-role:retail-catalog-role:root"
+        ],
+        "confidence": {
+          "band": "medium",
+          "score": 0.68,
+          "reasons": [
+            "IAM retail-catalog-role ↔ catalog"
+          ],
+          "missingEvidence": [],
+          "conflicts": [],
+          "wouldIncreaseConfidence": []
+        },
+        "findings": [],
+        "label": "IAM",
+        "effectiveState": "allowed"
+      },
+      {
         "id": "adr:0001:use-postgresql:documents-decision:decision:adr:0001",
         "source": "adr:0001:use-postgresql",
         "target": "decision:adr:0001",
@@ -12572,8 +13763,33 @@
         "label": "implemented by"
       },
       {
-        "id": "capability:customer-ordering:decides:decision:use-postgresql",
-        "source": "capability:customer-ordering",
+        "id": "capability:catalog:decides:decision:use-postgresql",
+        "source": "capability:catalog",
+        "target": "decision:use-postgresql",
+        "relation": "decides",
+        "direction": "directed",
+        "truthStates": [
+          "inferred"
+        ],
+        "evidence": [
+          "ev:governance-decisions:decision:use-postgresql:root"
+        ],
+        "confidence": {
+          "band": "medium",
+          "score": 0.75,
+          "reasons": [
+            "decides"
+          ],
+          "missingEvidence": [],
+          "conflicts": [],
+          "wouldIncreaseConfidence": []
+        },
+        "findings": [],
+        "label": "decides"
+      },
+      {
+        "id": "capability:order-processing:decides:decision:use-postgresql",
+        "source": "capability:order-processing",
         "target": "decision:use-postgresql",
         "relation": "decides",
         "direction": "directed",
@@ -12724,6 +13940,56 @@
       {
         "id": "capability:customer-ordering:decides:decision:use-sqs",
         "source": "capability:customer-ordering",
+        "target": "decision:use-sqs",
+        "relation": "decides",
+        "direction": "directed",
+        "truthStates": [
+          "inferred"
+        ],
+        "evidence": [
+          "ev:governance-decisions:decision:use-sqs:root"
+        ],
+        "confidence": {
+          "band": "medium",
+          "score": 0.75,
+          "reasons": [
+            "decides"
+          ],
+          "missingEvidence": [],
+          "conflicts": [],
+          "wouldIncreaseConfidence": []
+        },
+        "findings": [],
+        "label": "decides"
+      },
+      {
+        "id": "capability:catalog:decides:decision:use-sqs",
+        "source": "capability:catalog",
+        "target": "decision:use-sqs",
+        "relation": "decides",
+        "direction": "directed",
+        "truthStates": [
+          "inferred"
+        ],
+        "evidence": [
+          "ev:governance-decisions:decision:use-sqs:root"
+        ],
+        "confidence": {
+          "band": "medium",
+          "score": 0.75,
+          "reasons": [
+            "decides"
+          ],
+          "missingEvidence": [],
+          "conflicts": [],
+          "wouldIncreaseConfidence": []
+        },
+        "findings": [],
+        "label": "decides"
+      },
+      {
+        "id": "capability:order-processing:decides:decision:use-sqs",
+        "source": "capability:order-processing",
         "target": "decision:use-sqs",
         "relation": "decides",
         "direction": "directed",
@@ -12997,6 +14263,31 @@
         "label": "decides"
       },
       {
+        "id": "capability:catalog:decides:decision:event-driven",
+        "source": "capability:catalog",
+        "target": "decision:event-driven",
+        "relation": "decides",
+        "direction": "directed",
+        "truthStates": [
+          "inferred"
+        ],
+        "evidence": [
+          "ev:governance-decisions:decision:event-driven:root"
+        ],
+        "confidence": {
+          "band": "medium",
+          "score": 0.75,
+          "reasons": [
+            "decides"
+          ],
+          "missingEvidence": [],
+          "conflicts": [],
+          "wouldIncreaseConfidence": []
+        },
+        "findings": [],
+        "label": "decides"
+      },
+      {
         "id": "capability:order-processing:decides:decision:event-driven",
         "source": "capability:order-processing",
         "target": "decision:event-driven",
@@ -13070,6 +14361,56 @@
         },
         "findings": [],
         "label": "implemented by"
+      },
+      {
+        "id": "capability:customer-ordering:decides:decision:object-storage",
+        "source": "capability:customer-ordering",
+        "target": "decision:object-storage",
+        "relation": "decides",
+        "direction": "directed",
+        "truthStates": [
+          "inferred"
+        ],
+        "evidence": [
+          "ev:governance-decisions:decision:object-storage:root"
+        ],
+        "confidence": {
+          "band": "medium",
+          "score": 0.75,
+          "reasons": [
+            "decides"
+          ],
+          "missingEvidence": [],
+          "conflicts": [],
+          "wouldIncreaseConfidence": []
+        },
+        "findings": [],
+        "label": "decides"
+      },
+      {
+        "id": "capability:order-processing:decides:decision:object-storage",
+        "source": "capability:order-processing",
+        "target": "decision:object-storage",
+        "relation": "decides",
+        "direction": "directed",
+        "truthStates": [
+          "inferred"
+        ],
+        "evidence": [
+          "ev:governance-decisions:decision:object-storage:root"
+        ],
+        "confidence": {
+          "band": "medium",
+          "score": 0.75,
+          "reasons": [
+            "decides"
+          ],
+          "missingEvidence": [],
+          "conflicts": [],
+          "wouldIncreaseConfidence": []
+        },
+        "findings": [],
+        "label": "decides"
       },
       {
         "id": "decision:use-postgresql:realizes-intent:intent:highly-available",
@@ -14616,6 +15957,19 @@
         "truthState": "declared"
       },
       {
+        "id": "ev:app-config:apps/catalog/application.yaml:root",
+        "adapter": "app-config",
+        "sourceType": "application-config",
+        "sourceUri": "apps/catalog/application.yaml",
+        "extractedValue": {
+          "name": "catalog",
+          "framework": "spring-boot"
+        },
+        "redacted": false,
+        "confidence": 0.9,
+        "truthState": "declared"
+      },
+      {
         "id": "ev:app-config:apps/catalog/application.yaml:spring.datasource.url",
         "adapter": "app-config",
         "sourceType": "application-config",
@@ -14720,8 +16074,8 @@
           "workload": "storefront"
         },
         "redacted": false,
-        "confidence": 0.82,
-        "rationale": "CATALOG_URL matches catalog",
+        "confidence": 0.9,
+        "rationale": "Internal service URL catalog",
         "truthState": "inferred"
       },
       {
@@ -14736,7 +16090,7 @@
         },
         "redacted": false,
         "confidence": 0.82,
-        "rationale": "ASSET_BUCKET matches retail",
+        "rationale": "ASSET_BUCKET matches retail-prod-assets",
         "truthState": "inferred"
       },
       {
@@ -14781,7 +16135,7 @@
         },
         "redacted": false,
         "confidence": 0.82,
-        "rationale": "ORDER_QUEUE matches retail",
+        "rationale": "ORDER_QUEUE matches retail-prod-orders",
         "truthState": "inferred"
       },
       {
@@ -14796,7 +16150,7 @@
         },
         "redacted": false,
         "confidence": 0.82,
-        "rationale": "ASSET_BUCKET matches retail",
+        "rationale": "ASSET_BUCKET matches retail-prod-assets",
         "truthState": "inferred"
       },
       {
@@ -14811,7 +16165,7 @@
         },
         "redacted": false,
         "confidence": 0.82,
-        "rationale": "DB_HOST matches retail",
+        "rationale": "DB_HOST matches retail-prod-db",
         "truthState": "inferred"
       },
       {
@@ -14826,37 +16180,7 @@
         },
         "redacted": false,
         "confidence": 0.82,
-        "rationale": "ORDER_QUEUE matches retail",
-        "truthState": "inferred"
-      },
-      {
-        "id": "ev:reconciliation:reconcile:aws:aws:bucket:retail-prod-assets-logs:aws:terraform:bucket:retail-prod-assets:root",
-        "adapter": "reconciliation",
-        "sourceType": "inference",
-        "sourceUri": "reconcile:aws:aws:bucket:retail-prod-assets-logs:aws:terraform:bucket:retail-prod-assets",
-        "extractedValue": {
-          "primary": "aws:aws:bucket:retail-prod-assets-logs",
-          "secondary": "aws:terraform:bucket:retail-prod-assets",
-          "score": 0.8
-        },
-        "redacted": false,
-        "confidence": 0.8,
-        "rationale": "Probabilistic reconciliation via endpoint-soft-match",
-        "truthState": "inferred"
-      },
-      {
-        "id": "ev:reconciliation:reconcile:kubernetes:kubernetes:retail-prod:workload:catalog:kubernetes:kubernetes:retail-staging:workload:staging-catalog:root",
-        "adapter": "reconciliation",
-        "sourceType": "inference",
-        "sourceUri": "reconcile:kubernetes:kubernetes:retail-prod:workload:catalog:kubernetes:kubernetes:retail-staging:workload:staging-catalog",
-        "extractedValue": {
-          "primary": "kubernetes:kubernetes:retail-prod:workload:catalog",
-          "secondary": "kubernetes:kubernetes:retail-staging:workload:staging-catalog",
-          "score": 0.8
-        },
-        "redacted": false,
-        "confidence": 0.8,
-        "rationale": "Probabilistic reconciliation via endpoint-soft-match",
+        "rationale": "ORDER_QUEUE matches retail-prod-orders",
         "truthState": "inferred"
       },
       {
@@ -14882,6 +16206,21 @@
         "extractedValue": {
           "primary": "aws:aws:security-group:retail-db",
           "secondary": "aws:terraform:security-group:retail-db",
+          "score": 0.75
+        },
+        "redacted": false,
+        "confidence": 0.75,
+        "rationale": "Probabilistic reconciliation via scored-name-kind",
+        "truthState": "inferred"
+      },
+      {
+        "id": "ev:reconciliation:reconcile:aws:aws:bucket:retail-prod-assets:aws:terraform:bucket:retail-prod-assets:root",
+        "adapter": "reconciliation",
+        "sourceType": "inference",
+        "sourceUri": "reconcile:aws:aws:bucket:retail-prod-assets:aws:terraform:bucket:retail-prod-assets",
+        "extractedValue": {
+          "primary": "aws:aws:bucket:retail-prod-assets",
+          "secondary": "aws:terraform:bucket:retail-prod-assets",
           "score": 0.75
         },
         "redacted": false,
@@ -14927,7 +16266,6 @@
         "extractedValue": {
           "capability": "Customer Ordering",
           "members": [
-            "aws:terraform:vpc:retail",
             "aws:terraform:queue:retail-prod-orders",
             "aws:terraform:dns:shop.example.com",
             "kubernetes:kubernetes:retail-prod:workload:storefront",
@@ -14935,10 +16273,13 @@
             "kubernetes:kubernetes:retail-prod:workload:catalog",
             "kubernetes:kubernetes:retail-prod:workload:order-worker",
             "kubernetes:kubernetes:retail-prod:service-account:storefront",
+            "kubernetes:kubernetes:retail-staging:workload:staging-catalog",
             "openshift:openshift:retail-prod:route:shop",
+            "openshift:openshift:retail-prod:route:admin",
             "application:config:order_queue",
+            "application:application:catalog",
             "application:application:storefront",
-            "aws:aws:relational-database:retail-prod-db",
+            "aws:aws:bucket:retail-prod-assets",
             "aws:aws:queue:retail-staging-orders",
             "external:external-system:payments.partner.example",
             "external:external-system:otel-collector"
@@ -14957,12 +16298,15 @@
         "extractedValue": {
           "capability": "Product Catalogue",
           "members": [
-            "aws:terraform:vpc:retail",
+            "aws:terraform:queue:retail-prod-orders",
             "aws:terraform:iam-policy:catalog-broad",
             "kubernetes:kubernetes:retail-prod:workload:storefront",
             "kubernetes:kubernetes:retail-prod:workload:catalog",
             "kubernetes:kubernetes:retail-prod:service:catalog",
             "kubernetes:kubernetes:retail-prod:network-policy:restrict-catalog",
+            "kubernetes:kubernetes:retail-staging:workload:staging-catalog",
+            "application:application:catalog",
+            "aws:aws:relational-database:retail-prod-db",
             "aws:aws:security-group:retail-catalog",
             "aws:aws:iam-role:retail-catalog-role"
           ]
@@ -14980,8 +16324,11 @@
         "extractedValue": {
           "capability": "Order Processing",
           "members": [
-            "aws:terraform:vpc:retail",
-            "kubernetes:kubernetes:retail-prod:workload:order-worker"
+            "aws:terraform:queue:retail-prod-orders",
+            "kubernetes:kubernetes:retail-prod:workload:order-worker",
+            "kubernetes:kubernetes:retail-staging:workload:staging-catalog",
+            "aws:aws:bucket:retail-prod-assets",
+            "aws:aws:relational-database:retail-prod-db"
           ]
         },
         "redacted": false,
@@ -15091,7 +16438,9 @@
             "kubernetes:kubernetes:retail-prod:workload:order-worker",
             "kubernetes:kubernetes:retail-prod:network-policy:restrict-catalog",
             "kubernetes:kubernetes:retail-prod:service-account:storefront",
+            "kubernetes:kubernetes:retail-staging:workload:staging-catalog",
             "application:config:order_queue",
+            "application:application:catalog",
             "application:application:storefront",
             "aws:aws:security-group:retail-catalog",
             "aws:aws:iam-role:retail-catalog-role",
@@ -15117,6 +16466,8 @@
             "kubernetes:kubernetes:retail-prod:workload:catalog",
             "kubernetes:kubernetes:retail-prod:service:catalog",
             "kubernetes:kubernetes:retail-prod:network-policy:restrict-catalog",
+            "kubernetes:kubernetes:retail-staging:workload:staging-catalog",
+            "application:application:catalog",
             "aws:aws:relational-database:retail-prod-db",
             "aws:aws:security-group:retail-catalog",
             "aws:aws:iam-role:retail-catalog-role"
@@ -15126,6 +16477,8 @@
             "kubernetes:kubernetes:retail-prod:workload:catalog",
             "kubernetes:kubernetes:retail-prod:service:catalog",
             "kubernetes:kubernetes:retail-prod:network-policy:restrict-catalog",
+            "kubernetes:kubernetes:retail-staging:workload:staging-catalog",
+            "application:application:catalog",
             "aws:aws:security-group:retail-catalog",
             "aws:aws:iam-role:retail-catalog-role",
             "capability:catalog"
@@ -15194,6 +16547,8 @@
             "kubernetes:kubernetes:retail-prod:workload:catalog",
             "kubernetes:kubernetes:retail-prod:service:catalog",
             "kubernetes:kubernetes:retail-prod:network-policy:restrict-catalog",
+            "kubernetes:kubernetes:retail-staging:workload:staging-catalog",
+            "application:application:catalog",
             "aws:aws:bucket:retail-prod-assets-logs",
             "aws:aws:security-group:retail-catalog",
             "aws:aws:iam-role:retail-catalog-role",
@@ -15294,6 +16649,116 @@
         "redacted": false,
         "confidence": 0.8,
         "rationale": "Trust zone External Trust Zone",
+        "truthState": "inferred"
+      },
+      {
+        "id": "ev:architecture-intelligence:sg:aws:aws:security-group:retail-db:root",
+        "adapter": "architecture-intelligence",
+        "sourceType": "inference",
+        "sourceUri": "sg:aws:aws:security-group:retail-db",
+        "redacted": false,
+        "confidence": 0.7,
+        "rationale": "Security group retail-db protects retail-prod-db",
+        "truthState": "inferred"
+      },
+      {
+        "id": "ev:architecture-intelligence:sg:aws:aws:security-group:retail-catalog:root",
+        "adapter": "architecture-intelligence",
+        "sourceType": "inference",
+        "sourceUri": "sg:aws:aws:security-group:retail-catalog",
+        "redacted": false,
+        "confidence": 0.7,
+        "rationale": "Security group retail-catalog protects catalog",
+        "truthState": "inferred"
+      },
+      {
+        "id": "ev:architecture-intelligence:sg:aws:aws:security-group:retail-catalog:root",
+        "adapter": "architecture-intelligence",
+        "sourceType": "inference",
+        "sourceUri": "sg:aws:aws:security-group:retail-catalog",
+        "redacted": false,
+        "confidence": 0.7,
+        "rationale": "Security group retail-catalog protects catalog",
+        "truthState": "inferred"
+      },
+      {
+        "id": "ev:architecture-intelligence:sg:aws:aws:security-group:retail-catalog:root",
+        "adapter": "architecture-intelligence",
+        "sourceType": "inference",
+        "sourceUri": "sg:aws:aws:security-group:retail-catalog",
+        "redacted": false,
+        "confidence": 0.7,
+        "rationale": "Security group retail-catalog protects staging-catalog",
+        "truthState": "inferred"
+      },
+      {
+        "id": "ev:architecture-intelligence:np:kubernetes:kubernetes:retail-prod:network-policy:restrict-catalog:root",
+        "adapter": "architecture-intelligence",
+        "sourceType": "inference",
+        "sourceUri": "np:kubernetes:kubernetes:retail-prod:network-policy:restrict-catalog",
+        "redacted": false,
+        "confidence": 0.72,
+        "rationale": "NetworkPolicy restrict-catalog protects catalog",
+        "truthState": "inferred"
+      },
+      {
+        "id": "ev:architecture-intelligence:np:kubernetes:kubernetes:retail-prod:network-policy:restrict-catalog:root",
+        "adapter": "architecture-intelligence",
+        "sourceType": "inference",
+        "sourceUri": "np:kubernetes:kubernetes:retail-prod:network-policy:restrict-catalog",
+        "redacted": false,
+        "confidence": 0.72,
+        "rationale": "NetworkPolicy restrict-catalog protects catalog",
+        "truthState": "inferred"
+      },
+      {
+        "id": "ev:architecture-intelligence:np:kubernetes:kubernetes:retail-prod:network-policy:restrict-catalog:root",
+        "adapter": "architecture-intelligence",
+        "sourceType": "inference",
+        "sourceUri": "np:kubernetes:kubernetes:retail-prod:network-policy:restrict-catalog",
+        "redacted": false,
+        "confidence": 0.72,
+        "rationale": "NetworkPolicy restrict-catalog protects staging-catalog",
+        "truthState": "inferred"
+      },
+      {
+        "id": "ev:architecture-intelligence:iam:aws:terraform:iam-policy:catalog-broad:root",
+        "adapter": "architecture-intelligence",
+        "sourceType": "inference",
+        "sourceUri": "iam:aws:terraform:iam-policy:catalog-broad",
+        "redacted": false,
+        "confidence": 0.68,
+        "rationale": "IAM catalog-broad authorises catalog",
+        "truthState": "inferred"
+      },
+      {
+        "id": "ev:architecture-intelligence:iam:aws:terraform:iam-policy:catalog-broad:root",
+        "adapter": "architecture-intelligence",
+        "sourceType": "inference",
+        "sourceUri": "iam:aws:terraform:iam-policy:catalog-broad",
+        "redacted": false,
+        "confidence": 0.68,
+        "rationale": "IAM catalog-broad authorises catalog",
+        "truthState": "inferred"
+      },
+      {
+        "id": "ev:architecture-intelligence:iam:aws:aws:iam-role:retail-catalog-role:root",
+        "adapter": "architecture-intelligence",
+        "sourceType": "inference",
+        "sourceUri": "iam:aws:aws:iam-role:retail-catalog-role",
+        "redacted": false,
+        "confidence": 0.68,
+        "rationale": "IAM retail-catalog-role authorises catalog",
+        "truthState": "inferred"
+      },
+      {
+        "id": "ev:architecture-intelligence:iam:aws:aws:iam-role:retail-catalog-role:root",
+        "adapter": "architecture-intelligence",
+        "sourceType": "inference",
+        "sourceUri": "iam:aws:aws:iam-role:retail-catalog-role",
+        "redacted": false,
+        "confidence": 0.68,
+        "rationale": "IAM retail-catalog-role authorises catalog",
         "truthState": "inferred"
       },
       {
@@ -15672,26 +17137,26 @@
           "ev:terraform:infra/main.tf:l106"
         ],
         "status": "open",
-        "firstSeen": "2026-08-05T19:18:21.012Z",
-        "lastSeen": "2026-08-05T19:18:21.012Z",
+        "firstSeen": "2026-08-06T19:04:24.199Z",
+        "lastSeen": "2026-08-06T19:04:24.199Z",
         "blocksSignOff": false
       },
       {
-        "id": "finding:drift:drift:observed-not-declared:aws:aws:bucket:retail-prod-assets:undefined:undefined",
+        "id": "finding:drift:drift:observed-not-declared:aws:aws:bucket:retail-prod-assets-logs:undefined:undefined",
         "severity": "high",
         "title": "Drift: observed-not-declared",
-        "rationale": "retail-prod-assets was observed live but is not declared in IaC.",
+        "rationale": "retail-prod-assets-logs was observed live but is not declared in IaC.",
         "impact": "Shadow infrastructure may exist outside change control.",
         "remediation": "Reconcile declared configuration with live state or update inventory scope.",
         "affectedResources": [
-          "aws:aws:bucket:retail-prod-assets"
+          "aws:aws:bucket:retail-prod-assets-logs"
         ],
         "evidence": [
           "ev:aws-snapshot:aws-snapshot://123456789012/eu-west-2:root"
         ],
         "status": "open",
-        "firstSeen": "2026-08-05T19:18:21.011Z",
-        "lastSeen": "2026-08-05T19:18:21.011Z",
+        "firstSeen": "2026-08-06T19:04:24.199Z",
+        "lastSeen": "2026-08-06T19:04:24.199Z",
         "blocksSignOff": true
       },
       {
@@ -15711,8 +17176,8 @@
           "ev:reconciliation:reconcile:aws:aws:relational-database:retail-prod-db:aws:terraform:relational-database:retail-prod-db:root"
         ],
         "status": "open",
-        "firstSeen": "2026-08-05T19:18:21.011Z",
-        "lastSeen": "2026-08-05T19:18:21.011Z",
+        "firstSeen": "2026-08-06T19:04:24.199Z",
+        "lastSeen": "2026-08-06T19:04:24.199Z",
         "blocksSignOff": true
       },
       {
@@ -15730,8 +17195,8 @@
           "ev:openshift:deploy/openshift.yaml:route/retail-prod/shop"
         ],
         "status": "open",
-        "firstSeen": "2026-08-05T19:18:21.011Z",
-        "lastSeen": "2026-08-05T19:18:21.011Z",
+        "firstSeen": "2026-08-06T19:04:24.199Z",
+        "lastSeen": "2026-08-06T19:04:24.199Z",
         "blocksSignOff": false
       },
       {
@@ -15749,8 +17214,8 @@
           "ev:openshift:deploy/openshift.yaml:route/retail-prod/admin"
         ],
         "status": "open",
-        "firstSeen": "2026-08-05T19:18:21.011Z",
-        "lastSeen": "2026-08-05T19:18:21.011Z",
+        "firstSeen": "2026-08-06T19:04:24.199Z",
+        "lastSeen": "2026-08-06T19:04:24.199Z",
         "blocksSignOff": false
       },
       {
@@ -15766,13 +17231,11 @@
         ],
         "evidence": [
           "ev:kubernetes:deploy/openshift.yaml:deployment/retail-prod/catalog",
-          "ev:kubernetes:snapshot:cluster:deployment/retail-prod/catalog",
-          "ev:kubernetes:deploy/openshift.yaml:deployment/retail-staging/staging-catalog",
-          "ev:reconciliation:reconcile:kubernetes:kubernetes:retail-prod:workload:catalog:kubernetes:kubernetes:retail-staging:workload:staging-catalog:root"
+          "ev:kubernetes:snapshot:cluster:deployment/retail-prod/catalog"
         ],
         "status": "open",
-        "firstSeen": "2026-08-05T19:18:21.011Z",
-        "lastSeen": "2026-08-05T19:18:21.011Z",
+        "firstSeen": "2026-08-06T19:04:24.199Z",
+        "lastSeen": "2026-08-06T19:04:24.199Z",
         "blocksSignOff": false
       },
       {
@@ -15790,8 +17253,8 @@
           "ev:kubernetes:deploy/openshift.yaml:deployment/retail-prod/order-worker"
         ],
         "status": "open",
-        "firstSeen": "2026-08-05T19:18:21.011Z",
-        "lastSeen": "2026-08-05T19:18:21.011Z",
+        "firstSeen": "2026-08-06T19:04:24.199Z",
+        "lastSeen": "2026-08-06T19:04:24.199Z",
         "blocksSignOff": false
       },
       {
@@ -15809,8 +17272,8 @@
           "ev:app-config:ev:kubernetes:deploy/openshift.yaml:deployment/retail-prod/storefront:root"
         ],
         "status": "open",
-        "firstSeen": "2026-08-05T19:18:21.011Z",
-        "lastSeen": "2026-08-05T19:18:21.011Z",
+        "firstSeen": "2026-08-06T19:04:24.199Z",
+        "lastSeen": "2026-08-06T19:04:24.199Z",
         "blocksSignOff": false
       },
       {
@@ -15828,8 +17291,8 @@
           "ev:app-config:ev:kubernetes:deploy/openshift.yaml:deployment/retail-prod/storefront:root"
         ],
         "status": "open",
-        "firstSeen": "2026-08-05T19:18:21.011Z",
-        "lastSeen": "2026-08-05T19:18:21.011Z",
+        "firstSeen": "2026-08-06T19:04:24.199Z",
+        "lastSeen": "2026-08-06T19:04:24.199Z",
         "blocksSignOff": false
       },
       {
@@ -15847,8 +17310,8 @@
           "ev:kubernetes:deploy/openshift.yaml:deployment/retail-prod/storefront"
         ],
         "status": "open",
-        "firstSeen": "2026-08-05T19:18:21.011Z",
-        "lastSeen": "2026-08-05T19:18:21.011Z",
+        "firstSeen": "2026-08-06T19:04:24.199Z",
+        "lastSeen": "2026-08-06T19:04:24.199Z",
         "blocksSignOff": false
       },
       {
@@ -15866,8 +17329,8 @@
           "ev:terraform:infra/main.tf:resource.aws_lb.public"
         ],
         "status": "open",
-        "firstSeen": "2026-08-05T19:18:21.011Z",
-        "lastSeen": "2026-08-05T19:18:21.011Z",
+        "firstSeen": "2026-08-06T19:04:24.199Z",
+        "lastSeen": "2026-08-06T19:04:24.199Z",
         "blocksSignOff": false
       },
       {
@@ -15885,8 +17348,8 @@
           "ev:terraform:infra/main.tf:resource.aws_sqs_queue.orders"
         ],
         "status": "open",
-        "firstSeen": "2026-08-05T19:18:21.011Z",
-        "lastSeen": "2026-08-05T19:18:21.011Z",
+        "firstSeen": "2026-08-06T19:04:24.199Z",
+        "lastSeen": "2026-08-06T19:04:24.199Z",
         "blocksSignOff": false
       },
       {
@@ -15904,8 +17367,8 @@
           "ev:terraform:infra/main.tf:resource.aws_secretsmanager_secret.db"
         ],
         "status": "open",
-        "firstSeen": "2026-08-05T19:18:21.011Z",
-        "lastSeen": "2026-08-05T19:18:21.011Z",
+        "firstSeen": "2026-08-06T19:04:24.199Z",
+        "lastSeen": "2026-08-06T19:04:24.199Z",
         "blocksSignOff": false
       },
       {
@@ -15923,8 +17386,8 @@
           "ev:terraform:infra/main.tf:resource.aws_cloudwatch_log_group.app"
         ],
         "status": "open",
-        "firstSeen": "2026-08-05T19:18:21.011Z",
-        "lastSeen": "2026-08-05T19:18:21.011Z",
+        "firstSeen": "2026-08-06T19:04:24.199Z",
+        "lastSeen": "2026-08-06T19:04:24.199Z",
         "blocksSignOff": false
       },
       {
@@ -15942,8 +17405,8 @@
           "ev:kubernetes:deploy/openshift.yaml:deployment/retail-prod/storefront"
         ],
         "status": "open",
-        "firstSeen": "2026-08-05T19:18:21.011Z",
-        "lastSeen": "2026-08-05T19:18:21.011Z",
+        "firstSeen": "2026-08-06T19:04:24.199Z",
+        "lastSeen": "2026-08-06T19:04:24.199Z",
         "blocksSignOff": false
       },
       {
@@ -15961,8 +17424,8 @@
           "ev:kubernetes:deploy/openshift.yaml:service/retail-prod/storefront"
         ],
         "status": "open",
-        "firstSeen": "2026-08-05T19:18:21.011Z",
-        "lastSeen": "2026-08-05T19:18:21.011Z",
+        "firstSeen": "2026-08-06T19:04:24.199Z",
+        "lastSeen": "2026-08-06T19:04:24.199Z",
         "blocksSignOff": false
       },
       {
@@ -15980,8 +17443,8 @@
           "ev:kubernetes:deploy/openshift.yaml:service/retail-prod/catalog"
         ],
         "status": "open",
-        "firstSeen": "2026-08-05T19:18:21.011Z",
-        "lastSeen": "2026-08-05T19:18:21.011Z",
+        "firstSeen": "2026-08-06T19:04:24.199Z",
+        "lastSeen": "2026-08-06T19:04:24.199Z",
         "blocksSignOff": false
       },
       {
@@ -15999,8 +17462,8 @@
           "ev:kubernetes:deploy/openshift.yaml:deployment/retail-prod/order-worker"
         ],
         "status": "open",
-        "firstSeen": "2026-08-05T19:18:21.011Z",
-        "lastSeen": "2026-08-05T19:18:21.011Z",
+        "firstSeen": "2026-08-06T19:04:24.199Z",
+        "lastSeen": "2026-08-06T19:04:24.199Z",
         "blocksSignOff": false
       },
       {
@@ -16018,8 +17481,8 @@
           "ev:kubernetes:deploy/openshift.yaml:networkpolicy/retail-prod/restrict-catalog"
         ],
         "status": "open",
-        "firstSeen": "2026-08-05T19:18:21.011Z",
-        "lastSeen": "2026-08-05T19:18:21.011Z",
+        "firstSeen": "2026-08-06T19:04:24.199Z",
+        "lastSeen": "2026-08-06T19:04:24.199Z",
         "blocksSignOff": false
       },
       {
@@ -16037,8 +17500,8 @@
           "ev:kubernetes:deploy/openshift.yaml:serviceaccount/retail-prod/storefront"
         ],
         "status": "open",
-        "firstSeen": "2026-08-05T19:18:21.011Z",
-        "lastSeen": "2026-08-05T19:18:21.011Z",
+        "firstSeen": "2026-08-06T19:04:24.199Z",
+        "lastSeen": "2026-08-06T19:04:24.199Z",
         "blocksSignOff": false
       },
       {
@@ -16056,8 +17519,8 @@
           "ev:openshift:deploy/openshift.yaml:route/retail-prod/shop"
         ],
         "status": "open",
-        "firstSeen": "2026-08-05T19:18:21.011Z",
-        "lastSeen": "2026-08-05T19:18:21.011Z",
+        "firstSeen": "2026-08-06T19:04:24.199Z",
+        "lastSeen": "2026-08-06T19:04:24.199Z",
         "blocksSignOff": false
       },
       {
@@ -16075,8 +17538,8 @@
           "ev:openshift:deploy/openshift.yaml:route/retail-prod/admin"
         ],
         "status": "open",
-        "firstSeen": "2026-08-05T19:18:21.011Z",
-        "lastSeen": "2026-08-05T19:18:21.011Z",
+        "firstSeen": "2026-08-06T19:04:24.199Z",
+        "lastSeen": "2026-08-06T19:04:24.199Z",
         "blocksSignOff": false
       },
       {
@@ -16091,11 +17554,13 @@
           "aws:aws:bucket:retail-prod-assets"
         ],
         "evidence": [
-          "ev:aws-snapshot:aws-snapshot://123456789012/eu-west-2:root"
+          "ev:aws-snapshot:aws-snapshot://123456789012/eu-west-2:root",
+          "ev:terraform:infra/main.tf:resource.aws_s3_bucket.assets",
+          "ev:reconciliation:reconcile:aws:aws:bucket:retail-prod-assets:aws:terraform:bucket:retail-prod-assets:root"
         ],
         "status": "open",
-        "firstSeen": "2026-08-05T19:18:21.011Z",
-        "lastSeen": "2026-08-05T19:18:21.011Z",
+        "firstSeen": "2026-08-06T19:04:24.199Z",
+        "lastSeen": "2026-08-06T19:04:24.199Z",
         "blocksSignOff": false
       },
       {
@@ -16110,13 +17575,11 @@
           "aws:aws:bucket:retail-prod-assets-logs"
         ],
         "evidence": [
-          "ev:aws-snapshot:aws-snapshot://123456789012/eu-west-2:root",
-          "ev:terraform:infra/main.tf:resource.aws_s3_bucket.assets",
-          "ev:reconciliation:reconcile:aws:aws:bucket:retail-prod-assets-logs:aws:terraform:bucket:retail-prod-assets:root"
+          "ev:aws-snapshot:aws-snapshot://123456789012/eu-west-2:root"
         ],
         "status": "open",
-        "firstSeen": "2026-08-05T19:18:21.011Z",
-        "lastSeen": "2026-08-05T19:18:21.011Z",
+        "firstSeen": "2026-08-06T19:04:24.199Z",
+        "lastSeen": "2026-08-06T19:04:24.199Z",
         "blocksSignOff": false
       },
       {
@@ -16136,19 +17599,19 @@
           "ev:reconciliation:reconcile:aws:aws:relational-database:retail-prod-db:aws:terraform:relational-database:retail-prod-db:root"
         ],
         "status": "open",
-        "firstSeen": "2026-08-05T19:18:21.011Z",
-        "lastSeen": "2026-08-05T19:18:21.011Z",
+        "firstSeen": "2026-08-06T19:04:24.199Z",
+        "lastSeen": "2026-08-06T19:04:24.199Z",
         "blocksSignOff": false
       }
     ],
     "drifts": [
       {
-        "id": "drift:observed-not-declared:aws:aws:bucket:retail-prod-assets:undefined:undefined",
+        "id": "drift:observed-not-declared:aws:aws:bucket:retail-prod-assets-logs:undefined:undefined",
         "category": "observed-not-declared",
         "severity": "high",
-        "resourceId": "aws:aws:bucket:retail-prod-assets",
-        "logicalId": "aws-observed:arn:aws:s3:::retail-prod-assets",
-        "explanation": "retail-prod-assets was observed live but is not declared in IaC.",
+        "resourceId": "aws:aws:bucket:retail-prod-assets-logs",
+        "logicalId": "aws-observed:arn:aws:s3:::retail-prod-assets-logs",
+        "explanation": "retail-prod-assets-logs was observed live but is not declared in IaC.",
         "impact": "Shadow infrastructure may exist outside change control.",
         "evidence": [
           "ev:aws-snapshot:aws-snapshot://123456789012/eu-west-2:root"
@@ -16283,12 +17746,12 @@
     "signOffs": [],
     "reviews": [],
     "completeness": {
-      "overall": 0.5864498644986449,
+      "overall": 0.587080103359173,
       "dimensions": [
         {
           "id": "source-discovery",
           "label": "Source discovery",
-          "score": 0.8780487804878049,
+          "score": 0.8837209302325582,
           "missing": [
             "tags",
             "vpc_id",
@@ -16379,6 +17842,8 @@
           "edgeIds": [
             "capability:customer-ordering:contains:openshift:openshift:retail-prod:route:shop",
             "openshift:openshift:retail-prod:route:shop:implements:capability:customer-ordering",
+            "capability:customer-ordering:contains:openshift:openshift:retail-prod:route:admin",
+            "openshift:openshift:retail-prod:route:admin:implements:capability:customer-ordering",
             "capability:retail-platform:contains:capability:customer-ordering",
             "capability:retail-platform:contains:capability:catalog",
             "capability:retail-platform:contains:capability:order-processing",
@@ -16420,10 +17885,7 @@
             "ev:terraform:infra/main.tf:resource.aws_db_instance.postgres",
             "ev:reconciliation:reconcile:aws:aws:relational-database:retail-prod-db:aws:terraform:relational-database:retail-prod-db:root"
           ],
-          "edgeIds": [
-            "capability:customer-ordering:contains:aws:aws:relational-database:retail-prod-db",
-            "aws:aws:relational-database:retail-prod-db:implements:capability:customer-ordering"
-          ],
+          "edgeIds": [],
           "resourceIds": [
             "capability:customer-ordering",
             "aws:aws:relational-database:retail-prod-db"
@@ -16446,9 +17908,9 @@
           "evidenceIds": [
             "ev:architecture-intelligence:data:images:root",
             "ev:aws-snapshot:aws-snapshot://123456789012/eu-west-2:root",
-            "ev:aws-snapshot:aws-snapshot://123456789012/eu-west-2:root",
             "ev:terraform:infra/main.tf:resource.aws_s3_bucket.assets",
-            "ev:reconciliation:reconcile:aws:aws:bucket:retail-prod-assets-logs:aws:terraform:bucket:retail-prod-assets:root"
+            "ev:reconciliation:reconcile:aws:aws:bucket:retail-prod-assets:aws:terraform:bucket:retail-prod-assets:root",
+            "ev:aws-snapshot:aws-snapshot://123456789012/eu-west-2:root"
           ],
           "edgeIds": [
             "data:images:stores:aws:aws:bucket:retail-prod-assets",
@@ -16523,10 +17985,10 @@
         "coupling": {
           "id": "dna-coupling",
           "label": "Coupling",
-          "score": 0.7238095238095238,
-          "band": "medium",
+          "score": 0.8184615384615384,
+          "band": "low",
           "reasons": [
-            "114 non-ownership edges across 63 nodes",
+            "133 non-ownership edges across 65 nodes",
             "Higher bars mean denser dependency coupling"
           ],
           "evidenceIds": [],
@@ -16546,7 +18008,7 @@
         "evidence": {
           "id": "dna-evidence",
           "label": "Evidence",
-          "score": 0.5864498644986449,
+          "score": 0.587080103359173,
           "band": "high",
           "reasons": [
             "Source discovery: 88%",
@@ -16565,10 +18027,10 @@
         "ownership": {
           "id": "dna-ownership",
           "label": "Ownership",
-          "score": 0.6031746031746031,
+          "score": 0.6153846153846154,
           "band": "medium",
           "reasons": [
-            "38/63 resources have ownership"
+            "40/65 resources have ownership"
           ],
           "evidenceIds": [],
           "missing": []
@@ -16590,17 +18052,17 @@
         "operationalComplexity": {
           "id": "dna-complexity",
           "label": "Operational Complexity",
-          "score": 0.5575,
-          "band": "high",
+          "score": 0.6075,
+          "band": "medium",
           "reasons": [
-            "4 workloads",
+            "5 workloads",
             "2 queues",
             "2 external systems"
           ],
           "evidenceIds": [],
           "missing": []
         },
-        "fingerprint": "Capabilities:█████████░|Coupling:███████░░░|Resilience:░░░░░░░░░░|Evidence:██████░░░░|Ownership:██████░░░░|Security:██████░░░░|Operational Complexity:██████░░░░"
+        "fingerprint": "Capabilities:█████████░|Coupling:████████░░|Resilience:░░░░░░░░░░|Evidence:██████░░░░|Ownership:██████░░░░|Security:██████░░░░|Operational Complexity:██████░░░░"
       },
       "health": {
         "architectureCompleteness": {
@@ -16624,10 +18086,10 @@
         "ownershipMaturity": {
           "id": "health-ownership",
           "label": "Ownership maturity",
-          "score": 0.6031746031746031,
+          "score": 0.6153846153846154,
           "band": "medium",
           "reasons": [
-            "38/63 resources have ownership"
+            "40/65 resources have ownership"
           ],
           "evidenceIds": [],
           "missing": [
@@ -16641,7 +18103,7 @@
         "evidenceMaturity": {
           "id": "health-evidence",
           "label": "Evidence maturity",
-          "score": 0.5864498644986449,
+          "score": 0.587080103359173,
           "band": "high",
           "reasons": [
             "Source discovery: 88%",
@@ -16680,10 +18142,10 @@
         "deploymentMaturity": {
           "id": "health-deployment",
           "label": "Deployment maturity",
-          "score": 0.75,
-          "band": "medium",
+          "score": 0.8,
+          "band": "low",
           "reasons": [
-            "3/4 workloads declare resource metadata"
+            "4/5 workloads declare resource metadata"
           ],
           "evidenceIds": [],
           "missing": []
@@ -16720,10 +18182,10 @@
         "operational": {
           "id": "risk-operational",
           "label": "Operational Risk",
-          "score": 0.55,
+          "score": 0.7,
           "band": "high",
           "reasons": [
-            "1 single-replica workload(s)",
+            "2 single-replica workload(s)",
             "1 high/critical drift record(s)",
             "2 high/critical finding(s)"
           ],
@@ -16754,11 +18216,11 @@
         "availability": {
           "id": "risk-availability",
           "label": "Availability Risk",
-          "score": 0.65,
-          "band": "high",
+          "score": 0.8500000000000001,
+          "band": "critical",
           "reasons": [
             "1 non multi-AZ database(s)",
-            "1 single-replica workload(s)"
+            "2 single-replica workload(s)"
           ],
           "evidenceIds": [
             "ev:aws-snapshot:aws-snapshot://123456789012/eu-west-2:root",
@@ -16787,7 +18249,7 @@
         "evidence": {
           "id": "risk-evidence",
           "label": "Evidence Risk",
-          "score": 0.4135501355013551,
+          "score": 0.41291989664082696,
           "band": "medium",
           "reasons": [
             "Evidence completeness 59%",
@@ -16808,7 +18270,7 @@
         "ownership": {
           "id": "risk-ownership",
           "label": "Ownership Risk",
-          "score": 0.1111111111111111,
+          "score": 0.1076923076923077,
           "band": "low",
           "reasons": [
             "7 resource(s) without ownership"
@@ -16858,7 +18320,7 @@
         "trust:external"
       ],
       "reviewDashboard": {
-        "architectureReady": 0.1808552845528455,
+        "architectureReady": 0.1809271317829457,
         "criticalBlockers": 2,
         "architecturalConcerns": 6,
         "evidenceGaps": 18,
@@ -16876,7 +18338,7 @@
       "governance": {
         "version": "2.0",
         "dashboard": {
-          "architectureHealth": 0.2588166214995483,
+          "architectureHealth": 0.25902670111972437,
           "currentReviews": 1,
           "expiringApprovals": 0,
           "invalidAdrs": 1,
@@ -16930,7 +18392,7 @@
           {
             "id": "evidence-freshness",
             "label": "Evidence Freshness",
-            "score": 0.5864498644986449,
+            "score": 0.587080103359173,
             "band": "high",
             "reasons": [
               "Evidence completeness 59%. Missing: tags; vpc_id; vpc_id; vpc_id; vpc_id; tags; vpc_id; vpc_id; vpc_id; vpc_id; subnet_id; subnets."
@@ -16959,10 +18421,10 @@
           {
             "id": "ownership-maturity",
             "label": "Ownership Maturity",
-            "score": 0.40594059405940597,
+            "score": 0.4174757281553398,
             "band": "high",
             "reasons": [
-              "41/101 resources owned"
+              "43/103 resources owned"
             ],
             "evidenceIds": [],
             "missing": []
@@ -17140,6 +18602,9 @@
         "kubernetes:kubernetes:retail-prod:service-account:storefront": [
           "kubernetes:kubernetes:retail-prod:service-account:storefront"
         ],
+        "kubernetes:kubernetes:retail-staging:workload:staging-catalog": [
+          "kubernetes:kubernetes:retail-staging:workload:staging-catalog"
+        ],
         "openshift:openshift:retail-prod:route:shop": [
           "openshift:openshift:retail-prod:route:shop"
         ],
@@ -17154,6 +18619,9 @@
         ],
         "config-ref:apps/catalog/.env:order_queue": [
           "application:config:order_queue"
+        ],
+        "application:application:catalog": [
+          "application:application:catalog"
         ],
         "config-ref:apps/catalog/application.yaml:spring.datasource.url": [
           "application:config:spring.datasource.url"
@@ -17421,6 +18889,7 @@
           "kubernetes:kubernetes:retail-prod:workload:storefront",
           "kubernetes:kubernetes:retail-prod:workload:catalog",
           "kubernetes:kubernetes:retail-prod:workload:order-worker",
+          "kubernetes:kubernetes:retail-staging:workload:staging-catalog",
           "application:workload:local-mail"
         ],
         "service": [
@@ -17446,6 +18915,7 @@
           "application:config:management.endpoints.web.exposure.include"
         ],
         "application": [
+          "application:application:catalog",
           "application:application:storefront"
         ],
         "bucket": [
@@ -17565,15 +19035,14 @@
           "application:config:db_host",
           "application:config:db_port",
           "application:config:order_queue",
+          "application:application:catalog",
           "application:config:spring.datasource.url",
           "application:config:spring.redis.host",
           "application:config:management.endpoints.web.exposure.include",
           "application:application:storefront",
           "aws:aws:security-group:retail-db",
           "aws:aws:security-group:retail-catalog",
-          "aws:aws:iam-role:retail-catalog-role",
-          "capability:catalog",
-          "capability:order-processing"
+          "aws:aws:iam-role:retail-catalog-role"
         ],
         "production": [
           "aws:terraform:load-balancer:retail-prod-alb",
@@ -17593,16 +19062,19 @@
           "aws:aws:bucket:retail-prod-assets-logs",
           "aws:aws:relational-database:retail-prod-db",
           "capability:customer-ordering",
+          "capability:catalog",
+          "capability:order-processing",
           "capability:asset-delivery",
           "capability:observability",
           "capability:retail-platform"
         ],
+        "staging": [
+          "kubernetes:kubernetes:retail-staging:workload:staging-catalog",
+          "aws:aws:queue:retail-staging-orders"
+        ],
         "development": [
           "application:workload:local-mail",
           "capability:notifications"
-        ],
-        "staging": [
-          "aws:aws:queue:retail-staging-orders"
         ],
         "external": [
           "external:external-system:payments.partner.example",
@@ -17667,9 +19139,6 @@
       },
       "adjacencyOut": {
         "aws:terraform:vpc:retail": [
-          "capability:customer-ordering",
-          "capability:catalog",
-          "capability:order-processing",
           "team:retail",
           "team:platform",
           "assumption:aws-region-available"
@@ -17700,6 +19169,8 @@
         ],
         "aws:terraform:queue:retail-prod-orders": [
           "capability:customer-ordering",
+          "capability:catalog",
+          "capability:order-processing",
           "data:orders",
           "team:retail",
           "trust:data"
@@ -17709,7 +19180,9 @@
           "capability:catalog",
           "data:orders",
           "data:product-catalogue",
-          "team:retail"
+          "team:retail",
+          "kubernetes:kubernetes:retail-prod:workload:catalog",
+          "kubernetes:kubernetes:retail-prod:service:catalog"
         ],
         "aws:terraform:secret-ref:retail/prod/db": [
           "team:retail"
@@ -17730,7 +19203,7 @@
         ],
         "kubernetes:kubernetes:retail-prod:workload:storefront": [
           "kubernetes:kubernetes:retail-prod:workload:catalog",
-          "aws:terraform:vpc:retail",
+          "aws:aws:bucket:retail-prod-assets",
           "external:external-system:payments.partner.example",
           "external:external-system:otel-collector",
           "capability:customer-ordering",
@@ -17753,8 +19226,6 @@
           "trust:application"
         ],
         "kubernetes:kubernetes:retail-prod:workload:catalog": [
-          "aws:terraform:vpc:retail",
-          "aws:terraform:vpc:retail",
           "capability:customer-ordering",
           "capability:catalog",
           "data:orders",
@@ -17771,8 +19242,8 @@
           "trust:application"
         ],
         "kubernetes:kubernetes:retail-prod:workload:order-worker": [
-          "aws:terraform:vpc:retail",
-          "aws:terraform:vpc:retail",
+          "aws:terraform:queue:retail-prod-orders",
+          "aws:aws:bucket:retail-prod-assets",
           "capability:customer-ordering",
           "capability:order-processing",
           "capability:asset-delivery",
@@ -17786,7 +19257,10 @@
           "data:orders",
           "data:product-catalogue",
           "team:retail",
-          "team:platform"
+          "team:platform",
+          "kubernetes:kubernetes:retail-prod:workload:catalog",
+          "kubernetes:kubernetes:retail-prod:service:catalog",
+          "kubernetes:kubernetes:retail-staging:workload:staging-catalog"
         ],
         "kubernetes:kubernetes:retail-prod:service-account:storefront": [
           "capability:customer-ordering",
@@ -17795,15 +19269,27 @@
           "data:payments",
           "team:retail"
         ],
+        "kubernetes:kubernetes:retail-staging:workload:staging-catalog": [
+          "aws:aws:relational-database:retail-prod-db",
+          "aws:terraform:queue:retail-prod-orders",
+          "capability:customer-ordering",
+          "capability:catalog",
+          "capability:order-processing",
+          "data:orders",
+          "data:product-catalogue",
+          "team:retail",
+          "trust:application"
+        ],
         "openshift:openshift:retail-prod:route:shop": [
-          "kubernetes:retail-prod:service:storefront",
+          "kubernetes:kubernetes:retail-prod:service:storefront",
           "capability:customer-ordering",
           "team:retail",
           "trust:public-edge",
           "assumption:public-api-protected"
         ],
         "openshift:openshift:retail-prod:route:admin": [
-          "kubernetes:retail-prod:service:storefront",
+          "kubernetes:kubernetes:retail-prod:service:storefront",
+          "capability:customer-ordering",
           "team:retail",
           "trust:public-edge",
           "assumption:public-api-protected"
@@ -17815,15 +19301,22 @@
           "data:orders",
           "team:retail"
         ],
+        "application:application:catalog": [
+          "aws:aws:relational-database:retail-prod-db",
+          "aws:aws:relational-database:retail-prod-db",
+          "aws:terraform:queue:retail-prod-orders",
+          "aws:aws:relational-database:retail-prod-db",
+          "capability:customer-ordering",
+          "capability:catalog",
+          "data:orders",
+          "data:product-catalogue",
+          "team:retail",
+          "trust:application"
+        ],
         "application:config:spring.datasource.url": [],
         "application:config:spring.redis.host": [],
         "application:config:management.endpoints.web.exposure.include": [],
         "application:application:storefront": [
-          "aws:terraform:vpc:retail",
-          "aws:aws:relational-database:retail-prod-db",
-          "aws:terraform:vpc:retail",
-          "aws:terraform:vpc:retail",
-          "aws:terraform:vpc:retail",
           "capability:customer-ordering",
           "data:orders",
           "data:images",
@@ -17836,6 +19329,8 @@
           "trust:application"
         ],
         "aws:aws:bucket:retail-prod-assets": [
+          "capability:customer-ordering",
+          "capability:order-processing",
           "capability:asset-delivery",
           "team:retail",
           "trust:data"
@@ -17846,27 +19341,34 @@
           "trust:data"
         ],
         "aws:aws:relational-database:retail-prod-db": [
-          "capability:customer-ordering",
+          "capability:catalog",
+          "capability:order-processing",
           "team:retail",
           "trust:data",
           "assumption:db-resilient"
         ],
         "aws:aws:security-group:retail-db": [
           "team:retail",
-          "team:platform"
+          "team:platform",
+          "aws:aws:relational-database:retail-prod-db"
         ],
         "aws:aws:security-group:retail-catalog": [
           "capability:catalog",
           "data:orders",
           "data:product-catalogue",
           "team:retail",
-          "team:platform"
+          "team:platform",
+          "kubernetes:kubernetes:retail-prod:workload:catalog",
+          "kubernetes:kubernetes:retail-prod:service:catalog",
+          "kubernetes:kubernetes:retail-staging:workload:staging-catalog"
         ],
         "aws:aws:iam-role:retail-catalog-role": [
           "capability:catalog",
           "data:orders",
           "data:product-catalogue",
-          "team:retail"
+          "team:retail",
+          "kubernetes:kubernetes:retail-prod:workload:catalog",
+          "kubernetes:kubernetes:retail-prod:service:catalog"
         ],
         "aws:aws:queue:retail-staging-orders": [
           "capability:customer-ordering",
@@ -17899,7 +19401,6 @@
           "trust:public-edge"
         ],
         "capability:customer-ordering": [
-          "aws:terraform:vpc:retail",
           "aws:terraform:queue:retail-prod-orders",
           "aws:terraform:dns:shop.example.com",
           "kubernetes:kubernetes:retail-prod:workload:storefront",
@@ -17907,39 +19408,54 @@
           "kubernetes:kubernetes:retail-prod:workload:catalog",
           "kubernetes:kubernetes:retail-prod:workload:order-worker",
           "kubernetes:kubernetes:retail-prod:service-account:storefront",
+          "kubernetes:kubernetes:retail-staging:workload:staging-catalog",
           "openshift:openshift:retail-prod:route:shop",
+          "openshift:openshift:retail-prod:route:admin",
           "application:config:order_queue",
+          "application:application:catalog",
           "application:application:storefront",
-          "aws:aws:relational-database:retail-prod-db",
+          "aws:aws:bucket:retail-prod-assets",
           "aws:aws:queue:retail-staging-orders",
           "external:external-system:payments.partner.example",
           "external:external-system:otel-collector",
           "data:orders",
-          "decision:use-postgresql",
           "decision:deploy-openshift",
           "decision:use-sqs",
           "decision:external-payments",
           "decision:event-driven",
+          "decision:object-storage",
           "contract:customer-ordering"
         ],
         "capability:catalog": [
-          "aws:terraform:vpc:retail",
+          "aws:terraform:queue:retail-prod-orders",
           "aws:terraform:iam-policy:catalog-broad",
           "kubernetes:kubernetes:retail-prod:workload:storefront",
           "kubernetes:kubernetes:retail-prod:workload:catalog",
           "kubernetes:kubernetes:retail-prod:service:catalog",
           "kubernetes:kubernetes:retail-prod:network-policy:restrict-catalog",
+          "kubernetes:kubernetes:retail-staging:workload:staging-catalog",
+          "application:application:catalog",
+          "aws:aws:relational-database:retail-prod-db",
           "aws:aws:security-group:retail-catalog",
           "aws:aws:iam-role:retail-catalog-role",
           "data:orders",
           "data:product-catalogue",
+          "decision:use-postgresql",
+          "decision:use-sqs",
+          "decision:event-driven",
           "contract:catalog"
         ],
         "capability:order-processing": [
-          "aws:terraform:vpc:retail",
+          "aws:terraform:queue:retail-prod-orders",
           "kubernetes:kubernetes:retail-prod:workload:order-worker",
+          "kubernetes:kubernetes:retail-staging:workload:staging-catalog",
+          "aws:aws:bucket:retail-prod-assets",
+          "aws:aws:relational-database:retail-prod-db",
           "data:orders",
+          "decision:use-postgresql",
+          "decision:use-sqs",
           "decision:event-driven",
+          "decision:object-storage",
           "contract:order-processing"
         ],
         "capability:payments": [
@@ -17983,6 +19499,8 @@
           "kubernetes:kubernetes:retail-prod:workload:catalog",
           "kubernetes:kubernetes:retail-prod:service:catalog",
           "kubernetes:kubernetes:retail-prod:network-policy:restrict-catalog",
+          "kubernetes:kubernetes:retail-staging:workload:staging-catalog",
+          "application:application:catalog",
           "aws:aws:relational-database:retail-prod-db",
           "aws:aws:security-group:retail-catalog",
           "aws:aws:iam-role:retail-catalog-role",
@@ -18004,6 +19522,8 @@
           "kubernetes:kubernetes:retail-prod:workload:catalog",
           "kubernetes:kubernetes:retail-prod:service:catalog",
           "kubernetes:kubernetes:retail-prod:network-policy:restrict-catalog",
+          "kubernetes:kubernetes:retail-staging:workload:staging-catalog",
+          "application:application:catalog",
           "aws:aws:bucket:retail-prod-assets-logs",
           "aws:aws:security-group:retail-catalog",
           "aws:aws:iam-role:retail-catalog-role",
@@ -18113,20 +19633,7 @@
         "obligation:retention:order-processing": []
       },
       "adjacencyIn": {
-        "aws:terraform:vpc:retail": [
-          "kubernetes:kubernetes:retail-prod:workload:storefront",
-          "kubernetes:kubernetes:retail-prod:workload:order-worker",
-          "kubernetes:kubernetes:retail-prod:workload:order-worker",
-          "kubernetes:kubernetes:retail-prod:workload:catalog",
-          "kubernetes:kubernetes:retail-prod:workload:catalog",
-          "application:application:storefront",
-          "application:application:storefront",
-          "application:application:storefront",
-          "application:application:storefront",
-          "capability:customer-ordering",
-          "capability:catalog",
-          "capability:order-processing"
-        ],
+        "aws:terraform:vpc:retail": [],
         "aws:terraform:subnet:public_a": [],
         "aws:terraform:subnet:private_a": [],
         "aws:terraform:subnet:private_b": [],
@@ -18134,7 +19641,12 @@
         "aws:terraform:network:nat": [],
         "aws:terraform:load-balancer:retail-prod-alb": [],
         "aws:terraform:queue:retail-prod-orders": [
+          "kubernetes:kubernetes:retail-prod:workload:order-worker",
+          "kubernetes:kubernetes:retail-staging:workload:staging-catalog",
+          "application:application:catalog",
           "capability:customer-ordering",
+          "capability:catalog",
+          "capability:order-processing",
           "data:orders",
           "decision:use-sqs",
           "decision:event-driven"
@@ -18165,6 +19677,8 @@
           "capability:observability"
         ],
         "kubernetes:kubernetes:retail-prod:service:storefront": [
+          "openshift:openshift:retail-prod:route:shop",
+          "openshift:openshift:retail-prod:route:admin",
           "capability:customer-ordering"
         ],
         "kubernetes:kubernetes:retail-prod:workload:catalog": [
@@ -18173,12 +19687,20 @@
           "capability:customer-ordering",
           "capability:catalog",
           "data:product-catalogue",
-          "data:telemetry"
+          "data:telemetry",
+          "aws:aws:security-group:retail-catalog",
+          "kubernetes:kubernetes:retail-prod:network-policy:restrict-catalog",
+          "aws:terraform:iam-policy:catalog-broad",
+          "aws:aws:iam-role:retail-catalog-role"
         ],
         "kubernetes:kubernetes:retail-prod:service:catalog": [
           "capability:catalog",
           "data:product-catalogue",
-          "data:telemetry"
+          "data:telemetry",
+          "aws:aws:security-group:retail-catalog",
+          "kubernetes:kubernetes:retail-prod:network-policy:restrict-catalog",
+          "aws:terraform:iam-policy:catalog-broad",
+          "aws:aws:iam-role:retail-catalog-role"
         ],
         "kubernetes:kubernetes:retail-prod:workload:order-worker": [
           "capability:customer-ordering",
@@ -18195,6 +19717,15 @@
         "kubernetes:kubernetes:retail-prod:service-account:storefront": [
           "capability:customer-ordering"
         ],
+        "kubernetes:kubernetes:retail-staging:workload:staging-catalog": [
+          "capability:customer-ordering",
+          "capability:catalog",
+          "capability:order-processing",
+          "data:product-catalogue",
+          "data:telemetry",
+          "aws:aws:security-group:retail-catalog",
+          "kubernetes:kubernetes:retail-prod:network-policy:restrict-catalog"
+        ],
         "openshift:openshift:retail-prod:route:shop": [
           "internet",
           "capability:customer-ordering",
@@ -18202,6 +19733,7 @@
         ],
         "openshift:openshift:retail-prod:route:admin": [
           "internet",
+          "capability:customer-ordering",
           "decision:deploy-openshift"
         ],
         "application:config:db_host": [],
@@ -18209,6 +19741,12 @@
         "application:config:order_queue": [
           "capability:customer-ordering",
           "data:orders"
+        ],
+        "application:application:catalog": [
+          "capability:customer-ordering",
+          "capability:catalog",
+          "data:product-catalogue",
+          "data:telemetry"
         ],
         "application:config:spring.datasource.url": [],
         "application:config:spring.redis.host": [],
@@ -18220,6 +19758,10 @@
           "capability:notifications"
         ],
         "aws:aws:bucket:retail-prod-assets": [
+          "kubernetes:kubernetes:retail-prod:workload:storefront",
+          "kubernetes:kubernetes:retail-prod:workload:order-worker",
+          "capability:customer-ordering",
+          "capability:order-processing",
           "capability:asset-delivery",
           "data:images",
           "decision:object-storage"
@@ -18231,10 +19773,15 @@
           "decision:object-storage"
         ],
         "aws:aws:relational-database:retail-prod-db": [
-          "application:application:storefront",
-          "capability:customer-ordering",
+          "kubernetes:kubernetes:retail-staging:workload:staging-catalog",
+          "application:application:catalog",
+          "application:application:catalog",
+          "application:application:catalog",
+          "capability:catalog",
+          "capability:order-processing",
           "data:orders",
           "data:product-catalogue",
+          "aws:aws:security-group:retail-db",
           "decision:use-postgresql"
         ],
         "aws:aws:security-group:retail-db": [],
@@ -18270,7 +19817,6 @@
         ],
         "internet": [],
         "capability:customer-ordering": [
-          "aws:terraform:vpc:retail",
           "aws:terraform:queue:retail-prod-orders",
           "aws:terraform:dns:shop.example.com",
           "kubernetes:kubernetes:retail-prod:workload:storefront",
@@ -18278,29 +19824,38 @@
           "kubernetes:kubernetes:retail-prod:workload:catalog",
           "kubernetes:kubernetes:retail-prod:workload:order-worker",
           "kubernetes:kubernetes:retail-prod:service-account:storefront",
+          "kubernetes:kubernetes:retail-staging:workload:staging-catalog",
           "openshift:openshift:retail-prod:route:shop",
+          "openshift:openshift:retail-prod:route:admin",
           "application:config:order_queue",
+          "application:application:catalog",
           "application:application:storefront",
-          "aws:aws:relational-database:retail-prod-db",
+          "aws:aws:bucket:retail-prod-assets",
           "aws:aws:queue:retail-staging-orders",
           "external:external-system:payments.partner.example",
           "external:external-system:otel-collector",
           "capability:retail-platform"
         ],
         "capability:catalog": [
-          "aws:terraform:vpc:retail",
+          "aws:terraform:queue:retail-prod-orders",
           "aws:terraform:iam-policy:catalog-broad",
           "kubernetes:kubernetes:retail-prod:workload:storefront",
           "kubernetes:kubernetes:retail-prod:workload:catalog",
           "kubernetes:kubernetes:retail-prod:service:catalog",
           "kubernetes:kubernetes:retail-prod:network-policy:restrict-catalog",
+          "kubernetes:kubernetes:retail-staging:workload:staging-catalog",
+          "application:application:catalog",
+          "aws:aws:relational-database:retail-prod-db",
           "aws:aws:security-group:retail-catalog",
           "aws:aws:iam-role:retail-catalog-role",
           "capability:retail-platform"
         ],
         "capability:order-processing": [
-          "aws:terraform:vpc:retail",
+          "aws:terraform:queue:retail-prod-orders",
           "kubernetes:kubernetes:retail-prod:workload:order-worker",
+          "kubernetes:kubernetes:retail-staging:workload:staging-catalog",
+          "aws:aws:bucket:retail-prod-assets",
+          "aws:aws:relational-database:retail-prod-db",
           "capability:retail-platform"
         ],
         "capability:payments": [
@@ -18336,7 +19891,9 @@
           "kubernetes:kubernetes:retail-prod:workload:order-worker",
           "kubernetes:kubernetes:retail-prod:network-policy:restrict-catalog",
           "kubernetes:kubernetes:retail-prod:service-account:storefront",
+          "kubernetes:kubernetes:retail-staging:workload:staging-catalog",
           "application:config:order_queue",
+          "application:application:catalog",
           "application:application:storefront",
           "aws:aws:security-group:retail-catalog",
           "aws:aws:iam-role:retail-catalog-role",
@@ -18350,6 +19907,8 @@
           "kubernetes:kubernetes:retail-prod:workload:catalog",
           "kubernetes:kubernetes:retail-prod:service:catalog",
           "kubernetes:kubernetes:retail-prod:network-policy:restrict-catalog",
+          "kubernetes:kubernetes:retail-staging:workload:staging-catalog",
+          "application:application:catalog",
           "aws:aws:security-group:retail-catalog",
           "aws:aws:iam-role:retail-catalog-role",
           "capability:catalog"
@@ -18385,9 +19944,11 @@
           "kubernetes:kubernetes:retail-prod:workload:order-worker",
           "kubernetes:kubernetes:retail-prod:network-policy:restrict-catalog",
           "kubernetes:kubernetes:retail-prod:service-account:storefront",
+          "kubernetes:kubernetes:retail-staging:workload:staging-catalog",
           "openshift:openshift:retail-prod:route:shop",
           "openshift:openshift:retail-prod:route:admin",
           "application:config:order_queue",
+          "application:application:catalog",
           "application:application:storefront",
           "aws:aws:bucket:retail-prod-assets",
           "aws:aws:bucket:retail-prod-assets-logs",
@@ -18437,6 +19998,8 @@
           "kubernetes:kubernetes:retail-prod:workload:catalog",
           "kubernetes:kubernetes:retail-prod:service:catalog",
           "kubernetes:kubernetes:retail-prod:workload:order-worker",
+          "kubernetes:kubernetes:retail-staging:workload:staging-catalog",
+          "application:application:catalog",
           "application:application:storefront",
           "application:workload:local-mail"
         ],
@@ -18469,22 +20032,29 @@
           "adr:0003:event-driven-order-processing"
         ],
         "decision:use-postgresql": [
-          "capability:customer-ordering"
+          "capability:catalog",
+          "capability:order-processing"
         ],
         "decision:deploy-openshift": [
           "capability:customer-ordering"
         ],
         "decision:use-sqs": [
-          "capability:customer-ordering"
+          "capability:customer-ordering",
+          "capability:catalog",
+          "capability:order-processing"
         ],
         "decision:external-payments": [
           "capability:customer-ordering"
         ],
         "decision:event-driven": [
           "capability:customer-ordering",
+          "capability:catalog",
           "capability:order-processing"
         ],
-        "decision:object-storage": [],
+        "decision:object-storage": [
+          "capability:customer-ordering",
+          "capability:order-processing"
+        ],
         "intent:highly-available": [
           "decision:use-postgresql"
         ],
@@ -18571,10 +20141,6 @@
         ],
         "obligation:retention:order-processing": [
           "contract:order-processing"
-        ],
-        "kubernetes:retail-prod:service:storefront": [
-          "openshift:openshift:retail-prod:route:shop",
-          "openshift:openshift:retail-prod:route:admin"
         ]
       }
     }

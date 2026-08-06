@@ -1,6 +1,6 @@
 {
   "name": "@infralens/scanner",
-  "version": "1.2.0",
+  "version": "0.1.0",
   "type": "module",
   "main": "./src/index.ts",
   "types": "./src/index.ts",
@@ -8,20 +8,20 @@
     ".": "./src/index.ts",
     "./browser": "./src/browser.ts"
   },
-
   "dependencies": {
-    "@infralens/edition-capabilities": "1.2.0",
-    "@infralens/discovery-core": "1.2.0",
-    "@infralens/discovery-terraform": "1.2.0",
-    "@infralens/discovery-kubernetes": "1.2.0",
-    "@infralens/discovery-openshift": "1.2.0",
-    "@infralens/discovery-app-config": "1.2.0",
-    "@infralens/discovery-aws": "1.2.0",
-    "@infralens/reconciliation": "1.2.0",
-    "@infralens/reachability": "1.2.0",
-    "@infralens/policy-engine": "1.2.0",
-    "@infralens/reporting": "1.2.0",
-    "@infralens/architecture-intelligence": "2.0.0",
-    "@infralens/graph-model": "1.2.0"
-  }
+    "@infralens/edition-capabilities": "0.1.0",
+    "@infralens/discovery-core": "0.1.0",
+    "@infralens/discovery-terraform": "0.1.0",
+    "@infralens/discovery-kubernetes": "0.1.0",
+    "@infralens/discovery-openshift": "0.1.0",
+    "@infralens/discovery-app-config": "0.1.0",
+    "@infralens/discovery-aws": "0.1.0",
+    "@infralens/reconciliation": "0.1.0",
+    "@infralens/reachability": "0.1.0",
+    "@infralens/policy-engine": "0.1.0",
+    "@infralens/reporting": "0.1.0",
+    "@infralens/architecture-intelligence": "0.1.0",
+    "@infralens/graph-model": "0.1.0"
+  },
+  "license": "Apache-2.0"
 }

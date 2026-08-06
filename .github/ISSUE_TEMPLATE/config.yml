@@ -1,0 +1,11 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Security vulnerability
+    url: https://github.com/markndg/InfraLens/security/advisories/new
+    about: Report security issues privately via GitHub vulnerability reporting (see SECURITY.md).
+  - name: Documentation
+    url: https://github.com/markndg/InfraLens/blob/main/docs/overview.md
+    about: Start with the Architecture Governance overview and product limitations.
+  - name: Support expectations
+    url: https://github.com/markndg/InfraLens/blob/main/SUPPORT.md
+    about: Preview-stage support model — GitHub Issues, no SLA.

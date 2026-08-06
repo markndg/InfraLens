@@ -1,4 +1,4 @@
-import { assertCapability, isCapabilityEnabled, type InfraLensEdition } from '@infralens/edition-capabilities';
+import type { InfraLensEdition } from '@infralens/edition-capabilities';
 import { assessConfidence } from '@infralens/evidence-model';
 import {
   buildIndices,
@@ -36,17 +36,20 @@ export interface ExposureReport {
   unownedExternal: ResourceNode[];
 }
 
+function hasEffectiveNetworkEvidence(graph: EvidenceGraph): boolean {
+  return graph.resources.some(
+    (r) => r.kind === 'security-group' || r.kind === 'network-policy',
+  );
+}
+
 export function analyzeReachability(
   graph: EvidenceGraph,
   sourceId: string,
   targetId: string,
-  edition: InfraLensEdition = 'oss',
+  _edition: InfraLensEdition = 'commercial',
 ): ReachabilityResult {
-  // Effective network analysis is commercial; basic path traversal remains available in OSS.
-  const effective = isCapabilityEnabled('effectiveNetworkAnalysis', edition);
-  if (edition === 'commercial') {
-    assertCapability('effectiveNetworkAnalysis', edition, 'api');
-  }
+  // Enable effective analysis when security-group / NetworkPolicy evidence is present.
+  const effective = hasEffectiveNetworkEvidence(graph);
 
   const indices = graph.indices ?? buildIndices(graph);
   const source = graph.resources.find((r) => r.id === sourceId);
@@ -110,7 +113,7 @@ export function analyzeReachability(
   if (!best && (source.kind === 'internet' || source.id === 'internet' || source.name === 'internet')) {
     const ingress = graph.resources.filter((r) => r.kind === 'route' || r.kind === 'ingress');
     for (const ing of ingress) {
-      const sub = analyzeReachability(graph, ing.id, targetId, edition);
+      const sub = analyzeReachability(graph, ing.id, targetId, _edition);
       if (sub.reachable === true || sub.path.length) {
         return {
           ...sub,

@@ -20,7 +20,7 @@ export function emptyGraph(partial: Partial<ScanMeta> & { project: string }): Ev
       generatedAt,
       repositoryRevision: partial.repositoryRevision,
       adapters: partial.adapters ?? [],
-      edition: partial.edition ?? 'oss',
+      ...(partial.edition !== undefined ? { edition: partial.edition } : {}),
       warnings: partial.warnings ?? [],
       errors: partial.errors ?? [],
       durationMs: partial.durationMs ?? 0,

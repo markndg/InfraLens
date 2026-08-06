@@ -1,0 +1,32 @@
+{
+  "account": "111122223333",
+  "region": "eu-west-1",
+  "resources": [
+    {
+      "type": "aws_lambda_function",
+      "id": "checkout-handler",
+      "arn": "arn:aws:lambda:eu-west-1:111122223333:function:checkout-handler",
+      "name": "checkout-handler",
+      "tags": { "App": "checkout" }
+    },
+    {
+      "type": "aws_dynamodb_table",
+      "id": "checkout-orders",
+      "arn": "arn:aws:dynamodb:eu-west-1:111122223333:table/checkout-orders",
+      "name": "checkout-orders",
+      "attributes": { "point_in_time_recovery": false }
+    },
+    {
+      "type": "aws_sqs_queue",
+      "id": "checkout-orders",
+      "arn": "arn:aws:sqs:eu-west-1:111122223333:checkout-orders",
+      "name": "checkout-orders"
+    },
+    {
+      "type": "aws_s3_bucket",
+      "id": "checkout-receipts",
+      "arn": "arn:aws:s3:::checkout-receipts",
+      "name": "checkout-receipts"
+    }
+  ]
+}

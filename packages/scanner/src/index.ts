@@ -13,6 +13,7 @@ export async function scanPath(
   rootPath: string,
   options?: {
     project?: string;
+    /** @deprecated Ignored; not used for gating or stamping. */
     edition?: InfraLensEdition;
     awsSnapshotPath?: string;
     clusterSnapshotPath?: string;
