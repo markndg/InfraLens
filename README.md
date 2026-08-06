@@ -4,7 +4,7 @@
 
 Scan infrastructure-as-code, deployment manifests and application configuration. Reconstruct the architecture, trace every conclusion to evidence, validate reality against intent, and determine whether approval remains valid.
 
-[![CI](https://github.com/markndg/InfraLens/actions/workflows/ci.yml/badge.svg)](https://github.com/markndg/InfraLens/actions/workflows/ci.yml)
+[![CI](https://github.com/markndg/InfraLens/.github/workflows/ci.yml/badge.svg)](https://github.com/markndg/InfraLens/actions/workflows/ci.yml)
 [![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](LICENSE)
 [![Node](https://img.shields.io/badge/node-%3E%3D20-brightgreen.svg)](package.json)
 [![Version](https://img.shields.io/badge/version-0.1.0%20preview-orange.svg)](CHANGELOG.md)
