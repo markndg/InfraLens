@@ -1,0 +1,74 @@
+{
+  "observedAt": "2026-08-05T12:00:00.000Z",
+  "account": "123456789012",
+  "region": "eu-west-2",
+  "resources": [
+    {
+      "type": "AWS::S3::Bucket",
+      "id": "retail-prod-assets",
+      "name": "retail-prod-assets",
+      "arn": "arn:aws:s3:::retail-prod-assets",
+      "attributes": {
+        "encryption": "AES256"
+      }
+    },
+    {
+      "type": "AWS::S3::Bucket",
+      "id": "retail-prod-assets-logs",
+      "name": "retail-prod-assets-logs",
+      "arn": "arn:aws:s3:::retail-prod-assets-logs",
+      "attributes": {
+        "encryption": "none",
+        "observedNotDeclared": true
+      }
+    },
+    {
+      "type": "AWS::RDS::DBInstance",
+      "id": "db-ABC123",
+      "name": "retail-prod-db",
+      "arn": "arn:aws:rds:eu-west-2:123456789012:db:retail-prod-db",
+      "attributes": {
+        "multi_az": false,
+        "storage_encrypted": true,
+        "endpoint": "retail-prod-db.abcdef.eu-west-2.rds.amazonaws.com",
+        "port": 5432
+      }
+    },
+    {
+      "type": "AWS::EC2::SecurityGroup",
+      "id": "sg-db",
+      "name": "retail-db",
+      "arn": "arn:aws:ec2:eu-west-2:123456789012:security-group/sg-db",
+      "attributes": {
+        "allowsWorld": false,
+        "cidrIngress": "10.20.0.0/16",
+        "ingressBroaderThanDeclared": true
+      }
+    },
+    {
+      "type": "AWS::EC2::SecurityGroup",
+      "id": "sg-catalog",
+      "name": "retail-catalog",
+      "attributes": {
+        "allowsWorld": false
+      }
+    },
+    {
+      "type": "AWS::IAM::Role",
+      "id": "retail-catalog-role",
+      "name": "retail-catalog-role",
+      "arn": "arn:aws:iam::123456789012:role/retail-catalog-role",
+      "attributes": {
+        "policyActions": ["*"]
+      }
+    },
+    {
+      "type": "AWS::SQS::Queue",
+      "id": "missing-live-queue-placeholder",
+      "name": "retail-staging-orders",
+      "attributes": {
+        "note": "different queue; planned prod queue absent simulation handled in plan fixture"
+      }
+    }
+  ]
+}

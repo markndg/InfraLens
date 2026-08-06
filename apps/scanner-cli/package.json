@@ -1,0 +1,25 @@
+{
+  "name": "@infralens/scanner-cli",
+  "version": "1.2.0",
+  "type": "module",
+  "bin": {
+    "infralens": "./dist/cli.js"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "scan": "tsx src/cli.ts scan",
+    "report": "tsx src/cli.ts report",
+    "dev": "tsx src/cli.ts"
+  },
+  "dependencies": {
+    "@infralens/edition-capabilities": "1.2.0",
+    "@infralens/graph-model": "1.2.0",
+    "@infralens/reconciliation": "1.2.0",
+    "@infralens/reporting": "1.2.0",
+    "@infralens/scanner": "1.2.0"
+  },
+  "devDependencies": {
+    "tsx": "^4.19.2",
+    "typescript": "~5.7.2"
+  }
+}

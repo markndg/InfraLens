@@ -1,0 +1,36 @@
+{
+  "items": [
+    {
+      "apiVersion": "apps/v1",
+      "kind": "Deployment",
+      "metadata": {
+        "name": "catalog",
+        "namespace": "retail-prod",
+        "uid": "uid-catalog-001"
+      },
+      "spec": {
+        "replicas": 2,
+        "selector": {
+          "matchLabels": {
+            "app": "catalog"
+          }
+        },
+        "template": {
+          "metadata": {
+            "labels": {
+              "app": "catalog"
+            }
+          },
+          "spec": {
+            "containers": [
+              {
+                "name": "catalog",
+                "image": "example/catalog:latest"
+              }
+            ]
+          }
+        }
+      }
+    }
+  ]
+}

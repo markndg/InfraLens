@@ -1,0 +1,218 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: storefront
+  namespace: retail-prod
+  labels:
+    app: storefront
+    owner: storefront-team
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: storefront
+  template:
+    metadata:
+      labels:
+        app: storefront
+    spec:
+      serviceAccountName: storefront
+      containers:
+        - name: storefront
+          image: example/storefront:2.4.0
+          ports:
+            - containerPort: 8080
+          resources:
+            limits:
+              cpu: "500m"
+              memory: "512Mi"
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 8080
+          env:
+            - name: CATALOG_URL
+              value: "http://catalog:8081"
+            - name: ASSET_BUCKET
+              value: "retail-prod-assets"
+            - name: PAYMENT_URL
+              value: "https://payments.partner.example/api"
+            - name: OTEL_EXPORTER_OTLP_ENDPOINT
+              value: "http://otel-collector:4317"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: storefront
+  namespace: retail-prod
+spec:
+  selector:
+    app: storefront
+  ports:
+    - name: http
+      port: 80
+      targetPort: 8080
+---
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: shop
+  namespace: retail-prod
+spec:
+  host: shop.example.com
+  to:
+    kind: Service
+    name: storefront
+  port:
+    targetPort: http
+  tls:
+    termination: edge
+---
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: admin
+  namespace: retail-prod
+spec:
+  host: admin.example.com
+  to:
+    kind: Service
+    name: storefront
+  port:
+    targetPort: http
+  tls:
+    termination: edge
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: catalog
+  namespace: retail-prod
+  labels:
+    app: catalog
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: catalog
+  template:
+    metadata:
+      labels:
+        app: catalog
+    spec:
+      containers:
+        - name: catalog
+          image: example/catalog:latest
+          ports:
+            - containerPort: 8081
+          env:
+            - name: DB_HOST
+              value: "retail-prod-db"
+            - name: DB_PORT
+              value: "5432"
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: catalog-db
+                  key: password
+            - name: ORDER_QUEUE
+              value: "retail-prod-orders"
+            - name: REDIS_HOST
+              value: "retail-prod-redis"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: catalog
+  namespace: retail-prod
+spec:
+  selector:
+    app: catalog
+  ports:
+    - name: http
+      port: 8081
+      targetPort: 8081
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: order-worker
+  namespace: retail-prod
+  labels:
+    app: order-worker
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: order-worker
+  template:
+    metadata:
+      labels:
+        app: order-worker
+    spec:
+      containers:
+        - name: worker
+          image: example/order-worker:3.1.0
+          env:
+            - name: ORDER_QUEUE
+              value: "retail-prod-orders"
+            - name: ASSET_BUCKET
+              value: "retail-prod-assets"
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: restrict-catalog
+  namespace: retail-prod
+spec:
+  podSelector:
+    matchLabels:
+      app: catalog
+  policyTypes:
+    - Ingress
+    - Egress
+  ingress:
+    - from:
+        - podSelector:
+            matchLabels:
+              app: storefront
+      ports:
+        - protocol: TCP
+          port: 8081
+  egress:
+    - ports:
+        - protocol: TCP
+          port: 5432
+    - ports:
+        - protocol: UDP
+          port: 53
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: storefront
+  namespace: retail-prod
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: staging-catalog
+  namespace: retail-staging
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: staging-catalog
+  template:
+    metadata:
+      labels:
+        app: staging-catalog
+    spec:
+      containers:
+        - name: catalog
+          image: example/catalog:1.9.0
+          env:
+            - name: DB_HOST
+              value: "retail-prod-db"
+            - name: ORDER_QUEUE
+              value: "retail-prod-orders"

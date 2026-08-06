@@ -1,0 +1,37 @@
+{
+  "name": "infralens",
+  "private": true,
+  "version": "2.0.0",
+  "type": "module",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "build": "npm run build -w @infralens/scanner-cli && npm run build -w @infralens/api && npm run build -w @infralens/web",
+    "build:packages": "tsc -b tsconfig.packages.json",
+    "dev": "npm run dev -w @infralens/web",
+    "dev:api": "npm run dev -w @infralens/api",
+    "scan": "tsx apps/scanner-cli/src/cli.ts scan",
+    "inspect": "tsx apps/scanner-cli/src/cli.ts inspect",
+    "compare": "tsx apps/scanner-cli/src/cli.ts compare",
+    "report": "tsx apps/scanner-cli/src/cli.ts report",
+    "capabilities": "tsx apps/scanner-cli/src/cli.ts capabilities",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:e2e": "playwright test",
+    "test:perf": "vitest run packages/test-fixtures/src/perf.test.ts",
+    "demo:scan": "tsx apps/scanner-cli/src/cli.ts scan fixtures/demo-estate --output fixtures/scans/demo.bundle.json --edition commercial",
+    "lint:types": "tsc -b tsconfig.packages.json --pretty false"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.55.0",
+    "@types/node": "^22.10.2",
+    "tsx": "^4.19.2",
+    "typescript": "~5.7.2",
+    "vitest": "^4.1.10"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

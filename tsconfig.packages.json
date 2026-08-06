@@ -1,0 +1,23 @@
+{
+  "files": [],
+  "references": [
+    { "path": "packages/edition-capabilities" },
+    { "path": "packages/evidence-model" },
+    { "path": "packages/graph-model" },
+    { "path": "packages/shared" },
+    { "path": "packages/icons" },
+    { "path": "packages/discovery-core" },
+    { "path": "packages/discovery-terraform" },
+    { "path": "packages/discovery-kubernetes" },
+    { "path": "packages/discovery-openshift" },
+    { "path": "packages/discovery-app-config" },
+    { "path": "packages/discovery-aws" },
+    { "path": "packages/reconciliation" },
+    { "path": "packages/reachability" },
+    { "path": "packages/policy-engine" },
+    { "path": "packages/reporting" },
+    { "path": "packages/architecture-intelligence" },
+    { "path": "packages/scanner" },
+    { "path": "packages/test-fixtures" }
+  ]
+}

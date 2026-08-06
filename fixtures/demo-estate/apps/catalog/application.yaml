@@ -1,0 +1,14 @@
+server:
+  port: 8081
+spring:
+  datasource:
+    url: jdbc:postgresql://retail-prod-db:5432/catalog
+    username: catalog
+    password: super-secret-db-password
+  redis:
+    host: retail-prod-redis
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info

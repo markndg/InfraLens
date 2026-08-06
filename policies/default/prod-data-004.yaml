@@ -1,0 +1,19 @@
+id: PROD-DATA-004
+title: Production relational databases must be resilient
+scope:
+  environment: production
+  kinds:
+    - relational-database
+condition:
+  any:
+    - field: metadata.multiAz
+      equals: false
+    - field: metadata.multi_az
+      equals: false
+severity: high
+rationale: >
+  Production relational data stores must tolerate an availability-zone failure.
+remediation: >
+  Enable multi-AZ or provide documented equivalent resilience.
+signoff:
+  blocksApproval: true

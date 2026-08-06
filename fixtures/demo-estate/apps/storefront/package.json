@@ -1,0 +1,9 @@
+{
+  "name": "storefront",
+  "scripts": {
+    "start": "vite --port 8080"
+  },
+  "dependencies": {
+    "@aws-sdk/client-s3": "3.600.0"
+  }
+}

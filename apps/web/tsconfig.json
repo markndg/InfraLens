@@ -1,0 +1,17 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "types": ["vite/client"],
+    "noEmit": true,
+    "skipLibCheck": true,
+    "paths": {
+      "@infralens/scanner": ["./../../packages/scanner/src/browser.ts"],
+      "@infralens/scanner/browser": ["./../../packages/scanner/src/browser.ts"],
+      "@infralens/*": ["./../../packages/*/src/index.ts"]
+    }
+  },
+  "include": ["src"],
+  "exclude": ["../../packages/scanner/src/index.ts", "../../packages/discovery-core/src/walk.ts"]
+}

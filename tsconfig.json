@@ -1,0 +1,9 @@
+{
+  "files": [],
+  "references": [
+    { "path": "./tsconfig.packages.json" },
+    { "path": "./apps/web" },
+    { "path": "./apps/api" },
+    { "path": "./apps/scanner-cli" }
+  ]
+}
