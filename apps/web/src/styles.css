@@ -1,32 +1,32 @@
 :root {
-  --bg0: #ffffff;
-  --bg1: #f7f4fc;
-  --bg2: #f0eaf8;
+  --bg0: #f3f6f9;
+  --bg1: #eef2f6;
+  --bg2: #e6edf3;
   --surface: #ffffff;
-  --surface-muted: #f5f1fb;
-  --line: #e4dcf2;
-  --line-strong: #cbbce6;
-  --text: #1a1228;
-  --muted: #6b5f80;
-  --brand: rgba(122, 0, 230, 1);
-  --brand-hover: rgba(87, 24, 176, 1);
-  --brand-soft: rgba(122, 0, 230, 0.1);
-  --brand-softer: rgba(122, 0, 230, 0.06);
+  --surface-muted: #f7f9fb;
+  --line: #d7e0e8;
+  --line-strong: #b8c5d1;
+  --text: #17212b;
+  --muted: #667482;
+  --brand: #0b5cab;
+  --brand-hover: #084a8a;
+  --brand-soft: rgba(11, 92, 171, 0.12);
+  --brand-softer: rgba(11, 92, 171, 0.055);
   --accent: var(--brand);
-  --accent-2: #a855f7;
-  --danger: #c23b4d;
-  --warning: #c47a12;
-  --success: #1f8a5b;
-  --info: #3b6fd4;
+  --accent-2: #1597bb;
+  --danger: #c9363e;
+  --warning: #c97814;
+  --success: #22845b;
+  --info: #3176c7;
   --upstream: #2563eb;
-  --downstream: #0d9488;
-  --path: #b45309;
+  --downstream: #0f8a83;
+  --path: #b86a15;
   font-family: "IBM Plex Sans", "Segoe UI", sans-serif;
   color: var(--text);
   background:
-    radial-gradient(1000px 480px at 8% -8%, rgba(122, 0, 230, 0.08) 0%, transparent 55%),
-    radial-gradient(800px 420px at 100% 0%, rgba(168, 85, 247, 0.06), transparent 50%),
-    linear-gradient(180deg, #ffffff, #faf8fd 50%, #f7f4fc);
+    radial-gradient(1100px 520px at 8% -10%, rgba(11, 92, 171, 0.085) 0%, transparent 58%),
+    radial-gradient(900px 460px at 100% 0%, rgba(21, 151, 187, 0.045), transparent 52%),
+    linear-gradient(180deg, #ffffff, #f7f9fb 52%, #eef3f7);
   background-color: var(--bg0);
 }
 
@@ -158,7 +158,7 @@ select {
 .canvas {
   position: relative; min-width: 0;
   background:
-    linear-gradient(180deg, rgba(122, 0, 230, 0.04), rgba(255, 255, 255, 0.9)),
+    linear-gradient(180deg, rgba(11, 92, 171, 0.035), rgba(255, 255, 255, 0.94)),
     #ffffff;
 }
 
@@ -170,7 +170,7 @@ select {
 .boundary-node {
   --boundary-accent: var(--brand);
   /* Opaque fill — child cards paint above via z-index */
-  --boundary-fill: #faf7ff;
+  --boundary-fill: #f8fafc;
   position: relative;
   width: 100%;
   height: 100%;
@@ -185,19 +185,19 @@ select {
 .boundary-node.boundary-cluster { --boundary-accent: #C9190B; --boundary-fill: #fff1f0; }
 .boundary-node.boundary-network,
 .boundary-node.boundary-vpc,
-.boundary-node.boundary-region { --boundary-accent: #7C3AED; --boundary-fill: #f5f0ff; }
+.boundary-node.boundary-region { --boundary-accent: #3f6f9f; --boundary-fill: #f3f7fb; }
 .boundary-node.boundary-application,
 .boundary-node.boundary-namespace { --boundary-accent: #B45309; --boundary-fill: #fff7ed; }
 .boundary-node.boundary-app-stack { --boundary-accent: #0F766E; --boundary-fill: #f0fdfa; }
 .boundary-node.boundary-environment { --boundary-accent: #64748B; --boundary-fill: #f8fafc; }
-.boundary-node.boundary-capability { --boundary-accent: #7C3AED; --boundary-fill: #f5f0ff; }
+.boundary-node.boundary-capability { --boundary-accent: #6f5a2f; --boundary-fill: #faf8f2; }
 .boundary-node.boundary-lane,
-.boundary-node.boundary-ungrouped { --boundary-accent: #7a00e6; --boundary-fill: #faf7ff; }
+.boundary-node.boundary-ungrouped { --boundary-accent: #6b7f90; --boundary-fill: #f7f9fb; }
 .boundary-node.boundary-trust { --boundary-accent: #DC2626; --boundary-fill: #fef2f2; }
 .boundary-node.boundary-logical-application { --boundary-accent: #B45309; --boundary-fill: #fff7ed; }
 .boundary-node.boundary-security-controls { --boundary-accent: #0F766E; --boundary-fill: #f0fdfa; }
 .boundary-node.boundary-data-domain { --boundary-accent: #0369a1; --boundary-fill: #f0f9ff; }
-.boundary-node.boundary-team { --boundary-accent: #7c3aed; --boundary-fill: #f5f3ff; }
+.boundary-node.boundary-team { --boundary-accent: #445e75; --boundary-fill: #f3f6f9; }
 .boundary-node.boundary-risk-domain { --boundary-accent: #b45309; --boundary-fill: #fffbeb; }
 .boundary-node.boundary-cost-domain { --boundary-accent: #0f766e; --boundary-fill: #ecfdf5; }
 
@@ -209,7 +209,7 @@ select {
   gap: 8px 20px;
   padding: 8px 16px;
   border-bottom: 1px solid var(--line);
-  background: linear-gradient(180deg, #faf7ff 0%, #ffffff 100%);
+  background: linear-gradient(180deg, #f4f8fb 0%, #ffffff 100%);
 }
 .projection-summary-bar strong {
   margin-right: 8px;
@@ -323,7 +323,7 @@ select {
   background: #ffffff;
   border: 1px solid var(--line-strong);
   border-radius: 12px;
-  box-shadow: 0 10px 30px rgba(26, 18, 40, 0.12);
+  box-shadow: 0 12px 34px rgba(23, 33, 43, 0.12);
   padding: 10px 12px 12px;
 }
 .projection-integrity-panel header {
@@ -413,7 +413,7 @@ select {
   border-radius: 4px;
   background: #ffffff;
   border: 1px solid var(--line);
-  color: #4c3a6e;
+  color: #38516a;
   pointer-events: none;
   z-index: 4;
 }
@@ -434,8 +434,8 @@ select {
   pointer-events: none;
 }
 .layout-debug-container {
-  fill: rgba(122, 0, 230, 0.04);
-  stroke: rgba(122, 0, 230, 0.65);
+  fill: rgba(11, 92, 171, 0.04);
+  stroke: rgba(11, 92, 171, 0.68);
   stroke-width: 1;
   stroke-dasharray: 4 3;
 }
@@ -460,7 +460,7 @@ select {
 
 .infra-node {
   --node-accent: var(--brand);
-  --node-tint: #faf7ff;
+  --node-tint: #f8fafc;
   --node-icon-bg: var(--brand-soft);
   width: 236px; display: flex; align-items: flex-start; gap: 10px; padding: 10px;
   background: #ffffff;
@@ -468,7 +468,7 @@ select {
   border: 1px solid color-mix(in oklab, var(--node-accent) 22%, var(--line));
   border-left: 4px solid var(--node-accent);
   border-radius: 10px;
-  box-shadow: 0 4px 14px rgba(26, 18, 40, 0.08);
+  box-shadow: 0 5px 16px rgba(23, 33, 43, 0.085);
   transition: transform 140ms ease, opacity 120ms ease, border-color 140ms ease, box-shadow 140ms ease;
   color: var(--text);
   position: relative;
@@ -539,7 +539,7 @@ select {
   border: 1px solid var(--line) !important;
   border-radius: 8px !important;
   overflow: hidden;
-  box-shadow: 0 4px 12px rgba(26, 18, 40, 0.06) !important;
+  box-shadow: 0 4px 14px rgba(23, 33, 43, 0.07) !important;
 }
 .react-flow__controls-button {
   background: var(--surface) !important;
@@ -557,7 +557,7 @@ select {
   position: absolute; left: 12px; bottom: 12px; z-index: 5;
   background: rgba(255, 255, 255, 0.96); border: 1px solid var(--line); border-radius: 10px;
   min-width: 160px; backdrop-filter: blur(6px);
-  box-shadow: 0 8px 20px rgba(26, 18, 40, 0.08);
+  box-shadow: 0 10px 24px rgba(23, 33, 43, 0.09);
 }
 .canvas-legend > button {
   width: 100%; text-align: left; background: transparent; border: 0; color: var(--muted);
@@ -582,7 +582,7 @@ select {
 .query-result {
   position: absolute; top: 12px; left: 12px; right: 12px; z-index: 6;
   background: rgba(255, 255, 255, 0.98); border: 1px solid var(--brand); border-radius: 12px;
-  padding: 12px 14px; max-width: 640px; box-shadow: 0 12px 28px rgba(122, 0, 230, 0.12);
+  padding: 12px 14px; max-width: 640px; box-shadow: 0 14px 32px rgba(23, 33, 43, 0.14);
   color: var(--text);
 }
 .query-result header { display: flex; justify-content: space-between; gap: 12px; }
@@ -713,7 +713,7 @@ select {
   place-items: start center;
   padding: 28px 20px 40px;
   background:
-    radial-gradient(900px 420px at 50% 0%, rgba(122, 0, 230, 0.08), transparent 60%),
+    radial-gradient(900px 420px at 50% 0%, rgba(11, 92, 171, 0.08), transparent 60%),
     #ffffff;
 }
 .review-main-split {
@@ -723,7 +723,7 @@ select {
 .review-landing {
   width: min(720px, 100%); background: var(--surface);
   border: 1px solid var(--line); border-radius: 16px; padding: 28px 32px;
-  box-shadow: 0 18px 40px rgba(122, 0, 230, 0.08);
+  box-shadow: 0 20px 46px rgba(23, 33, 43, 0.10);
 }
 .review-hero h2 { font-size: 32px; letter-spacing: -0.04em; margin-top: 10px; color: var(--text); }
 .review-status {
@@ -816,3 +816,285 @@ select {
   .review-main-split { grid-template-columns: 1fr; }
   .persona-grid, .option-grid { grid-template-columns: 1fr; }
 }
+
+
+/* ========================================================================== 
+   InfraLens Professional Steel theme
+   Restrained enterprise chrome; colour is reserved for meaning and focus.
+   ========================================================================== */
+
+header {
+  background: rgba(255, 255, 255, 0.96);
+  box-shadow: 0 1px 0 rgba(23, 33, 43, 0.025);
+}
+
+.workbench header h1,
+.boot h1 {
+  color: var(--text);
+}
+
+.metrics {
+  background: #f7f9fb;
+}
+
+.metrics svg {
+  color: #55758f;
+}
+
+.view-bar {
+  gap: 2px;
+  padding: 7px 14px;
+  background: #ffffff;
+}
+
+/* Navigation behaves like an enterprise tab bar rather than a wall of colour. */
+.view-bar button,
+.mode-toggle button,
+.review-stage-bar button {
+  background: transparent;
+  color: #435466;
+  border-color: transparent;
+  border-radius: 7px;
+  box-shadow: none;
+  font-weight: 550;
+}
+
+.view-bar button:hover,
+.mode-toggle button:hover,
+.review-stage-bar button:hover {
+  background: #edf4fb;
+  color: var(--brand-hover);
+}
+
+.view-bar button.active,
+.mode-toggle button.active,
+.review-stage-bar button.active {
+  background: #e7f1fb;
+  color: #074d91;
+  border-color: #bdd3e7;
+  box-shadow: inset 0 -2px 0 var(--brand);
+}
+
+/* Action stacks are quiet by default; the current action carries the emphasis. */
+.stack button,
+.followups button,
+.stage-rail button {
+  background: #ffffff;
+  color: #304252;
+  border-color: var(--line);
+  box-shadow: 0 1px 2px rgba(23, 33, 43, 0.035);
+}
+
+.stack button:hover,
+.followups button:hover,
+.stage-rail button:hover {
+  background: #eef5fb;
+  color: #084a8a;
+  border-color: #a9c6df;
+}
+
+.stack button.active,
+.wb-panel .stack button.active,
+.stage-rail button.active {
+  background: #e7f1fb;
+  color: #074d91;
+  border-color: #9ebed9;
+  box-shadow: inset 3px 0 0 var(--brand);
+}
+
+.primary {
+  background: #0b5cab;
+  color: #ffffff;
+  border-color: #0b5cab;
+  box-shadow: 0 4px 12px rgba(11, 92, 171, 0.18);
+}
+
+.primary:hover {
+  background: #084a8a;
+  border-color: #084a8a;
+  box-shadow: 0 6px 16px rgba(11, 92, 171, 0.22);
+}
+
+.ghost {
+  background: #ffffff;
+  color: #31536f;
+  border-color: var(--line-strong);
+}
+
+.ghost:hover {
+  background: #edf4fb;
+  color: #084a8a;
+  border-color: #91b5d2;
+}
+
+.search,
+select {
+  background: #f8fafc;
+  border-color: #cfd9e2;
+}
+
+.search:focus-within,
+select:focus {
+  border-color: #6f9fc5;
+  box-shadow: 0 0 0 3px rgba(11, 92, 171, 0.11);
+}
+
+.canvas {
+  background:
+    radial-gradient(circle at 1px 1px, rgba(66, 87, 105, 0.105) 1px, transparent 1.2px),
+    linear-gradient(180deg, rgba(242, 246, 249, 0.72), rgba(255, 255, 255, 0.95));
+  background-size: 22px 22px, auto;
+}
+
+.statement-bar,
+.arch-statement,
+.coach {
+  background: #eef5fb;
+  border-color: #c8dbea;
+}
+
+.projection-summary-bar {
+  background: #f8fafc;
+  box-shadow: inset 0 -1px 0 rgba(23, 33, 43, 0.025);
+}
+
+/* Softer containers: structure remains visible without tinting the whole canvas. */
+.boundary-node {
+  border-width: 1px;
+  border-style: solid;
+  background: color-mix(in oklab, var(--boundary-fill) 62%, #ffffff);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.65);
+}
+
+.boundary-node.boundary-trust {
+  --boundary-accent: #b94a52;
+  --boundary-fill: #fffafa;
+}
+
+.boundary-node.boundary-security-controls {
+  --boundary-accent: #526f86;
+  --boundary-fill: #f7fafc;
+}
+
+.boundary-node.boundary-logical-application,
+.boundary-node.boundary-application,
+.boundary-node.boundary-namespace {
+  --boundary-accent: #8b6839;
+  --boundary-fill: #fcfaf6;
+}
+
+.boundary-node.boundary-data-domain {
+  --boundary-accent: #2f728f;
+  --boundary-fill: #f5fafc;
+}
+
+.boundary-node.boundary-cost-domain {
+  --boundary-accent: #596f80;
+  --boundary-fill: #f6f8fa;
+}
+
+.boundary-node.boundary-risk-domain {
+  --boundary-accent: #a2672b;
+  --boundary-fill: #fcfaf5;
+}
+
+.boundary-label {
+  color: #314252;
+}
+
+.boundary-kind {
+  letter-spacing: 0.11em;
+}
+
+.infra-node {
+  background: #ffffff;
+  background-image: linear-gradient(180deg, #ffffff 0%, color-mix(in oklab, var(--node-tint) 58%, #ffffff) 100%);
+  border-color: color-mix(in oklab, var(--node-accent) 18%, #cfd9e2);
+  box-shadow: 0 5px 14px rgba(23, 33, 43, 0.075);
+}
+
+.infra-node:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 9px 22px rgba(23, 33, 43, 0.12);
+}
+
+.infra-node.focus-selected {
+  outline-color: #0b5cab;
+  box-shadow: 0 0 0 3px rgba(11, 92, 171, 0.13), 0 10px 24px rgba(23, 33, 43, 0.13);
+}
+
+.node-tech {
+  background: color-mix(in oklab, var(--node-icon-bg) 50%, #ffffff);
+}
+
+.canvas-legend,
+.query-result,
+.projection-integrity-panel {
+  background: rgba(255, 255, 255, 0.975);
+  border-color: #cfd9e2;
+  box-shadow: 0 14px 34px rgba(23, 33, 43, 0.12);
+}
+
+.canvas-legend > button:hover {
+  background: #eef5fb;
+  color: #084a8a;
+}
+
+.provider-chip,
+.finding span {
+  color: #315f86;
+  border-color: #bfd3e4;
+  background: #edf4fa;
+}
+
+.summary-grid div,
+.score-card,
+.finding,
+.rec-card,
+.review-metrics div {
+  background: #f8fafc;
+  border-color: #d5dee6;
+}
+
+.persona-grid button {
+  background: #ffffff;
+  color: #243442;
+  border-color: #cfd9e2;
+}
+
+.persona-grid button:hover {
+  background: #eef5fb;
+  color: #173a56;
+  border-color: #9ebed9;
+}
+
+.persona-grid button.active {
+  background: #123f63;
+  color: #ffffff;
+  border-color: #123f63;
+  box-shadow: 0 0 0 3px rgba(18, 63, 99, 0.12);
+}
+
+.review-landing {
+  border-color: #cbd6df;
+  box-shadow: 0 22px 52px rgba(23, 33, 43, 0.12);
+}
+
+.review-status {
+  background: #f8fafc;
+}
+
+.outcome-pass { color: #1d744e; border-color: #a9d8c2; background: #eef8f3; }
+.outcome-fail { color: #ae2f38; border-color: #edb7bc; background: #fff4f4; }
+.outcome-warning { color: #9a5c12; border-color: #e8cc9f; background: #fff9ef; }
+
+/* Scrollbars remain quiet and professional. */
+* {
+  scrollbar-color: #aebdca #eef2f5;
+  scrollbar-width: thin;
+}
+
+*::-webkit-scrollbar { width: 10px; height: 10px; }
+*::-webkit-scrollbar-track { background: #eef2f5; }
+*::-webkit-scrollbar-thumb { background: #aebdca; border: 2px solid #eef2f5; border-radius: 999px; }
+*::-webkit-scrollbar-thumb:hover { background: #8ea0af; }
