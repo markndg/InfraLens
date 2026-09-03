@@ -12,7 +12,7 @@
     "@infralens/evidence-model": "0.1.0",
     "@infralens/graph-model": "0.1.0",
     "@infralens/shared": "0.1.0",
-    "js-yaml": "^5.2.3"
+    "js-yaml": "^5.4.1"
   },
   "devDependencies": {
     "@types/js-yaml": "^4.0.9"
