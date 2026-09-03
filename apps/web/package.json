@@ -17,7 +17,7 @@
     "@infralens/reconciliation": "0.1.0",
     "@infralens/reporting": "0.1.0",
     "@infralens/scanner": "0.1.0",
-    "@xyflow/react": "^12.8.6",
+    "@xyflow/react": "^12.11.5",
     "lucide-react": "^1.28.0",
     "react": "^19.1.1",
     "react-dom": "^19.1.1"
